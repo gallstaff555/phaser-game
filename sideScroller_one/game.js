@@ -16,12 +16,8 @@ var config = {
     }
 };
 
-var player;
-var anims;
-var cursors;
-var jumpBtn;
-var platforms;
-var ground;
+var player, anims, cursors, platforms, ground, skeleton;
+//var jumpBtn, rollBtn;
 
 var game = new Phaser.Game(config);
 
@@ -33,6 +29,7 @@ function preload () {
 
     //atlas includes: key, spritesheet, and json
     this.load.atlas('player', 'assets/heroKnightSprites.png', 'assets/heroKnightSprites.json');
+    this.load.atlas('skeleton', 'assets/skeletonSprites.png', 'assets/skeletonSprites.json');
 
 }
 
@@ -40,30 +37,41 @@ function create () {
     console.log("ready!");
 
     //background image
-    this.add.image(800, 325, 'background').setScale(3,3);
+    this.add.image(800, 355, 'background').setScale(3,3);
 
-    //physics
+    //platforms
     platforms = this.physics.add.staticGroup();
+    platforms.create(800, 450, 'ground');
     //let groundPlatform = this.add.sprite(800, 595, "block");
     //platforms.add(groundPlatform);
-    platforms.create(800, 595, 'ground').setScale(10,1);
 
     //player
-    this.player = this.physics.add.sprite(150, 490, 'player').setScale(3,3);
+    this.player = this.physics.add.sprite(150, 450, 'player').setScale(3,3);
+    this.player.body.setSize(20, 50);
     this.player.setGravityY(300);
     this.player.setCollideWorldBounds(true);
 
+    //skeleton
+    this.skeleton = this.physics.add.sprite(1250, 450, 'skeleton').setScale(3,3);
+    this.skeleton.body.setSize(20,60);
+    this.skeleton.setGravityY(300);
+    this.skeleton.setCollideWorldBounds(true);
+
     //collision
     this.physics.add.collider(this.player, platforms);
+    this.physics.add.collider(this.skeleton, platforms);
 
-    
     //set up cursor
     cursors = this.input.keyboard.createCursorKeys();
 
     //print animation frame names
-    var frameNames = this.textures.get('player').getFrameNames();
+    var frameNames = this.textures.get('skeleton').getFrameNames();
     console.log(frameNames);
 
+    //keys
+    //this.rollBtn = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
+    //create animations
     //create IDLE animation
     this.anims.create({
         key: 'HeroKnight_Idle',
@@ -74,11 +82,11 @@ function create () {
             prefix: 'HeroKnight_Idle_',
             suffix: '.png'
         }),
-        frameRate: 8,
+        frameRate: 6,
         repeat: -1
     });
-    
-    //create RIGHT_RUN animation
+
+    //create RUN animation
     this.anims.create({
         key: 'HeroKnight_Run',
         frames: this.anims.generateFrameNames('player', {
@@ -106,6 +114,21 @@ function create () {
         repeat: -1
     });
 
+
+    //create ATTACK3 animation (down attack)
+    this.anims.create({
+        key: 'HeroKnight_Attack3',
+        frames: this.anims.generateFrameNames('player', {
+            start: 0,
+            end: 7,
+            zeroPad: 1,
+            prefix: 'HeroKnight_Attack3_',
+            suffix: '.png'
+        }),
+        frameRate: 15,
+        repeat: -1
+    });
+
     //create JUMP animation
     this.anims.create({
         key: 'HeroKnight_Jump',
@@ -120,6 +143,7 @@ function create () {
         repeat: -1
     });
 
+    //create FALL animation
     this.anims.create({
         key: 'HeroKnight_Fall',
         frames: this.anims.generateFrameNames('player', {
@@ -133,21 +157,64 @@ function create () {
         repeat: -1
     });
 
+    //create ROLL animation
+    this.anims.create({
+        key: 'HeroKnight_Roll',
+        frames: this.anims.generateFrameNames('player', {
+            start: 0,
+            end: 8,
+            zeroPad: 1,
+            prefix: 'HeroKnight_Roll_',
+            suffix: '.png'
+        }),
+        frameRate: 15,
+        repeat: 0
+    });
 
+    //create SKELETON IDLE animation
+    this.anims.create({
+        key: 'Skeleton_Idle',
+        frames: this.anims.generateFrameNames('skeleton', {
+            start: 0,
+            end: 6,
+            zeroPad: 1,
+            prefix: 'Skeleton_Idle_',
+            suffix: '.png'
+        }),
+        frameRate: 4,
+        repeat: -1
+    });
 
-    //keys
-    jumpBtn = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
-
+    //create SKELETON WALK animation
+    this.anims.create({
+        key: 'Skeleton_Walk',
+        frames: this.anims.generateFrameNames('skeleton', {
+            start: 0,
+            end: 9,
+            zeroPad: 1,
+            prefix: 'Skeleton_Walk_',
+            suffix: '.png'
+        }),
+        frameRate: 7,
+        repeat: -1
+    });
 }
+
 
 function update() {
 
-    //console.log(this.player.body.velocity.y);
+    let playerVelocity_Y = this.player.body.velocity.y;
+    let playerPosition_X = this.player.body.x;
+    let skeletonPosition_X = this.skeleton.body.x;
+
+    //console.log(playerPosition_X);
     
     //attack
     if (cursors.space.isDown) {
         this.player.play("HeroKnight_Attack1", true);
-        //this.player.setVelocityX(0);
+    //roll
+    } else if (cursors.down.isDown) {
+        this.player.anims.play('HeroKnight_Roll', true);
     //left
     } else if (cursors.left.isDown) {
         this.player.setVelocityX(-200);
@@ -158,16 +225,16 @@ function update() {
         this.player.setVelocityX(200);
         this.player.flipX = false;
         this.player.play("HeroKnight_Run", true);
-    //idle
+     //idle
     } else {
         this.player.setVelocityX(0);
-        this.player.setGravityY(300);
+        this.player.setGravityY(600);
         this.player.anims.play('HeroKnight_Idle', true);
     }
 
     //jump
-    if (Phaser.Input.Keyboard.JustDown(jumpBtn)) {
-        this.player.setVelocityY(-200);
+    if (cursors.up.isDown && playerVelocity_Y == 0) {
+        this.player.setVelocityY(-400);
         this.player.anims.play('HeroKnight_Jump', true);
     }
 
@@ -176,43 +243,47 @@ function update() {
         this.player.anims.play('HeroKnight_Jump', true);
     } else if (this.player.body.velocity.y > 50) {
        this.player.anims.play('HeroKnight_Fall');
+    }  
+
+    /* SKELETON */
+    //this.skeleton.anims.play('Skeleton_Idle', true);
+
+    //skeleton within range of player
+    if (Math.abs(playerPosition_X - skeletonPosition_X) < 500) {
+        this.skeleton.anims.play('Skeleton_Walk', true);
+        //player is to the left of skeleton
+        if (playerPosition_X <= skeletonPosition_X) {
+            this.skeleton.setVelocityX(-100);
+            this.skeleton.flipX = true;
+        } else { //player is to right of skeleton
+            this.skeleton.setVelocityX(100);
+            this.skeleton.flipX = false;
+        }
+    } else {
+        this.skeleton.anims.play('Skeleton_Idle', true);
+        if (playerPosition_X <= skeletonPosition_X) {
+            this.skeleton.flipX = true;
+        } else { //player is to right of skeleton
+            this.skeleton.flipX = false;
+        }
     }
 
-}
+    /*
+    if (playerPosition_X <= skeletonPosition_X) {
+        this.skeleton.flipX = true;
+        if (skeletonPosition_X - playerPosition_X < 500) {
+            this.skeleton.setVelocityX(-10);
+            this.skeleton.anims.play('Skeleton_Walk', true);
+        } else {
+            this.skeleton.setVelocityX(0);
+        }
+    } else {
+        this.skeleton.flipX = false;
+        this.skeleton.setVelocityX(10);
+    } */
+} 
+
 
 /* GRAVEYARD
-
-LONGFORM ANIMATION
-    this.anims.create({
-        key: 'HeroKnight_Idle',
-        frames: [{
-            key: 'player',
-            frame: "HeroKnight_Idle_0.png"
-        }, { 
-            key: 'player',
-            frame: "HeroKnight_Idle_1.png"
-        }, { 
-            key: 'player',
-            frame: "HeroKnight_Idle_2.png"
-        }, { 
-            key: 'player',
-            frame: "HeroKnight_Idle_3.png"
-        }, { 
-            key: 'player',
-            frame: "HeroKnight_Idle_4.png"
-        }, { 
-            key: 'player',
-            frame: "HeroKnight_Idle_5.png"
-        }, { 
-            key: 'player',
-            frame: "HeroKnight_Idle_6.png"
-        }, { 
-            key: 'player',
-            frame: "HeroKnight_Idle_7.png"
-
-        }],
-        frameRate: 8,
-        repeat: -1
-    }); 
 
 */
