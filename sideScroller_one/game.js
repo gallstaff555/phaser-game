@@ -5,7 +5,7 @@ var config = {
     physics: {
         default: 'arcade',
         arcade: {
-            //gravity: { y: 300 },
+            gravity: { y: 300 },
             debug: true
         }
     },
@@ -16,8 +16,7 @@ var config = {
     }
 };
 
-var player, anims, cursors, platforms, ground, skeleton;
-//var jumpBtn, rollBtn;
+var player, anims, cursors, platforms, ground, skeleton, playerTest1;
 
 var game = new Phaser.Game(config);
 
@@ -26,6 +25,8 @@ function preload () {
     this.load.image('background', 'assets/pixel_tomb.png');
     //ground
     this.ground = this.load.image('ground', 'assets/ground.png');
+
+    this.load.image("playerTestImage", "assets/playerTest.png");
 
     //atlas includes: key, spritesheet, and json
     this.load.atlas('player', 'assets/heroKnightSprites.png', 'assets/heroKnightSprites.json');
@@ -45,14 +46,15 @@ function create () {
     //let groundPlatform = this.add.sprite(800, 595, "block");
     //platforms.add(groundPlatform);
 
+    
     //player
     this.player = this.physics.add.sprite(150, 450, 'player').setScale(3,3);
     this.player.body.setSize(20, 50);
     this.player.setGravityY(300);
-    this.player.setCollideWorldBounds(true);
+    this.player.setCollideWorldBounds(true); 
 
     //skeleton
-    this.skeleton = this.physics.add.sprite(1250, 450, 'skeleton').setScale(3,3);
+    this.skeleton = this.physics.add.sprite(850, 150, 'skeleton').setScale(3,3);
     this.skeleton.body.setSize(20,60);
     this.skeleton.setGravityY(300);
     this.skeleton.setCollideWorldBounds(true);
@@ -72,7 +74,8 @@ function create () {
     //this.rollBtn = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
     //create animations
-    //create IDLE animation
+    //create IDLE animation 
+    
     this.anims.create({
         key: 'HeroKnight_Idle',
         frames: this.anims.generateFrameNames('player', {
@@ -171,6 +174,7 @@ function create () {
         repeat: 0
     });
 
+
     //create SKELETON IDLE animation
     this.anims.create({
         key: 'Skeleton_Idle',
@@ -206,8 +210,6 @@ function update() {
     let playerVelocity_Y = this.player.body.velocity.y;
     let playerPosition_X = this.player.body.x;
     let skeletonPosition_X = this.skeleton.body.x;
-
-    //console.log(playerPosition_X);
     
     //attack
     if (cursors.space.isDown) {
@@ -228,7 +230,7 @@ function update() {
      //idle
     } else {
         this.player.setVelocityX(0);
-        this.player.setGravityY(600);
+        //this.player.setGravityY(600);
         this.player.anims.play('HeroKnight_Idle', true);
     }
 
@@ -244,9 +246,9 @@ function update() {
     } else if (this.player.body.velocity.y > 50) {
        this.player.anims.play('HeroKnight_Fall');
     }  
+    
 
     /* SKELETON */
-    //this.skeleton.anims.play('Skeleton_Idle', true);
 
     //skeleton within range of player
     if (Math.abs(playerPosition_X - skeletonPosition_X) < 500) {
@@ -267,20 +269,6 @@ function update() {
             this.skeleton.flipX = false;
         }
     }
-
-    /*
-    if (playerPosition_X <= skeletonPosition_X) {
-        this.skeleton.flipX = true;
-        if (skeletonPosition_X - playerPosition_X < 500) {
-            this.skeleton.setVelocityX(-10);
-            this.skeleton.anims.play('Skeleton_Walk', true);
-        } else {
-            this.skeleton.setVelocityX(0);
-        }
-    } else {
-        this.skeleton.flipX = false;
-        this.skeleton.setVelocityX(10);
-    } */
 } 
 
 
