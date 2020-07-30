@@ -25,15 +25,28 @@ class Scene1 extends Phaser.Scene {
         this.setUpNPCs();
 
         //collisons
-        this.physics.add.collider(this.player, this.skeleton1);
+        for (let i = 0; i < this.skeletonGroup.getLength(); i++) {
+            this.physics.add.collider(this.player, this.skeletonGroup.getChildren()[i]);
+        }
+
+        /*TODO 
+        Add loops to register collisions between all skeletons
+        */
+        this.physics.add.collider(this.skeleton, this.skeleton2);
 
         //camera
         //this.cam = this.cameras.main.startFollow(this.player);
+        //for (let skeleton in this.skeletonGroup.getChildren()) {
     }
 
     update() {
         this.playerInput(); 
-        this.skeletonBehavior();
+        
+        //update behavior of skeletons
+        for (let i = 0; i < this.skeletonGroup.getLength(); i++) {
+            this.skeletonBehavior(this.skeletonGroup.getChildren()[i]);
+        }
+
         this.parallaxUpdate();
     }
 
@@ -89,36 +102,40 @@ class Scene1 extends Phaser.Scene {
         }
     }
 
-    skeletonBehavior() {
+    skeletonBehavior(skeleton) {
+
+        if (skeleton == null) {
+            console.log("Null skeleton");
+        }
 
         let playerVelocity_Y = this.player.body.velocity.y;
         let playerPosition_X = this.player.body.x;
-        let skeletonPosition_X = this.skeleton1.body.x;
+        let skeletonPosition_X = skeleton.body.x;
 
         //skeleton in sight of player
         var distToPlayer = Math.abs(playerPosition_X - skeletonPosition_X);
         if (distToPlayer < 300 && distToPlayer > 100) {
-            this.skeleton1.anims.play('Skeleton_Walk', true);
+            skeleton.anims.play('Skeleton_Walk', true);
             //player is to the left of skeleton
             if (playerPosition_X <= skeletonPosition_X) {
-                this.skeleton1.setVelocityX(-50);
-                this.skeleton1.flipX = true;
+                skeleton.setVelocityX(-50);
+                skeleton.flipX = true;
             } else { //player is to right of skeleton
-                this.skeleton1.setVelocityX(50);
-                this.skeleton1.flipX = false;
+                skeleton.setVelocityX(50);
+                skeleton.flipX = false;
             }
         //skeleton in attack range of player
         } else if (distToPlayer <= 100) {
-            this.skeleton1.setVelocityX(0);
-            this.skeleton1.anims.play('Skeleton_Attack', true);
+            skeleton.setVelocityX(0);
+            skeleton.anims.play('Skeleton_Attack', true);
         //skeleton out of range of player
         } else {
-            this.skeleton1.setVelocityX(0);
-            this.skeleton1.anims.play('Skeleton_Idle', true);
+            skeleton.setVelocityX(0);
+            skeleton.anims.play('Skeleton_Idle', true);
             if (playerPosition_X <= skeletonPosition_X) {
-                this.skeleton1.flipX = true;
+                skeleton.flipX = true;
             } else { //player is to right of skeleton
-                this.skeleton1.flipX = false;
+                skeleton.flipX = false;
             }
         }
     }
@@ -136,20 +153,11 @@ class Scene1 extends Phaser.Scene {
             x: 150,
             y: 450
         });
-
-        this.player.setScale(2);
-        this.player.body.setSize(20, 50);
-        this.player.setGravityY(300);
-        this.player.setCollideWorldBounds(true);
     }
 
     setUpNPCs() {
-        this.skeleton1 = this.physics.add.sprite(850, 150, 'skeleton').setScale(2);
-        this.skeleton1.body.setSize(20,60);
-        this.skeleton1.setGravityY(300);
-        this.skeleton1.setCollideWorldBounds(true);
 
-        //experimental skeleton
+        //create from skeleton class
         this.skeleton = new Skeleton({
             scene: this,
             key: 'skeleton',
@@ -157,6 +165,20 @@ class Scene1 extends Phaser.Scene {
             y: 150,
             direction: 'left'
         });
+
+        this.skeleton2 = new Skeleton({
+            scene: this,
+            key: 'skeleton',
+            x: 1250,
+            y: 150,
+            direction: 'left'
+        });
+
+        this.skeletonGroup = this.add.group();
+        this.skeletonGroup.add(this.skeleton);
+        this.skeletonGroup.add(this.skeleton2);
+
+        this.physics.world.enable(this.skeletonGroup);
     }
 
     setUpBackground() {
@@ -184,7 +206,7 @@ class Scene1 extends Phaser.Scene {
             x: (this.player.x + 45 * x_mod),
             y: this.player.y,
         });
-        this.physics.add.overlap(this.atk_effect, this.skeleton1, function() {
+        this.physics.add.overlap(this.atk_effect, this.skeleton, function() {
             console.log('hit!!');
         });
         this.time.addEvent({ delay: 400, callback: this.destroyAtkBox, callbackScope: this, loop: false });
