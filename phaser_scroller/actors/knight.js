@@ -1,3 +1,4 @@
+//A Knight is a character controlled Sprite class with physics
 class Knight extends Phaser.Physics.Arcade.Sprite {
     constructor(config) {
         super(config.scene, config.x, config.y, config.key);

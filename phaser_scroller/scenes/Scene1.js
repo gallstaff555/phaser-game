@@ -141,8 +141,6 @@ class Scene1 extends Phaser.Scene {
         this.player.body.setSize(20, 50);
         this.player.setGravityY(300);
         this.player.setCollideWorldBounds(true);
-        this.player.printAttributes();
-
     }
 
     setUpNPCs() {
@@ -150,6 +148,8 @@ class Scene1 extends Phaser.Scene {
         this.skeleton.body.setSize(20,60);
         this.skeleton.setGravityY(300);
         this.skeleton.setCollideWorldBounds(true);
+
+        //experimental skeleton
     }
 
     setUpBackground() {
@@ -177,7 +177,6 @@ class Scene1 extends Phaser.Scene {
             x: (this.player.x + 45 * x_mod),
             y: this.player.y,
         });
-        console.log('effect created');
         this.physics.add.overlap(this.atk_effect, this.skeleton, function() {
             console.log('hit!!');
         });

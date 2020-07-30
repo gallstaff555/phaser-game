@@ -5,19 +5,19 @@ class Scene0 extends Phaser.Scene {
 
     preload () {
         //background
-        this.load.image('sky', 'assets/sky.png');
-        this.load.image('background', 'assets/forest_background.png');
-        this.load.image('midground', 'assets/forest_midground.png');
+        this.load.image('sky', 'assets/backgrounds/sky.png');
+        this.load.image('background', 'assets/backgrounds/forest_background.png');
+        this.load.image('midground', 'assets/backgrounds/forest_midground.png');
 
         //effects
-        this.load.image('atk_effect', 'assets/atk_effect.png');
+        this.load.image('atk_effect', 'assets/effects/atk_effect.png');
 
         //ground
-        this.ground = this.load.image('ground', 'assets/ground.png');
+        this.ground = this.load.image('ground', 'assets/world/ground.png');
     
         //atlas for sprite animation
-        this.load.atlas('player', 'assets/heroKnightSprites.png', 'assets/heroKnightSprites.json');
-        this.load.atlas('skeleton', 'assets/skeletonSprites.png', 'assets/skeletonSprites.json');  
+        this.load.atlas('player', 'assets/sprites/heroKnightSprites.png', 'assets/sprites/heroKnightSprites.json');
+        this.load.atlas('skeleton', 'assets/sprites/skeletonSprites.png', 'assets/sprites/skeletonSprites.json');  
     }
 
     create() {
