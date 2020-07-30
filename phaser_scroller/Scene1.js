@@ -8,6 +8,8 @@ class Scene1 extends Phaser.Scene {
 
         //set up keyboard
         this.cursors = this.input.keyboard.createCursorKeys();
+        this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        this.down_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
 
         //background - parallax
         this.setUpBackground();
@@ -17,6 +19,9 @@ class Scene1 extends Phaser.Scene {
 
         //set up NPCs
         this.setUpNPCs();
+
+        //collisons
+        this.physics.add.collider(this.player, this.skeleton);
 
         //camera
         //this.cam = this.cameras.main.startFollow(this.player);
@@ -37,41 +42,44 @@ class Scene1 extends Phaser.Scene {
         }
 
         //attack
-        if (this.cursors.space.isDown) {
-            this.player.play("HeroKnight_Attack1", true);
-        //roll
-        } else if (this.cursors.down.isDown) {
-            this.player.anims.play('HeroKnight_Roll', true);
-        //left
-        } else if (this.cursors.left.isDown) {
-            this.player.setVelocityX(-200);
-            this.player.flipX = true;
-            this.player.anims.play('HeroKnight_Run', true);
-        //right
-        } else if (this.cursors.right.isDown) {
-            this.player.setVelocityX(200);
-            this.player.flipX = false;
-            this.player.play("HeroKnight_Run", true);
-        //idle
-        } else {
-            this.player.setVelocityX(0);
-            //this.player.setGravityY(600);
-            this.player.anims.play('HeroKnight_Idle', true);
+        if (Phaser.Input.Keyboard.JustDown(this.spacebar) && !this.player.isAttacking()) {
+            this.player.attack();
+            //this.playerAttackEffect();
+        } else if (Phaser.Input.Keyboard.JustDown(this.down_key) && !this.player.isRolling()) {
+            this.player.roll();
         }
+        
+        if (!this.player.isAttacking() && !this.player.isRolling()) {
+            //run left
+            if (this.cursors.left.isDown) {
+                this.player.setVelocityX(-200);
+                this.player.flipX = true;
+                this.player.anims.play('HeroKnight_Run', true);
+            //run right
+            } else if (this.cursors.right.isDown) {
+                this.player.setVelocityX(200);
+                this.player.flipX = false;
+                this.player.play("HeroKnight_Run", true);
+            //idle
+            } else {
+                this.player.setVelocityX(0);
+                this.player.anims.play('HeroKnight_Idle', true);
+            }
 
-        //jump
-        if (this.cursors.up.isDown && (playerVelocity_Y >= -30 && playerVelocity_Y <= 30)) {
-            console.log(playerVelocity_Y);
-            this.player.setVelocityY(-300);
-            this.player.anims.play('HeroKnight_Jump', true);
+            //jump
+            if (this.cursors.up.isDown && (playerVelocity_Y >= -30 && playerVelocity_Y <= 30)) {
+                this.player.setVelocityY(-300);
+                this.player.anims.play('HeroKnight_Jump', true);
+            }
+
+            //travelling up through air
+            if (this.player.body.velocity.y < -1) {
+                this.player.anims.play('HeroKnight_Jump', true);
+            //falling animation
+            } else if (this.player.body.velocity.y > 50) {
+            this.player.anims.play('HeroKnight_Fall');
+            } 
         }
-
-        //travelling up through air
-        if (this.player.body.velocity.y < -1) {
-            this.player.anims.play('HeroKnight_Jump', true);
-        } else if (this.player.body.velocity.y > 50) {
-        this.player.anims.play('HeroKnight_Fall');
-        }  
     }
 
     skeletonBehavior() {
@@ -80,8 +88,9 @@ class Scene1 extends Phaser.Scene {
         let playerPosition_X = this.player.body.x;
         let skeletonPosition_X = this.skeleton.body.x;
 
-        //skeleton within range of player
-        if (Math.abs(playerPosition_X - skeletonPosition_X) < 250) {
+        //skeleton in sight of player
+        var distToPlayer = Math.abs(playerPosition_X - skeletonPosition_X);
+        if (distToPlayer < 300 && distToPlayer > 100) {
             this.skeleton.anims.play('Skeleton_Walk', true);
             //player is to the left of skeleton
             if (playerPosition_X <= skeletonPosition_X) {
@@ -91,6 +100,10 @@ class Scene1 extends Phaser.Scene {
                 this.skeleton.setVelocityX(50);
                 this.skeleton.flipX = false;
             }
+        //skeleton in attack range of player
+        } else if (distToPlayer <= 100) {
+            this.skeleton.setVelocityX(0);
+            this.skeleton.anims.play('Skeleton_Attack', true);
         //skeleton out of range of player
         } else {
             this.skeleton.setVelocityX(0);
@@ -109,11 +122,20 @@ class Scene1 extends Phaser.Scene {
     }
 
     setUpPlayer() {
-        this.player = this.physics.add.sprite(150, 450, 'player').setScale(2);
-        this.player.setOrigin(0,0);
+
+        this.player = new Character({
+            scene: this,
+            key: 'player',
+            x: 150,
+            y: 450
+        });
+
+        this.player.setScale(2);
         this.player.body.setSize(20, 50);
         this.player.setGravityY(300);
-        this.player.setCollideWorldBounds(true); 
+        this.player.setCollideWorldBounds(true);
+        this.player.printAttributes();
+
     }
 
     setUpNPCs() {
@@ -133,5 +155,11 @@ class Scene1 extends Phaser.Scene {
         this.bg_2 = this.add.tileSprite(0, 0, game.config.width * 2, game.config.height, 'midground');
         this.bg_2.setOrigin(0,0);
         this.bg_2.setScrollFactor(1);
+    }
+
+    playerAttackEffect() {
+        console.log('effect created');
+        let atk_effect = this.add.sprite(this.player.x + 45, this.player.y, 'atk_effect');
+        console.log(atk_effect.visible); 
     }
 }

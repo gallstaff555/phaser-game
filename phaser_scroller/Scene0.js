@@ -9,6 +9,9 @@ class Scene0 extends Phaser.Scene {
         this.load.image('background', 'assets/forest_background.png');
         this.load.image('midground', 'assets/forest_midground.png');
 
+        //effects
+        this.load.image('atk_effect', 'assets/atk_effect.png');
+
         //ground
         this.ground = this.load.image('ground', 'assets/ground.png');
     
@@ -65,7 +68,7 @@ class Scene0 extends Phaser.Scene {
                 suffix: '.png'
             }),
             frameRate: 15,
-            repeat: -1
+            repeat: 0
         });
     
     
@@ -124,7 +127,7 @@ class Scene0 extends Phaser.Scene {
             frameRate: 15,
             repeat: 0
         });
-        
+
 
         /*SKELETON ANIMATION */
 
@@ -153,6 +156,21 @@ class Scene0 extends Phaser.Scene {
                 suffix: '.png'
             }),
             frameRate: 7,
+            repeat: -1
+        });
+
+
+        //create SKELETON ATTACK animation
+        this.anims.create({
+            key: 'Skeleton_Attack',
+            frames: this.anims.generateFrameNames('skeleton', {
+                start: 0,
+                end: 16,
+                zeroPad: 1,
+                prefix: 'Skeleton_Attack_',
+                suffix: '.png'
+            }),
+            frameRate: 8,
             repeat: -1
         });
     }
