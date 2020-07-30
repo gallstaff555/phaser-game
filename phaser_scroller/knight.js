@@ -1,4 +1,4 @@
-class Character extends Phaser.Physics.Arcade.Sprite {
+class Knight extends Phaser.Physics.Arcade.Sprite {
     constructor(config) {
         super(config.scene, config.x, config.y, config.key);
          
@@ -18,6 +18,10 @@ class Character extends Phaser.Physics.Arcade.Sprite {
             health: 100,
             direction: 'right'
         })
+    }
+
+    getAttributes() {
+        return this.attributes;
     }
 
     //print attributes to the console
@@ -65,5 +69,10 @@ class Character extends Phaser.Physics.Arcade.Sprite {
 
     toggleRollingOff = () => {
         this.setRolling(false);
+    }
+
+    //direction
+    setDirection(theDirection) {
+        this.attributes.direction = theDirection;
     }
 }

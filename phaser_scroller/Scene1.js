@@ -10,12 +10,16 @@ class Scene1 extends Phaser.Scene {
         this.cursors = this.input.keyboard.createCursorKeys();
         this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.down_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+        this.q_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
+        this.e_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
 
         //background - parallax
         this.setUpBackground();
 
         //player
         this.setUpPlayer();
+
+        //effects
 
         //set up NPCs
         this.setUpNPCs();
@@ -42,9 +46,10 @@ class Scene1 extends Phaser.Scene {
         }
 
         //attack
-        if (Phaser.Input.Keyboard.JustDown(this.spacebar) && !this.player.isAttacking()) {
+        if (Phaser.Input.Keyboard.JustDown(this.q_key) && !this.player.isAttacking()) {
             this.player.attack();
-            //this.playerAttackEffect();
+            this.playerAttackEffect();
+
         } else if (Phaser.Input.Keyboard.JustDown(this.down_key) && !this.player.isRolling()) {
             this.player.roll();
         }
@@ -52,11 +57,13 @@ class Scene1 extends Phaser.Scene {
         if (!this.player.isAttacking() && !this.player.isRolling()) {
             //run left
             if (this.cursors.left.isDown) {
+                this.player.setDirection('left');
                 this.player.setVelocityX(-200);
                 this.player.flipX = true;
                 this.player.anims.play('HeroKnight_Run', true);
             //run right
             } else if (this.cursors.right.isDown) {
+                this.player.setDirection('right');
                 this.player.setVelocityX(200);
                 this.player.flipX = false;
                 this.player.play("HeroKnight_Run", true);
@@ -123,7 +130,7 @@ class Scene1 extends Phaser.Scene {
 
     setUpPlayer() {
 
-        this.player = new Character({
+        this.player = new Knight({
             scene: this,
             key: 'player',
             x: 150,
@@ -139,7 +146,7 @@ class Scene1 extends Phaser.Scene {
     }
 
     setUpNPCs() {
-        this.skeleton = this.physics.add.sprite(850, 150, 'skeleton').setScale(3,3);
+        this.skeleton = this.physics.add.sprite(850, 150, 'skeleton').setScale(2);
         this.skeleton.body.setSize(20,60);
         this.skeleton.setGravityY(300);
         this.skeleton.setCollideWorldBounds(true);
@@ -158,8 +165,26 @@ class Scene1 extends Phaser.Scene {
     }
 
     playerAttackEffect() {
+
+        //if player is facing left, reverse direction of attack line
+        var x_mod = 1;
+        if (this.player.getAttributes().direction == 'left') {
+            x_mod = -1;
+        }
+        this.atk_effect = new SwordAttackBox({
+            scene: this,
+            key: 'atk_effect',
+            x: (this.player.x + 45 * x_mod),
+            y: this.player.y,
+        });
         console.log('effect created');
-        let atk_effect = this.add.sprite(this.player.x + 45, this.player.y, 'atk_effect');
-        console.log(atk_effect.visible); 
+        this.physics.add.overlap(this.atk_effect, this.skeleton, function() {
+            console.log('hit!!');
+        });
+        this.time.addEvent({ delay: 400, callback: this.destroyAtkBox, callbackScope: this, loop: false });
+    }
+
+    destroyAtkBox() {
+        this.atk_effect.destroy();
     }
 }
