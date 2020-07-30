@@ -4,8 +4,10 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
          
         config.scene.add.existing(this);
         config.scene.physics.world.enableBody(this);   
-
+        
         this.scene = config.scene;
+
+        this.setCollideWorldBounds(true);
 
         this.status = ({
             attacking: false,
@@ -15,7 +17,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
 
         this.attributes = ({
             health: 100,
-            direction: config.direction   //can i assign a value from argument??
+            direction: 'left'   //can i assign a value from argument??
         })
     }
 }
