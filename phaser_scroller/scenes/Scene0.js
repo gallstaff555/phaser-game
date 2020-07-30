@@ -166,8 +166,22 @@ class Scene0 extends Phaser.Scene {
             frames: this.anims.generateFrameNames('skeleton', {
                 start: 0,
                 end: 16,
-                zeroPad: 1,
+                zeroPad: 2,
                 prefix: 'Skeleton_Attack_',
+                suffix: '.png'
+            }),
+            frameRate: 6,
+            repeat: 0
+        });
+
+        //create SKELETON DEATH animation
+        this.anims.create({
+            key: 'Skeleton_Death',
+            frames: this.anims.generateFrameNames('skeleton', {
+                start: 0,
+                end: 12,
+                zeroPad: 2,
+                prefix: 'Skeleton_Death_',
                 suffix: '.png'
             }),
             frameRate: 6,

@@ -12,7 +12,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.status = ({
             attacking: false,
             rolling: false,
-            dying: false
+            alive: true
         })
 
         this.attributes = ({

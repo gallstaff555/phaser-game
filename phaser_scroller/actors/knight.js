@@ -6,7 +6,7 @@ class Knight extends Phaser.Physics.Arcade.Sprite {
         config.scene.add.existing(this);
         config.scene.physics.world.enableBody(this);   
 
-        this.scene = config.scene;
+        //this.scene = config.scene;
 
         //this.cursors = this.scene.input.keyboard.createCursorKeys();
 
@@ -30,20 +30,12 @@ class Knight extends Phaser.Physics.Arcade.Sprite {
         return this.attributes;
     }
 
-    //print attributes to the console
-    printAttributes() {
-        for (var key in this.attributes) {
-            var val = this.attributes[key];
-            console.log(key + ": " + val);
-        }
-    }
-
     //ATTACK ANIMATIONS AND STATUS
     //set attacking to true, play attacking animation, and when animation is complete: set attacking status to false
     attack() {
         this.setAttacking(true);
-        this.scene.player.play("HeroKnight_Attack1", true);
-        this.scene.player.on('animationcomplete-HeroKnight_Attack1', this.toggleAttackingOff);
+        this.anims.play("HeroKnight_Attack1", true);
+        this.on('animationcomplete-HeroKnight_Attack1', this.toggleAttackingOff);
     }
 
     isAttacking() {
@@ -61,8 +53,8 @@ class Knight extends Phaser.Physics.Arcade.Sprite {
     //ROLL ANIMATIONS AND STATUS
     roll() {
         this.setRolling(true);
-        this.scene.player.play('HeroKnight_Roll', true);
-        this.scene.player.on('animationcomplete-HeroKnight_Roll', this.toggleRollingOff);
+        this.anims.play('HeroKnight_Roll', true);
+        this.on('animationcomplete-HeroKnight_Roll', this.toggleRollingOff);
     }
 
     isRolling() {

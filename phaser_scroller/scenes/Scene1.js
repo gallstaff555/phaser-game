@@ -50,16 +50,19 @@ class Scene1 extends Phaser.Scene {
         this.parallaxUpdate();
     }
 
+    //Player character affected by keyboard input
     playerInput() {
         let playerVelocity_Y = this.player.body.velocity.y;
         let playerPosition_X = this.player.body.x;
 
         if (playerPosition_X >= game.config.width - 50) {
             console.log("end of level");
+            this.scene.start("level_one");
         }
 
         //attack
         if (Phaser.Input.Keyboard.JustDown(this.q_key) && !this.player.isAttacking()) {
+
             this.player.attack();
             this.playerAttackEffect();
 
@@ -102,15 +105,21 @@ class Scene1 extends Phaser.Scene {
         }
     }
 
+    //skeleton AI behavior
     skeletonBehavior(skeleton) {
 
         let playerVelocity_Y = this.player.body.velocity.y;
         let playerPosition_X = this.player.body.x;
         let skeletonPosition_X = skeleton.body.x;
         var distToPlayer = Math.abs(playerPosition_X - skeletonPosition_X);
+
         
-        //skeleton in sight of player
-        if (!skeleton.isAttacking()) {
+        //if skeleton is dead:
+        if (!skeleton.isAlive()) {
+            skeleton.setVelocityX(0); //stop dead or dying skeleton from moving
+        //approach if skeleton isn't attacking or isn't dead
+        } else if (!skeleton.isAttacking()) {
+            //skeleton in sight of player
             if (distToPlayer < 300 && distToPlayer > 100) {
                 skeleton.anims.play('Skeleton_Walk', true);
                 //player is to the left of skeleton
@@ -136,12 +145,12 @@ class Scene1 extends Phaser.Scene {
                     skeleton.flipX = false;
                 }
             }
-        }
+        } 
     }
 
     parallaxUpdate() {
-        this.bg_1.tilePositionX = this.player.body.x * .3;
-        this.bg_2.tilePositionX = this.player.body.x * .6;
+        this.bg_1.tilePositionX = this.player.body.x * .3; //background
+        this.bg_2.tilePositionX = this.player.body.x * .6; //foreground
     }
 
     setUpPlayer() {
@@ -162,7 +171,10 @@ class Scene1 extends Phaser.Scene {
             key: 'skeleton',
             x: 1050,
             y: 150,
-            direction: 'left'
+            direction: 'left',
+            sizeX: 20,
+            sizeY: 60,
+            scale: 2
         });
 
         this.skeleton2 = new Skeleton({
@@ -170,7 +182,10 @@ class Scene1 extends Phaser.Scene {
             key: 'skeleton',
             x: 850,
             y: 150,
-            direction: 'left'
+            direction: 'left',
+            sizeX: 20,
+            sizeY: 60,
+            scale: 2
         });
 
         this.skeletonGroup = this.add.group();
@@ -192,6 +207,7 @@ class Scene1 extends Phaser.Scene {
         this.bg_2.setScrollFactor(1);
     }
 
+    //A playerATtackEffect is used to determine if player attack hits enemy 
     playerAttackEffect() {
 
         //if player is facing left, reverse direction of attack line
@@ -199,18 +215,30 @@ class Scene1 extends Phaser.Scene {
         if (this.player.getAttributes().direction == 'left') {
             x_mod = -1;
         }
+        //create a new swordattackbox
         this.atk_effect = new SwordAttackBox({
             scene: this,
             key: 'atk_effect',
             x: (this.player.x + 45 * x_mod),
             y: this.player.y,
         });
-        this.physics.add.overlap(this.atk_effect, this.skeleton, function() {
-            console.log('hit!!');
-        });
+
+        //Register hits for each skeleton on the screen
+        for (let i = 0; i < this.skeletonGroup.getLength(); i++) {
+            let skeleton = this.skeletonGroup.getChildren()[i];
+            this.physics.add.overlap(this.atk_effect, skeleton, function() {
+                if (skeleton.isAlive()) {
+                    skeleton.skeletonDying();
+                    
+                }
+            });       
+        }
+
+        //Remove the attack box after 400ms. Only one attack box should be present at a time.
         this.time.addEvent({ delay: 400, callback: this.destroyAtkBox, callbackScope: this, loop: false });
     }
 
+    //destroys the current attack box
     destroyAtkBox() {
         this.atk_effect.destroy();
     }
