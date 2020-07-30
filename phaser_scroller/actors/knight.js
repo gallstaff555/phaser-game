@@ -8,7 +8,7 @@ class Knight extends Phaser.Physics.Arcade.Sprite {
 
         this.scene = config.scene;
 
-        this.cursors = this.scene.input.keyboard.createCursorKeys();
+        //this.cursors = this.scene.input.keyboard.createCursorKeys();
 
         this.setScale(2);
         this.body.setSize(20, 50);

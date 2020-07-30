@@ -155,7 +155,7 @@ class Scene0 extends Phaser.Scene {
                 prefix: 'Skeleton_Walk_',
                 suffix: '.png'
             }),
-            frameRate: 7,
+            frameRate: 5,
             repeat: -1
         });
 
