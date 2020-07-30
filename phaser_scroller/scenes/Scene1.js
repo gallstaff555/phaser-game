@@ -104,38 +104,37 @@ class Scene1 extends Phaser.Scene {
 
     skeletonBehavior(skeleton) {
 
-        if (skeleton == null) {
-            console.log("Null skeleton");
-        }
-
         let playerVelocity_Y = this.player.body.velocity.y;
         let playerPosition_X = this.player.body.x;
         let skeletonPosition_X = skeleton.body.x;
-
-        //skeleton in sight of player
         var distToPlayer = Math.abs(playerPosition_X - skeletonPosition_X);
-        if (distToPlayer < 300 && distToPlayer > 100) {
-            skeleton.anims.play('Skeleton_Walk', true);
-            //player is to the left of skeleton
-            if (playerPosition_X <= skeletonPosition_X) {
-                skeleton.setVelocityX(-50);
-                skeleton.flipX = true;
-            } else { //player is to right of skeleton
-                skeleton.setVelocityX(50);
-                skeleton.flipX = false;
-            }
-        //skeleton in attack range of player
-        } else if (distToPlayer <= 100) {
-            skeleton.setVelocityX(0);
-            skeleton.anims.play('Skeleton_Attack', true);
-        //skeleton out of range of player
-        } else {
-            skeleton.setVelocityX(0);
-            skeleton.anims.play('Skeleton_Idle', true);
-            if (playerPosition_X <= skeletonPosition_X) {
-                skeleton.flipX = true;
-            } else { //player is to right of skeleton
-                skeleton.flipX = false;
+        
+        //skeleton in sight of player
+        if (!skeleton.isAttacking()) {
+            if (distToPlayer < 300 && distToPlayer > 100) {
+                skeleton.anims.play('Skeleton_Walk', true);
+                //player is to the left of skeleton
+                if (playerPosition_X <= skeletonPosition_X) {
+                    skeleton.setVelocityX(-50);
+                    skeleton.flipX = true;
+                } else { //player is to right of skeleton
+                    skeleton.setVelocityX(50);
+                    skeleton.flipX = false;
+                }
+            //skeleton in attack range of player
+            } else if (distToPlayer <= 100) {
+                skeleton.setVelocityX(0);
+                skeleton.skeletonAttack();
+                //skeleton.anims.play('Skeleton_Attack', true);
+            //skeleton out of range of player
+            } else {
+                skeleton.setVelocityX(0);
+                skeleton.anims.play('Skeleton_Idle', true);
+                if (playerPosition_X <= skeletonPosition_X) {
+                    skeleton.flipX = true;
+                } else { //player is to right of skeleton
+                    skeleton.flipX = false;
+                }
             }
         }
     }
@@ -169,7 +168,7 @@ class Scene1 extends Phaser.Scene {
         this.skeleton2 = new Skeleton({
             scene: this,
             key: 'skeleton',
-            x: 1250,
+            x: 850,
             y: 150,
             direction: 'left'
         });

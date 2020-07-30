@@ -17,7 +17,12 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
 
         this.attributes = ({
             health: 100,
-            direction: 'left'   //can i assign a value from argument??
+            direction: config.direction   //can i assign a value from argument??
         })
+
+    }
+
+    getAttributes() {
+        return this.attributes;
     }
 }
