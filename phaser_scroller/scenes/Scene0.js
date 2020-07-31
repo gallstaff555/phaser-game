@@ -189,7 +189,7 @@ class Scene0 extends Phaser.Scene {
                 prefix: 'Skeleton_Attack_',
                 suffix: '.png'
             }),
-            frameRate: 6,
+            frameRate: 5,
             repeat: 0
         });
 

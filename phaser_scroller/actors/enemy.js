@@ -9,23 +9,31 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
 
         this.setCollideWorldBounds(true);
 
-        this.setOrigin(0,0);
+        //this.setOrigin(0,0);
         
 
         this.status = ({
             attacking: false,
             rolling: false,
-            alive: true
+            alive: true,
+            direction: config.direction
         })
 
         this.attributes = ({
             health: 100,
-            direction: config.direction   //can i assign a value from argument??
+            //direction: config.direction
         })
-
     }
 
     getAttributes() {
         return this.attributes;
+    }
+
+    getStatus() {
+        return this.status;
+    }
+
+    setDirection(newDirection) {
+        this.status.direction = newDirection;
     }
 }

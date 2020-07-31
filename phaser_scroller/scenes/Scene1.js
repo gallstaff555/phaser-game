@@ -8,7 +8,7 @@ class Scene1 extends Phaser.Scene {
 
         //set up keyboard
         this.cursors = this.input.keyboard.createCursorKeys();
-        this.input.keyboard.addKeys( {'E': Phaser.Input.Keyboard.KeyCodes.E} );
+        this.input.keyboard.addKeys({ 'E': Phaser.Input.Keyboard.KeyCodes.E });
         this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.down_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
         this.q_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
@@ -34,7 +34,8 @@ class Scene1 extends Phaser.Scene {
 
         for (let i = 0; i < this.skeletonGroup.getLength(); i++) {
             this.physics.add.collider(this.platforms, this.skeletonGroup.getChildren()[i]);
-            this.physics.add.collider(this.player, this.skeletonGroup.getChildren()[i]);
+            //collider between player and skeletons currently disabled
+            //this.physics.add.collider(this.player, this.skeletonGroup.getChildren()[i]);
         }
 
         /*TODO 
@@ -43,15 +44,14 @@ class Scene1 extends Phaser.Scene {
         this.physics.add.collider(this.skeleton, this.skeleton2);
 
 
-
         //camera
         //this.cam = this.cameras.main.startFollow(this.player);
         //for (let skeleton in this.skeletonGroup.getChildren()) {
     }
 
     update() {
-        this.playerInput(); 
-        
+        this.playerInput();
+
         //update behavior of skeletons
         for (let i = 0; i < this.skeletonGroup.getLength(); i++) {
             this.skeletonBehavior(this.skeletonGroup.getChildren()[i]);
@@ -75,30 +75,39 @@ class Scene1 extends Phaser.Scene {
             this.player.attack();
             this.playerAttackEffect();
 
-        //roll
+            //roll
         } else if (Phaser.Input.Keyboard.JustDown(this.down_key) && !this.player.isRolling()) {
+            if (this.player.status.direction == 'right') {
+                this.player.setVelocityX(this.player.attributes.speed + 100);
+            } else {
+                this.player.setVelocityX(-this.player.attributes.speed - 100);
+            }
+
             this.player.roll();
-        
-        //block 
+
+            //block 
         } else if (Phaser.Input.Keyboard.JustDown(this.e_key)) {
+            if (this.player.body.touching.down) {
+                this.player.setVelocityX(0);
+            }
             this.player.block();
-        } 
+        }
 
         //NOT ATTACKING, NOT ROLLING, NOT BLOCKING
         if (!this.player.isAttacking() && !this.player.isRolling() && !this.player.isBlocking()) {
             //run left
             if (this.cursors.left.isDown) {
                 this.player.setDirection('left');
-                this.player.setVelocityX(-200);
+                this.player.setVelocityX(-this.player.attributes.speed);
                 this.player.flipX = true;
                 this.player.anims.play('HeroKnight_Run', true);
-            //run right
+                //run right
             } else if (this.cursors.right.isDown) {
                 this.player.setDirection('right');
-                this.player.setVelocityX(200);
+                this.player.setVelocityX(this.player.attributes.speed);
                 this.player.flipX = false;
                 this.player.play("HeroKnight_Run", true);
-            //idle
+                //idle
             } else {
                 this.player.setVelocityX(0);
                 this.player.anims.play('HeroKnight_Idle', true);
@@ -106,34 +115,42 @@ class Scene1 extends Phaser.Scene {
 
             //jump
             if (this.cursors.up.isDown && (playerVelocity_Y >= -30 && playerVelocity_Y <= 30)) {
-                this.player.setVelocityY(-300);
-                this.player.anims.play('HeroKnight_Jump', true);
+                if (this.player.status.jump > 0) {
+                    this.player.status.jump--;
+                    this.player.setVelocityY(-this.player.attributes.speed - 100);
+                    this.player.anims.play('HeroKnight_Jump', true);
+                }
             }
 
             //travelling up through air
             if (this.player.body.velocity.y < -1) {
                 this.player.anims.play('HeroKnight_Jump', true);
-            //falling animation
+                //falling animation and reset player jump count
             } else if (this.player.body.velocity.y > 50) {
-            this.player.anims.play('HeroKnight_Fall');
-            } 
+                this.player.anims.play('HeroKnight_Fall');
+                this.player.status.jump = 2;              
+            }
         }
+    }
+
+    resetJumpCount() {
+        this.player.status.jump = 2;
     }
 
     //skeleton AI behavior
     skeletonBehavior(skeleton) {
 
-        let playerVelocity_Y = this.player.body.velocity.y;
-        let playerPosition_X = this.player.body.x;
-        let skeletonPosition_X = skeleton.body.x;
-        var distToPlayer = Math.abs(playerPosition_X - skeletonPosition_X);
 
-        
         //if skeleton is dead:
         if (!skeleton.isAlive()) {
             skeleton.setVelocityX(0); //stop dead or dying skeleton from moving
-        //approach if skeleton isn't attacking or isn't dead
+            //approach player if skeleton isn't attacking or isn't dead
         } else if (!skeleton.isAttacking()) {
+
+            let playerPosition_X = this.player.body.x;
+            let skeletonPosition_X = skeleton.body.x;
+            let distToPlayer = Math.abs(playerPosition_X - skeletonPosition_X);
+
             //skeleton in sight of player
             if (distToPlayer < 300 && distToPlayer > 100) {
                 skeleton.anims.play('Skeleton_Walk', true);
@@ -141,26 +158,41 @@ class Scene1 extends Phaser.Scene {
                 if (playerPosition_X <= skeletonPosition_X) {
                     skeleton.setVelocityX(-50);
                     skeleton.flipX = true;
+                    skeleton.setDirection('left');
                 } else { //player is to right of skeleton
                     skeleton.setVelocityX(50);
                     skeleton.flipX = false;
+                    skeleton.setDirection('right');
                 }
             //skeleton in attack range of player
+            //ATTACK PLAYER
             } else if (distToPlayer <= 100) {
+                this.skeletonFacePlayer(skeleton);
                 skeleton.setVelocityX(0);
                 skeleton.skeletonAttack();
-                //skeleton.anims.play('Skeleton_Attack', true);
+                this.enemyAttackEffect(skeleton);
+                //this.time.addEvent({ delay: 200, callback: this.destroyEnemyAtkBox, callbackScope: this, loop: false });
             //skeleton out of range of player
             } else {
                 skeleton.setVelocityX(0);
                 skeleton.anims.play('Skeleton_Idle', true);
-                if (playerPosition_X <= skeletonPosition_X) {
-                    skeleton.flipX = true;
-                } else { //player is to right of skeleton
-                    skeleton.flipX = false;
-                }
+                this.skeletonFacePlayer(skeleton);
             }
-        } 
+        }
+    }
+
+    skeletonFacePlayer(skeleton) {
+
+        let playerPosition_X = this.player.body.x;
+        let skeletonPosition_X = skeleton.body.x;
+
+        if (playerPosition_X <= skeletonPosition_X) {
+            skeleton.flipX = true;
+            skeleton.setDirection('left');
+        } else { //player is to right of skeleton
+            skeleton.flipX = false;
+            skeleton.setDirection('right');
+        }
     }
 
 
@@ -198,7 +230,7 @@ class Scene1 extends Phaser.Scene {
             sizeX: 20,
             sizeY: 60,
             scale: 2
-        });
+        }); 
 
         //add skeletons to skeleton group and enable their physics 
         this.skeletonGroup = this.add.group();
@@ -207,34 +239,33 @@ class Scene1 extends Phaser.Scene {
         this.physics.world.enable(this.skeletonGroup);
     }
 
-    
+    //set up background tile sprites and objects other than actors
     setUpBackground() {
         this.sky = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'sky');
         this.sky.setOrigin(0, 0);
         this.sky.setScrollFactor(0);
         this.bg_1 = this.add.tileSprite(0, 0, game.config.width * 1.5, game.config.height, 'background');
-        this.bg_1.setOrigin(0,0);
+        this.bg_1.setOrigin(0, 0);
         this.bg_1.setScrollFactor(1);
         this.bg_2 = this.add.tileSprite(0, 0, game.config.width * 2, game.config.height, 'midground');
-        this.bg_2.setOrigin(0,0);
+        this.bg_2.setOrigin(0, 0);
         this.bg_2.setScrollFactor(1);
 
         //ground
         this.ground = this.add.tileSprite(0, game.config.height - 100, game.config.width * 2, 100, 'forest_ground');
-
         this.ground.setOrigin(0, 0);
         this.platforms.add(this.ground);
 
         //tree
         this.tree1 = this.add.image(300, -100, 'tree01');
-        this.tree1.setOrigin(0,0);
+        this.tree1.setOrigin(0, 0);
 
         //bushes
         this.bush1 = this.add.image(600, game.config.height - 125, 'forest_bush');
-        this.bush1.setOrigin(0,0);
+        this.bush1.setOrigin(0, 0);
         this.bush1.setDepth(1);
         this.bush2 = this.add.image(300, game.config.height - 125, 'forest_bush');
-        this.bush2.setOrigin(0,0);
+        this.bush2.setOrigin(0, 0);
         this.bush2.setDepth(1);
 
     }
@@ -250,34 +281,70 @@ class Scene1 extends Phaser.Scene {
 
         //if player is facing left, reverse direction of attack line
         var x_mod = 1;
-        if (this.player.getAttributes().direction == 'left') {
+        if (this.player.getStatus().direction == 'left') {
             x_mod = -1;
         }
         //create a new swordattackbox
         this.atk_effect = new SwordAttackBox({
             scene: this,
             key: 'atk_effect',
-            x: (this.player.x + 45 * x_mod),
+            x: (this.player.x + 25 * x_mod),
             y: this.player.y,
+            persistFor: 300
         });
 
         //Register hits for each skeleton on the screen
         for (let i = 0; i < this.skeletonGroup.getLength(); i++) {
             let skeleton = this.skeletonGroup.getChildren()[i];
-            this.physics.add.overlap(this.atk_effect, skeleton, function() {
+            this.physics.add.overlap(this.atk_effect, skeleton, function () {
                 if (skeleton.isAlive()) {
                     skeleton.skeletonDying();
-                    
+                    //skeleton.skeletonHit();
                 }
-            });       
+            });
         }
-
-        //Remove the attack box after 400ms. Only one attack box should be present at a time.
-        this.time.addEvent({ delay: 400, callback: this.destroyAtkBox, callbackScope: this, loop: false });
     }
 
-    //destroys the current attack box
+
+    //creates a physic sprite for detecting if skeleton atk hit player character
+    enemyAttackEffect(enemy) {
+
+        //if player is facing left, reverse direction of attack line
+        var x_mod = 1;
+        if (enemy.getStatus().direction == 'left') {
+            x_mod = -1;
+        }
+
+        //create a new swordattackbox
+        this.enemy_atk_effect = new SwordAttackBox({
+            scene: this,
+            key: 'atk_effect',
+            x: (enemy.x + 55 * x_mod),
+            y: enemy.y,
+            persistFor: 300
+        });
+
+        //if attack landed, do something to the player
+        this.physics.add.overlap(this.enemy_atk_effect, this.player, function () {
+            console.log('player hit!');
+        })
+    }
+}
+
+/*Graveyard
+
+    //destroys the current player attack box
     destroyAtkBox() {
         this.atk_effect.destroy();
     }
-}
+
+    destroyEnemyAtkBox() {
+        this.enemy_atk_effect.destroy();
+    }
+
+        //from attackeffect(enemy)
+        //Remove the attack box after 400ms. Only one attack box should be present at a time.
+        //this.time.addEvent({ delay: 400, callback: this.destroyEnemyAtkBox, callbackScope: this, loop: false });
+
+
+*/

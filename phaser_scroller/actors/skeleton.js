@@ -30,8 +30,17 @@ class Skeleton extends Enemy {
     //BUT ADD A DELAY IN BETWEEN ATTACKS
     toggleAttackingOff = () => {
         this.anims.play('Skeleton_Idle', true);
-        setTimeout( () => this.setAttacking(false), 1000 );  //add 1 second delay in between attacks
+        this.setAttacking(false);
+        //setTimeout( () => this.setAttacking(false), 1000 );  //add 1 second delay in between attacks
         //this.setAttacking(false);
+    }
+
+    skeletonHit() {
+        this.attributes.health -= 3;
+        console.log(this.attributes.health);
+        if (this.attributes.health <= 0) {
+            this.skeletonDying();
+        }
     }
 
     //Skeleton Death
