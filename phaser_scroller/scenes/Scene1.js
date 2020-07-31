@@ -8,10 +8,15 @@ class Scene1 extends Phaser.Scene {
 
         //set up keyboard
         this.cursors = this.input.keyboard.createCursorKeys();
+        this.input.keyboard.addKeys( {'E': Phaser.Input.Keyboard.KeyCodes.E} );
         this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.down_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
         this.q_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
         this.e_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
+
+
+        //fixed world objects
+        this.platforms = this.physics.add.staticGroup();
 
         //background - parallax
         this.setUpBackground();
@@ -25,7 +30,10 @@ class Scene1 extends Phaser.Scene {
         this.setUpNPCs();
 
         //collisons
+        this.physics.add.collider(this.player, this.platforms);
+
         for (let i = 0; i < this.skeletonGroup.getLength(); i++) {
+            this.physics.add.collider(this.platforms, this.skeletonGroup.getChildren()[i]);
             this.physics.add.collider(this.player, this.skeletonGroup.getChildren()[i]);
         }
 
@@ -33,6 +41,8 @@ class Scene1 extends Phaser.Scene {
         Add loops to register collisions between all skeletons
         */
         this.physics.add.collider(this.skeleton, this.skeleton2);
+
+
 
         //camera
         //this.cam = this.cameras.main.startFollow(this.player);
@@ -62,15 +72,20 @@ class Scene1 extends Phaser.Scene {
 
         //attack
         if (Phaser.Input.Keyboard.JustDown(this.q_key) && !this.player.isAttacking()) {
-
             this.player.attack();
             this.playerAttackEffect();
 
+        //roll
         } else if (Phaser.Input.Keyboard.JustDown(this.down_key) && !this.player.isRolling()) {
             this.player.roll();
-        }
         
-        if (!this.player.isAttacking() && !this.player.isRolling()) {
+        //block 
+        } else if (Phaser.Input.Keyboard.JustDown(this.e_key)) {
+            this.player.block();
+        } 
+
+        //NOT ATTACKING, NOT ROLLING, NOT BLOCKING
+        if (!this.player.isAttacking() && !this.player.isRolling() && !this.player.isBlocking()) {
             //run left
             if (this.cursors.left.isDown) {
                 this.player.setDirection('left');
@@ -148,21 +163,18 @@ class Scene1 extends Phaser.Scene {
         } 
     }
 
-    parallaxUpdate() {
-        this.bg_1.tilePositionX = this.player.body.x * .3; //background
-        this.bg_2.tilePositionX = this.player.body.x * .6; //foreground
-    }
 
+    //instantiate the player character
     setUpPlayer() {
-
         this.player = new Knight({
             scene: this,
             key: 'player',
             x: 150,
-            y: 450
+            y: 0
         });
     }
 
+    //instantiate the NPCs 
     setUpNPCs() {
 
         //create from skeleton class
@@ -170,7 +182,7 @@ class Scene1 extends Phaser.Scene {
             scene: this,
             key: 'skeleton',
             x: 1050,
-            y: 150,
+            y: 0,
             direction: 'left',
             sizeX: 20,
             sizeY: 60,
@@ -181,20 +193,21 @@ class Scene1 extends Phaser.Scene {
             scene: this,
             key: 'skeleton',
             x: 850,
-            y: 150,
+            y: 0,
             direction: 'left',
             sizeX: 20,
             sizeY: 60,
             scale: 2
         });
 
+        //add skeletons to skeleton group and enable their physics 
         this.skeletonGroup = this.add.group();
         this.skeletonGroup.add(this.skeleton);
         this.skeletonGroup.add(this.skeleton2);
-
         this.physics.world.enable(this.skeletonGroup);
     }
 
+    
     setUpBackground() {
         this.sky = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'sky');
         this.sky.setOrigin(0, 0);
@@ -205,6 +218,31 @@ class Scene1 extends Phaser.Scene {
         this.bg_2 = this.add.tileSprite(0, 0, game.config.width * 2, game.config.height, 'midground');
         this.bg_2.setOrigin(0,0);
         this.bg_2.setScrollFactor(1);
+
+        //ground
+        this.ground = this.add.tileSprite(0, game.config.height - 100, game.config.width * 2, 100, 'forest_ground');
+
+        this.ground.setOrigin(0, 0);
+        this.platforms.add(this.ground);
+
+        //tree
+        this.tree1 = this.add.image(300, -100, 'tree01');
+        this.tree1.setOrigin(0,0);
+
+        //bushes
+        this.bush1 = this.add.image(600, game.config.height - 125, 'forest_bush');
+        this.bush1.setOrigin(0,0);
+        this.bush1.setDepth(1);
+        this.bush2 = this.add.image(300, game.config.height - 125, 'forest_bush');
+        this.bush2.setOrigin(0,0);
+        this.bush2.setDepth(1);
+
+    }
+
+    //set far background and mid-background to slowly move as player moves
+    parallaxUpdate() {
+        this.bg_1.tilePositionX = this.player.body.x * .03; //background
+        this.bg_2.tilePositionX = this.player.body.x * .06; //foreground
     }
 
     //A playerATtackEffect is used to determine if player attack hits enemy 

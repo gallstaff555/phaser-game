@@ -6,28 +6,30 @@ class Knight extends Phaser.Physics.Arcade.Sprite {
         config.scene.add.existing(this);
         config.scene.physics.world.enableBody(this);   
 
-        //this.scene = config.scene;
-
-        //this.cursors = this.scene.input.keyboard.createCursorKeys();
-
+        //set size and physics rules
         this.setScale(2);
         this.body.setSize(20, 50);
         this.setGravityY(300);
         this.setCollideWorldBounds(true);
 
         this.status = ({
+            direction: 'right',
             attacking: false,
-            rolling: false
+            rolling: false,
+            blocking: false
         })
 
         this.attributes = ({
             health: 100,
-            direction: 'right'
         })
     }
 
     getAttributes() {
         return this.attributes;
+    }
+
+    getStatus() {
+        return this.status;
     }
 
     //ATTACK ANIMATIONS AND STATUS
@@ -69,8 +71,27 @@ class Knight extends Phaser.Physics.Arcade.Sprite {
         this.setRolling(false);
     }
 
+    //BLOCK ANIMATIONS AND STATUS
+    block() {
+        this.status.blocking = true;
+        this.anims.play('HeroKnight_Block_Idle');
+        this.on('animationcomplete-HeroKnight_Block_Idle', this.toggleBlockingOff);
+    }
+
+    isBlocking() {
+        return this.status.blocking;
+    }
+
+    setBlocking(blockValue) {
+        this.status.blocking = blockValue;
+    }
+
+    toggleBlockingOff() {
+        this.setBlocking(false);
+    }
+
     //direction
     setDirection(theDirection) {
-        this.attributes.direction = theDirection;
+        this.status.direction = theDirection;
     }
 }

@@ -8,6 +8,9 @@ class Scene0 extends Phaser.Scene {
         this.load.image('sky', 'assets/backgrounds/sky.png');
         this.load.image('background', 'assets/backgrounds/forest_background.png');
         this.load.image('midground', 'assets/backgrounds/forest_midground.png');
+        this.load.image('tree01', 'assets/world/tree01.png');
+        this.load.image('forest_ground', 'assets/backgrounds/forest_ground.png');
+        this.load.image('forest_bush', 'assets/world/bush01.png');
 
         //effects
         this.load.image('atk_effect', 'assets/effects/atk_effect.png');
@@ -23,6 +26,8 @@ class Scene0 extends Phaser.Scene {
     create() {
         this.add.text(20, 20, "Loading game...");
         this.addAnimations();
+
+        //start first level
         this.scene.start("level_one");
     }
 
@@ -84,6 +89,20 @@ class Scene0 extends Phaser.Scene {
             }),
             frameRate: 15,
             repeat: -1
+        });
+
+        //create BLOCK (IDLE) animation
+        this.anims.create({
+            key: 'HeroKnight_Block_Idle',
+            frames: this.anims.generateFrameNames('player', {
+                start: 0,
+                end: 7,
+                zeroPad: 1,
+                prefix: 'HeroKnight_Block Idle_',
+                suffix: '.png'
+            }),
+            frameRate: 12,
+            repeat: 0
         });
     
         //create JUMP animation

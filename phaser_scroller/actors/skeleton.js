@@ -1,3 +1,4 @@
+//Skeletons are a non-player class which can attack the player
 class Skeleton extends Enemy {
     constructor(config) {
         super(config);
@@ -25,8 +26,12 @@ class Skeleton extends Enemy {
         this.status.attacking = attackStatus;
     }
 
+    //set skeleton attacking status to false
+    //BUT ADD A DELAY IN BETWEEN ATTACKS
     toggleAttackingOff = () => {
-        this.setAttacking(false);
+        this.anims.play('Skeleton_Idle', true);
+        setTimeout( () => this.setAttacking(false), 1000 );  //add 1 second delay in between attacks
+        //this.setAttacking(false);
     }
 
     //Skeleton Death
@@ -52,6 +57,7 @@ class Skeleton extends Enemy {
         //this.destroy();  //don't destroy unless you want skeleton to disappear
     }
 
+    //'dead' skeletons are revived and their physics are added back to the game
     reviveSkeleton() {
         this.status.alive = true;
         this.body.setEnable(true);
