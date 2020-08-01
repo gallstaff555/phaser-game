@@ -34,22 +34,26 @@ class Scene1 extends Phaser.Scene {
 
         for (let i = 0; i < this.skeletonGroup.getLength(); i++) {
             this.physics.add.collider(this.platforms, this.skeletonGroup.getChildren()[i]);
-            //collider between player and skeletons currently disabled
+            
+            //collider between player and skeletons currently disabled:
             //this.physics.add.collider(this.player, this.skeletonGroup.getChildren()[i]);
         }
 
         /*TODO 
         Add loops to register collisions between all skeletons
         */
-        this.physics.add.collider(this.skeleton, this.skeleton2);
+        //this.physics.add.collider(this.skeleton, this.skeleton2);
 
 
         //camera
-        //this.cam = this.cameras.main.startFollow(this.player);
-        //for (let skeleton in this.skeletonGroup.getChildren()) {
+        this.cam = this.cameras.main;
+        this.cam.flash(2000);
+
     }
 
     update() {
+
+        //update player based on user input
         this.playerInput();
 
         //update behavior of skeletons
@@ -66,8 +70,12 @@ class Scene1 extends Phaser.Scene {
         let playerPosition_X = this.player.body.x;
 
         if (playerPosition_X >= game.config.width - 50) {
-            console.log("end of level");
-            this.scene.start("level_one");
+            console.log("end of level"); 
+            //this.scene.start("level_one");  //when reaching end of screen, start the level over
+        }
+
+        if (this.player.body.touching.down) {
+            this.player.status.jump = 2;            
         }
 
         //attack
@@ -117,7 +125,7 @@ class Scene1 extends Phaser.Scene {
             if (this.cursors.up.isDown && (playerVelocity_Y >= -30 && playerVelocity_Y <= 30)) {
                 if (this.player.status.jump > 0) {
                     this.player.status.jump--;
-                    this.player.setVelocityY(-this.player.attributes.speed - 100);
+                    this.player.setVelocityY(-this.player.attributes.speed - 100); //this is the jump
                     this.player.anims.play('HeroKnight_Jump', true);
                 }
             }
@@ -128,13 +136,9 @@ class Scene1 extends Phaser.Scene {
                 //falling animation and reset player jump count
             } else if (this.player.body.velocity.y > 50) {
                 this.player.anims.play('HeroKnight_Fall');
-                this.player.status.jump = 2;              
+                //this.player.status.jump = 2;              
             }
         }
-    }
-
-    resetJumpCount() {
-        this.player.status.jump = 2;
     }
 
     //skeleton AI behavior
@@ -201,42 +205,30 @@ class Scene1 extends Phaser.Scene {
         this.player = new Knight({
             scene: this,
             key: 'player',
-            x: 150,
-            y: 0
+            x: 250,
+            y: 380
         });
     }
 
     //instantiate the NPCs 
     setUpNPCs() {
 
-        //create from skeleton class
-        this.skeleton = new Skeleton({
-            scene: this,
-            key: 'skeleton',
-            x: 1050,
-            y: 0,
-            direction: 'left',
-            sizeX: 20,
-            sizeY: 60,
-            scale: 2
-        });
-
-        this.skeleton2 = new Skeleton({
-            scene: this,
-            key: 'skeleton',
-            x: 850,
-            y: 0,
-            direction: 'left',
-            sizeX: 20,
-            sizeY: 60,
-            scale: 2
-        }); 
-
-        //add skeletons to skeleton group and enable their physics 
         this.skeletonGroup = this.add.group();
-        this.skeletonGroup.add(this.skeleton);
-        this.skeletonGroup.add(this.skeleton2);
         this.physics.world.enable(this.skeletonGroup);
+
+        for (let i = 0; i < 4; i++) {
+            this.skeleton = new Skeleton({
+                scene: this,
+                key: 'skeleton',
+                x: (i * 100 + 800),
+                y: 350,
+                direction: 'left',
+                sizeX: 20,
+                sizeY: 60,
+                scale: 2
+            });
+            this.skeletonGroup.add(this.skeleton);
+        }
     }
 
     //set up background tile sprites and objects other than actors
@@ -244,10 +236,10 @@ class Scene1 extends Phaser.Scene {
         this.sky = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'sky');
         this.sky.setOrigin(0, 0);
         this.sky.setScrollFactor(0);
-        this.bg_1 = this.add.tileSprite(0, 0, game.config.width * 1.5, game.config.height, 'background');
+        this.bg_1 = this.add.tileSprite(0, 0, game.config.width , game.config.height, 'background');
         this.bg_1.setOrigin(0, 0);
         this.bg_1.setScrollFactor(1);
-        this.bg_2 = this.add.tileSprite(0, 0, game.config.width * 2, game.config.height, 'midground');
+        this.bg_2 = this.add.tileSprite(0, 0, game.config.width , game.config.height, 'midground');
         this.bg_2.setOrigin(0, 0);
         this.bg_2.setScrollFactor(1);
 
@@ -257,17 +249,17 @@ class Scene1 extends Phaser.Scene {
         this.platforms.add(this.ground);
 
         //tree
-        this.tree1 = this.add.image(300, -100, 'tree01');
+        this.tree1 = this.add.image(300, game.config.height - 650, 'tree01'); //game.config.height - 650
         this.tree1.setOrigin(0, 0);
+        this.tree1.setScale(1.5);
 
         //bushes
         this.bush1 = this.add.image(600, game.config.height - 125, 'forest_bush');
         this.bush1.setOrigin(0, 0);
-        this.bush1.setDepth(1);
+        this.bush1.setDepth(1.5);
         this.bush2 = this.add.image(300, game.config.height - 125, 'forest_bush');
         this.bush2.setOrigin(0, 0);
         this.bush2.setDepth(1);
-
     }
 
     //set far background and mid-background to slowly move as player moves
