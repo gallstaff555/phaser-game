@@ -7,8 +7,11 @@ class Scene2 extends Phaser.Scene {
     preload() {
         
         //tiled map
-        this.load.image('souls_tileset', 'assets/tiled_map/souls_tileset.png');
-        this.load.tilemapTiledJSON('map', 'assets/tiled_map/map.json');
+        //run this command for new tilesheets
+        //tile-extruder --tileWidth 8 --tileHeight 8 --input .\souls_tileset.png --output .\souls_tileset_extruded.png
+
+        this.load.image('souls_tileset_extruded', 'assets/tiled_map/souls_tileset_extruded.png');
+        this.load.tilemapTiledJSON('map_extruded', 'assets/tiled_map/map_extruded.json');
 
     }
 
@@ -29,15 +32,43 @@ class Scene2 extends Phaser.Scene {
         //set up NPCs
         this.setUpNPCs();
 
+        //object animations
+        this.setUpObjectAnimations();
+
 
         //set up tile map
-        const map = this.make.tilemap( { key: 'map' });
-        const tileset = map.addTilesetImage('souls_tileset');
-        const background_layer = map.createStaticLayer('background', tileset, 0, 0);
-        const platform_layer = map.createStaticLayer('platforms', tileset, 0, 0);
-        const art_layer = map.createStaticLayer('art', tileset, 0, 0);
-        platform_layer.setCollisionByExclusion(-1, true);
+        const map = this.make.tilemap( { key: 'map_extruded' });
+        const tileset = map.addTilesetImage('souls_tileset_extruded');
 
+        //tile layers
+        //const background_layer = map.createStaticLayer('background', tileset, 0, 0);
+        const platform_layer = map.createStaticLayer('platforms', tileset, 0, 0);
+        const art_layer = map.createStaticLayer('art', tileset, 0, 0).setDepth(-1);
+        //const interactive_layer = createStaticLayer('interactive', tileset, 0, 0);
+
+        platform_layer.setCollisionByExclusion(-1, true); //look at other collision methods
+
+        //let interactive = map.createFromObjects("interactive", 68, { key: 'forest_bush' });
+        const interactive_layer = map.getObjectLayer("interactive")['objects'];
+
+        this.switches = this.physics.add.staticGroup();
+
+        //add sprites for objects in tiled map
+        //add overlap detection between player and object sprites
+        interactive_layer.forEach(object => {
+            //console.log(object.getCustomPropertyByName("switchOn"));
+            
+            let temp = this.switches.create(object.x, object.y - object.height, "switch");
+            temp.setOrigin(0);
+            temp.setScale(1);
+            
+            temp.id = object.switch_id;
+
+            var colliderActivated = true;
+            this.physics.add.overlap(this.player, temp, this.openDoor(object.name, this));
+        });
+
+ 
         //set up collisions
         this.physics.add.collider(this.player, this.platforms);
 
@@ -52,11 +83,15 @@ class Scene2 extends Phaser.Scene {
         }
         this.physics.add.collider(this.player, platform_layer);
 
+        //gate collider
+        //this.gateCollider = this.physics.add.collider(this.player, this.gate);
+
         //camera
         this.cam = this.cameras.main;
-        this.cam.setZoom(4);
+        this.cam.setZoom(2);
         this.cameras.main.setBounds(0, 0, game.config.width, game.config.height);
-        this.cam.startFollow(this.player);
+        //this.cameraDolly = new Phaser.Geom.Point(this.player.x, this.player.y);
+        this.cam.startFollow(this.player, true);
         this.cam.flash(1000);
     }
 
@@ -69,6 +104,22 @@ class Scene2 extends Phaser.Scene {
             this.skeletonBehavior(this.skeletonGroup.getChildren()[i]);
         }
 
+    }
+
+    openDoor(input, scene) {
+        return function() {
+            if (input == 'switch1') {
+                if (!scene.gate.open) {
+                    scene.gate.openGate();
+                    scene.gateCollider.destroy();
+                }
+            }
+        }
+    }
+
+    test(scene) {
+        //console.log('open door!');
+        scene.gate.openGate();
     }
 
     //Player character affected by keyboard input
@@ -89,7 +140,6 @@ class Scene2 extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(this.q_key) && !this.player.isAttacking()) {
             this.player.attack();
             this.playerAttackEffect();
-
             //roll
         } else if (Phaser.Input.Keyboard.JustDown(this.down_key) && !this.player.isRolling()) {
             if (this.player.status.direction == 'right') {
@@ -211,8 +261,8 @@ class Scene2 extends Phaser.Scene {
         this.player = new Knight({
             scene: this,
             key: 'player',
-            x: 250,
-            y: 380
+            x: 50,
+            y: 10
         });
     }
 
@@ -222,11 +272,28 @@ class Scene2 extends Phaser.Scene {
         this.skeletonGroup = this.add.group();
         this.physics.world.enable(this.skeletonGroup);
         this.createNewSkeleton( 200, 350);
-        this.createNewSkeleton( 700, 350);
-        this.createNewSkeleton( 750, 350);
+        //this.createNewSkeleton( 700, 350);
+        //this.createNewSkeleton( 750, 350);
         /*for (let i = 0; i < 4; i++) {
             this.createNewSkeleton( (i * 400 + 600), 350);
         } */
+    }
+
+    setUpObjectAnimations() {
+        createGateObject();
+    }
+
+    setUpObjectAnimations() {
+        this.gate = new Gate({
+            scene: this,
+            key: 'gate',
+            x: 136,
+            y: 96,
+            colliders: this.player
+        });
+
+        this.gateCollider = this.physics.add.collider(this.player, this.gate);
+        console.log("gate open: " + this.gate.open);
     }
 
     createNewSkeleton(xcoord, ycoord) {
@@ -242,7 +309,6 @@ class Scene2 extends Phaser.Scene {
         });
 
         this.skeletonGroup.add(this.skeleton);
-        console.log('new skeleton entering game...');
     }
 
     //set up background tile sprites and objects other than actors
@@ -357,6 +423,7 @@ class Scene2 extends Phaser.Scene {
         this.down_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
         this.q_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
         this.e_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
+        this.w_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
     }
 
 }

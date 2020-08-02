@@ -11,6 +11,7 @@ class Scene0 extends Phaser.Scene {
         this.load.image('tree01', 'assets/world/tree01.png');
         this.load.image('forest_ground', 'assets/backgrounds/forest_ground.png');
         this.load.image('forest_bush', 'assets/world/bush01.png');
+        this.load.image('switch', 'assets/world/switch.png');
 
 
         //effects
@@ -19,9 +20,12 @@ class Scene0 extends Phaser.Scene {
         //ground
         this.ground = this.load.image('ground', 'assets/world/ground.png');
     
-        //atlas for sprite animation
+        //sprites
         this.load.atlas('player', 'assets/sprites/heroKnightSprites.png', 'assets/sprites/heroKnightSprites.json');
-        this.load.atlas('skeleton', 'assets/sprites/skeletonSprites.png', 'assets/sprites/skeletonSprites.json');  
+        this.load.atlas('skeleton', 'assets/sprites/skeletonSprites.png', 'assets/sprites/skeletonSprites.json');
+        
+        //object sprites
+        this.load.atlas('gate', 'assets/sprites/gate.png', 'assets/sprites/gate.json');
     }
 
     create() {
@@ -35,6 +39,19 @@ class Scene0 extends Phaser.Scene {
 
     //Add player and skeleton animations
     addAnimations() {
+
+        this.anims.create({
+            key: 'Gate_Open',
+            frames: this.anims.generateFrameNames('gate', {
+                start: 1,
+                end: 7,
+                zeroPad: 1,
+                prefix: 'gate_',
+                suffix: '.png'
+            }),
+            frameRate: 3,
+            repeat: 0
+        });
 
         //Player IDLE
         this.anims.create({

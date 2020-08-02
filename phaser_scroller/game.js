@@ -1,12 +1,12 @@
 var config = {
-    width: 800,
-    height: 600,
+    width: 500,
+    height: 400,
     scene: [Scene0, Scene1, Scene2],
     physics: {
         default: 'arcade',
         arcade: {
             gravity: { y: 300 },
-            debug: false
+            debug: true
         }
     }
 }

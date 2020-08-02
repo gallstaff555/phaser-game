@@ -39,7 +39,7 @@ class Knight extends Phaser.Physics.Arcade.Sprite {
     //set attacking to true, play attacking animation, and when animation is complete: set attacking status to false
     attack() {
         this.setAttacking(true);
-        this.anims.play("HeroKnight_Attack1", true);
+        this.anims.play("gate_open", true);
         this.on('animationcomplete-HeroKnight_Attack1', this.toggleAttackingOff);
     }
 

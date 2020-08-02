@@ -1,0 +1,167 @@
+{
+	"textures": [
+		{
+			"image": "gate.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 10,
+				"h": 196
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "gate_1.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 8,
+						"h": 48
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 8,
+						"h": 48
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 8,
+						"h": 48
+					}
+				},
+				{
+					"filename": "gate_2.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 8,
+						"h": 48
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 8,
+						"h": 42
+					},
+					"frame": {
+						"x": 1,
+						"y": 51,
+						"w": 8,
+						"h": 42
+					}
+				},
+				{
+					"filename": "gate_3.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 8,
+						"h": 48
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 8,
+						"h": 34
+					},
+					"frame": {
+						"x": 1,
+						"y": 95,
+						"w": 8,
+						"h": 34
+					}
+				},
+				{
+					"filename": "gate_4.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 8,
+						"h": 48
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 8,
+						"h": 26
+					},
+					"frame": {
+						"x": 1,
+						"y": 131,
+						"w": 8,
+						"h": 26
+					}
+				},
+				{
+					"filename": "gate_5.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 8,
+						"h": 48
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 8,
+						"h": 18
+					},
+					"frame": {
+						"x": 1,
+						"y": 159,
+						"w": 8,
+						"h": 18
+					}
+				},
+				{
+					"filename": "gate_6.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 8,
+						"h": 48
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 8,
+						"h": 10
+					},
+					"frame": {
+						"x": 1,
+						"y": 179,
+						"w": 8,
+						"h": 10
+					}
+				},
+				{
+					"filename": "gate_7.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 8,
+						"h": 48
+					},
+					"spriteSourceSize": {
+						"x": 1,
+						"y": 0,
+						"w": 6,
+						"h": 4
+					},
+					"frame": {
+						"x": 1,
+						"y": 191,
+						"w": 6,
+						"h": 4
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:075b204e64543977d098dde430280671:3d57f71951fe8d79f81b00d285abb7cf:d4152bb21fb333e85be9d45e9d144416$"
+	}
+}
