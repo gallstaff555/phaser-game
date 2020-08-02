@@ -12,7 +12,6 @@ class Scene0 extends Phaser.Scene {
         this.load.image('forest_ground', 'assets/backgrounds/forest_ground.png');
         this.load.image('forest_bush', 'assets/world/bush01.png');
 
-        console.log('background'.displayWidth);
 
         //effects
         this.load.image('atk_effect', 'assets/effects/atk_effect.png');
@@ -30,7 +29,8 @@ class Scene0 extends Phaser.Scene {
         this.addAnimations();
 
         //start first level
-        this.scene.start("level_one");
+        //this.scene.start("level_one");
+        this.scene.start("level_two");
     }
 
     //Add player and skeleton animations

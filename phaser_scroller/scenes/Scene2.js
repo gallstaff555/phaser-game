@@ -1,10 +1,18 @@
-class Scene1 extends Phaser.Scene {
+
+class Scene2 extends Phaser.Scene {
     constructor() {
-        super("level_one");
+        super("level_two");
+    }
+
+    preload() {
+        
+        //tiled map
+        this.load.image('souls_tileset', 'assets/tiled_map/souls_tileset.png');
+        this.load.tilemapTiledJSON('map', 'assets/tiled_map/map.json');
+
     }
 
     create() {
-        this.add.text(20, 20, "Level One");
 
         //set up keyboard
         this.setUpKeyboard();
@@ -13,62 +21,47 @@ class Scene1 extends Phaser.Scene {
         this.platforms = this.physics.add.staticGroup();
 
         //background - parallax
-        this.setUpBackground();
+        //this.setUpBackground();
 
         //player
         this.setUpPlayer();
 
-        //effects
-
         //set up NPCs
         this.setUpNPCs();
 
-        //collisons
+
+        //set up tile map
+        const map = this.make.tilemap( { key: 'map' });
+        const tileset = map.addTilesetImage('souls_tileset');
+        const background_layer = map.createStaticLayer('background', tileset, 0, 0);
+        const platform_layer = map.createStaticLayer('platforms', tileset, 0, 0);
+        const art_layer = map.createStaticLayer('art', tileset, 0, 0);
+        platform_layer.setCollisionByExclusion(-1, true);
+
+        //set up collisions
+        this.physics.add.collider(this.player, this.platforms);
 
         /*TODO 
         Add loops to register collisions between all skeletons
         */
         //this.physics.add.collider(this.skeleton, this.skeleton2);
-        this.physics.add.collider(this.player, this.platforms);
-
         for (let i = 0; i < this.skeletonGroup.getLength(); i++) {
             this.physics.add.collider(this.platforms, this.skeletonGroup.getChildren()[i]);
-            
-            //collider between player and skeletons currently disabled:
-            //this.physics.add.collider(this.player, this.skeletonGroup.getChildren()[i]);
+            this.physics.add.collider(platform_layer, this.skeletonGroup.getChildren()[i]);
+
         }
+        this.physics.add.collider(this.player, platform_layer);
 
-        //camera -- currently doesn't follow player
+        //camera
         this.cam = this.cameras.main;
-        //this.cam.centerOnX(this.player.x);
-        //this.cam.startFollow(this.player);
+        this.cam.setZoom(4);
+        this.cameras.main.setBounds(0, 0, game.config.width, game.config.height);
+        this.cam.startFollow(this.player);
         this.cam.flash(1000);
-
-        //event emitter
-        this.emitter = this.events;
-        this.emitter.on("test", this.test, this);
-
-
-        //UI Scene 
-        /*
-        this.count = 0;
-
-        this.scene.run('ui-scene');
-
-        this.input.keyboard.on('keydown_SPACE', () => {
-           
-            ++this.count;
-            eventsCenter.emit('update-count', this.count);
-        });
-
-        this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
-            this.input.keyboard.off('keydown_SPACE');
-        }); */
     }
 
     update() {
-
-        //update player based on user input
+        //update player movement
         this.playerInput();
 
         //update behavior of skeletons
@@ -76,16 +69,7 @@ class Scene1 extends Phaser.Scene {
             this.skeletonBehavior(this.skeletonGroup.getChildren()[i]);
         }
 
-        this.parallaxUpdate();
     }
-
-    /* HELPER METHODS */
-
-    
-    test() {
-        console.log("this was a test");
-    }
-
 
     //Player character affected by keyboard input
     playerInput() {
@@ -97,9 +81,9 @@ class Scene1 extends Phaser.Scene {
             //this.scene.start("level_one");  //when reaching end of screen, start the level over
         }
 
-        if (this.player.body.touching.down) {
-            this.player.status.jump = 2;            
-        }
+        //if (this.player.body.touching.down) {
+            this.player.status.jump = 4;            
+        //}
 
         //attack
         if (Phaser.Input.Keyboard.JustDown(this.q_key) && !this.player.isAttacking()) {
@@ -145,10 +129,10 @@ class Scene1 extends Phaser.Scene {
             }
 
             //jump
-            if (this.cursors.up.isDown && (playerVelocity_Y >= -30 && playerVelocity_Y <= 30)) {
+            if (this.cursors.up.isDown && (playerVelocity_Y >= -100 && playerVelocity_Y <= 100)) {
                 if (this.player.status.jump > 0) {
                     this.player.status.jump--;
-                    this.player.setVelocityY(-this.player.attributes.speed - 100); //this is the jump
+                    this.player.setVelocityY(-this.player.attributes.speed * 2); //this is the jump
                     this.player.anims.play('HeroKnight_Jump', true);
                 }
             }
@@ -178,21 +162,21 @@ class Scene1 extends Phaser.Scene {
             let distToPlayer = Math.abs(playerPosition_X - skeletonPosition_X);
 
             //skeleton in sight of player
-            if (distToPlayer < 300 && distToPlayer > 100) {
+            if (distToPlayer < 100 && distToPlayer > 20) {
                 skeleton.anims.play('Skeleton_Walk', true);
                 //player is to the left of skeleton
                 if (playerPosition_X <= skeletonPosition_X) {
-                    skeleton.setVelocityX(-50);
+                    skeleton.setVelocityX(-25);
                     skeleton.flipX = true;
                     skeleton.setDirection('left');
                 } else { //player is to right of skeleton
-                    skeleton.setVelocityX(50);
+                    skeleton.setVelocityX(25);
                     skeleton.flipX = false;
                     skeleton.setDirection('right');
                 }
             //skeleton in attack range of player
             //ATTACK PLAYER
-            } else if (distToPlayer <= 100) {
+            } else if (distToPlayer <= 50) {
                 this.skeletonFacePlayer(skeleton);
                 skeleton.setVelocityX(0);
                 skeleton.skeletonAttack();
@@ -237,10 +221,12 @@ class Scene1 extends Phaser.Scene {
 
         this.skeletonGroup = this.add.group();
         this.physics.world.enable(this.skeletonGroup);
-  
-        for (let i = 0; i < 4; i++) {
-            this.createNewSkeleton( (i * 200 + 600), 350);
-        } 
+        this.createNewSkeleton( 200, 350);
+        this.createNewSkeleton( 700, 350);
+        this.createNewSkeleton( 750, 350);
+        /*for (let i = 0; i < 4; i++) {
+            this.createNewSkeleton( (i * 400 + 600), 350);
+        } */
     }
 
     createNewSkeleton(xcoord, ycoord) {
@@ -252,7 +238,7 @@ class Scene1 extends Phaser.Scene {
             direction: 'left',
             sizeX: 20,
             sizeY: 60,
-            scale: 2
+            scale: .5
         });
 
         this.skeletonGroup.add(this.skeleton);
@@ -308,7 +294,7 @@ class Scene1 extends Phaser.Scene {
         this.atk_effect = new SwordAttackBox({
             scene: this,
             key: 'atk_effect',
-            x: (this.player.x + 25 * x_mod),
+            x: (this.player.x + 10 * x_mod),
             y: this.player.y,
             persistFor: 300
         });
@@ -352,7 +338,7 @@ class Scene1 extends Phaser.Scene {
         this.enemy_atk_effect = new SwordAttackBox({
             scene: this,
             key: 'atk_effect',
-            x: (enemy.x + 55 * x_mod),
+            x: (enemy.x + 10 * x_mod),
             y: enemy.y,
             persistFor: 300
         });
@@ -364,6 +350,7 @@ class Scene1 extends Phaser.Scene {
     }
 
     setUpKeyboard() {
+        //set up keyboard
         this.cursors = this.input.keyboard.createCursorKeys();
         this.input.keyboard.addKeys({ 'E': Phaser.Input.Keyboard.KeyCodes.E });
         this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
@@ -371,22 +358,5 @@ class Scene1 extends Phaser.Scene {
         this.q_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
         this.e_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
     }
+
 }
-
-/*Graveyard
-
-    //destroys the current player attack box
-    destroyAtkBox() {
-        this.atk_effect.destroy();
-    }
-
-    destroyEnemyAtkBox() {
-        this.enemy_atk_effect.destroy();
-    }
-
-        //from attackeffect(enemy)
-        //Remove the attack box after 400ms. Only one attack box should be present at a time.
-        //this.time.addEvent({ delay: 400, callback: this.destroyEnemyAtkBox, callbackScope: this, loop: false });
-
-
-*/

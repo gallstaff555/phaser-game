@@ -1,7 +1,7 @@
 var config = {
-    width: window.innerWidth,
-    height: window.innerHeight / 2,
-    scene: [Scene0, Scene1],
+    width: 800,
+    height: 600,
+    scene: [Scene0, Scene1, Scene2],
     physics: {
         default: 'arcade',
         arcade: {

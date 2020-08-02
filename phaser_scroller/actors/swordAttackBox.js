@@ -6,9 +6,9 @@ class SwordAttackBox extends Phaser.Physics.Arcade.Sprite {
         config.scene.add.existing(this);
         config.scene.physics.world.enableBody(this);   
         this.body.allowGravity = false;
-        
         this.duration = config.persistFor;
 
+        //destroy the box after the given duration elapses
         setTimeout( () => this.destroy(), this.duration);
     }
 }

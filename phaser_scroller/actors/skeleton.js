@@ -58,7 +58,6 @@ class Skeleton extends Enemy {
 
     //disable skeleton physics without removing them from the scene
     skeletonDead = () => {
-        console.log('skeleton died');
         this.body.setEnable(false);
         // can't call time outside of a scene:
         //this.time.addEvent({ delay: 4000, callback: this.reviveSkeleton, callbackScope: this, loop: false });

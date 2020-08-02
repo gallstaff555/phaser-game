@@ -7,7 +7,7 @@ class Knight extends Phaser.Physics.Arcade.Sprite {
         config.scene.physics.world.enableBody(this);   
 
         //set size and physics rules
-        this.setScale(2);
+        this.setScale(.5);
         this.body.setSize(20, 50);
         this.setGravityY(300);
         this.setCollideWorldBounds(true);
@@ -17,12 +17,13 @@ class Knight extends Phaser.Physics.Arcade.Sprite {
             attacking: false,
             rolling: false,
             blocking: false,
-            jump: 2
+            jump: 4
         })
 
         this.attributes = ({
             health: 100,
-            speed: 200
+            speed: 50,
+            scale: .5
         })
     }
 
