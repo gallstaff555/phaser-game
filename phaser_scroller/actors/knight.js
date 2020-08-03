@@ -6,6 +6,7 @@ class Knight extends Phaser.Physics.Arcade.Sprite {
         config.scene.add.existing(this);
         config.scene.physics.world.enableBody(this);   
 
+
         //set size and physics rules
         this.setScale(.5);
         this.body.setSize(20, 50);
@@ -97,4 +98,6 @@ class Knight extends Phaser.Physics.Arcade.Sprite {
     setDirection(theDirection) {
         this.status.direction = theDirection;
     }
+
+    
 }

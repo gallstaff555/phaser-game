@@ -58,14 +58,16 @@ class Scene2 extends Phaser.Scene {
         interactive_layer.forEach(object => {
             //console.log(object.getCustomPropertyByName("switchOn"));
             
-            let temp = this.switches.create(object.x, object.y - object.height, "switch");
-            temp.setOrigin(0);
-            temp.setScale(1);
+            let obj = this.switches.create(object.x, object.y - object.height, "switch");
+            obj.setOrigin(0);
+            obj.setScale(1);
             
-            temp.id = object.switch_id;
+            obj.id = object.switch_id;
 
-            var colliderActivated = true;
-            this.physics.add.overlap(this.player, temp, this.openDoor(object.name, this));
+            //if player and switch overlap, open the door for this level and flip switch image across x axis
+            this.physics.add.overlap(this.player, obj, this.openDoor(object.name, this), function() {
+                obj.flipX = true;
+            });
         });
 
  
@@ -79,9 +81,12 @@ class Scene2 extends Phaser.Scene {
         for (let i = 0; i < this.skeletonGroup.getLength(); i++) {
             this.physics.add.collider(this.platforms, this.skeletonGroup.getChildren()[i]);
             this.physics.add.collider(platform_layer, this.skeletonGroup.getChildren()[i]);
+            this.physics.add.collider(this.gate, this.skeletonGroup.getChildren()[i]);
 
         }
         this.physics.add.collider(this.player, platform_layer);
+        this.gateCollider = this.physics.add.collider(this.player, this.gate);
+
 
         //gate collider
         //this.gateCollider = this.physics.add.collider(this.player, this.gate);
@@ -93,6 +98,9 @@ class Scene2 extends Phaser.Scene {
         //this.cameraDolly = new Phaser.Geom.Point(this.player.x, this.player.y);
         this.cam.startFollow(this.player, true);
         this.cam.flash(1000);
+
+        //lighting
+        var light = this.lights.addLight(250, 350, 200);
     }
 
     update() {
@@ -115,6 +123,7 @@ class Scene2 extends Phaser.Scene {
                 }
             }
         }
+    
     }
 
     test(scene) {
@@ -261,7 +270,7 @@ class Scene2 extends Phaser.Scene {
         this.player = new Knight({
             scene: this,
             key: 'player',
-            x: 50,
+            x: 10,
             y: 10
         });
     }
@@ -271,7 +280,8 @@ class Scene2 extends Phaser.Scene {
 
         this.skeletonGroup = this.add.group();
         this.physics.world.enable(this.skeletonGroup);
-        this.createNewSkeleton( 200, 350);
+        this.createNewSkeleton(200, 40);
+        this.createNewSkeleton(50, 120);
         //this.createNewSkeleton( 700, 350);
         //this.createNewSkeleton( 750, 350);
         /*for (let i = 0; i < 4; i++) {
@@ -288,12 +298,8 @@ class Scene2 extends Phaser.Scene {
             scene: this,
             key: 'gate',
             x: 136,
-            y: 96,
-            colliders: this.player
+            y: 96
         });
-
-        this.gateCollider = this.physics.add.collider(this.player, this.gate);
-        //console.log("gate open: " + this.gate.open);
     }
 
     createNewSkeleton(xcoord, ycoord) {
@@ -424,6 +430,7 @@ class Scene2 extends Phaser.Scene {
         this.q_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
         this.e_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
         this.w_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+        this.f_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
     }
 
 }
