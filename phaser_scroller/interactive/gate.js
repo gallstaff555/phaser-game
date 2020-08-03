@@ -9,7 +9,6 @@ class Gate extends Phaser.Physics.Arcade.Sprite {
         this.body.setImmovable(true);
 
         this.open = false;
-
     }
 
     testGate() {

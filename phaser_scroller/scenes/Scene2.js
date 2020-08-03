@@ -293,7 +293,7 @@ class Scene2 extends Phaser.Scene {
         });
 
         this.gateCollider = this.physics.add.collider(this.player, this.gate);
-        console.log("gate open: " + this.gate.open);
+        //console.log("gate open: " + this.gate.open);
     }
 
     createNewSkeleton(xcoord, ycoord) {
@@ -418,7 +418,7 @@ class Scene2 extends Phaser.Scene {
     setUpKeyboard() {
         //set up keyboard
         this.cursors = this.input.keyboard.createCursorKeys();
-        this.input.keyboard.addKeys({ 'E': Phaser.Input.Keyboard.KeyCodes.E });
+        //this.input.keyboard.addKeys({ 'E': Phaser.Input.Keyboard.KeyCodes.E });
         this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.down_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
         this.q_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
