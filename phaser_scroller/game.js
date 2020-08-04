@@ -1,7 +1,7 @@
 var config = {
-    width: 240,
-    height: 160,
-    scene: [Scene0, Scene1, Scene2],
+    width: 800,
+    height: 600,
+    scene: [Scene0, Scene1, Scene2, Scene3],
     physics: {
         default: 'arcade',
         arcade: {

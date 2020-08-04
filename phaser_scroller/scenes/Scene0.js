@@ -34,7 +34,7 @@ class Scene0 extends Phaser.Scene {
 
         //start first level
         //this.scene.start("level_one");
-        this.scene.start("level_two");
+        this.scene.start("level_three");
     }
 
     //Add player and skeleton animations

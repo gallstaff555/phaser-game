@@ -1,17 +1,24 @@
 
-class Scene2 extends Phaser.Scene {
+class Scene3 extends Phaser.Scene {
     constructor() {
-        super("level_two");
+        super("level_three");
     }
 
     preload() {
         
         //tiled map
         //run this command for new tilesheets
-        //tile-extruder --tileWidth 8 --tileHeight 8 --input .\souls_tileset.png --output .\souls_tileset_extruded.png
+        //tile-extruder --tileWidth 8 --tileHeight 8 --input .\souls_tileset.png --output .\souls_tileset_extruded.pngq
 
-        this.load.image('souls_tileset_extruded', 'assets/tiled_map/souls_tileset_extruded.png');
-        this.load.tilemapTiledJSON('map_extruded', 'assets/tiled_map/map_extruded.json');
+        this.load.image('sky_day', 'assets/tiled_map/Szadi/background_day1.png');
+
+        this.load.image('mainlevbuild_A', 'assets/tiled_map/Szadi/mainlevbuild_A.png');
+        this.load.image('mainlevbuild_B', 'assets/tiled_map/Szadi/mainlevbuild_B.png');
+        this.load.image('decorative', 'assets/tiled_map/Szadi/decorative.png');
+        //this.load.image('souls_tileset_extruded', 'assets/tiled_map/souls_tileset_extruded.png');
+        
+        this.load.tilemapTiledJSON('RuinedCity_02', 'assets/tiled_map/Szadi/RuinedCity_02.json');
+
 
     }
 
@@ -26,51 +33,38 @@ class Scene2 extends Phaser.Scene {
         //background - parallax
         //this.setUpBackground();
 
+        
+        //object animations
+        this.setUpObjectAnimations();
+
+
+        this.sky = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'sky_day');
+        this.sky.setOrigin(0, 0);
+        this.sky.setScrollFactor(0);
+
+        //set up tile map
+        const map = this.make.tilemap( { key: 'RuinedCity_02' });
+        //const tileset = map.addTilesetImage('souls_tileset_extruded');
+        const tilesetA = map.addTilesetImage('mainlevbuild_A');
+        const tilesetB = map.addTilesetImage('mainlevbuild_B');
+        const tilesetDec = map.addTilesetImage('decorative');
+
+        //layers
+        //const platform_layer = map.createStaticLayer('platforms', tileset, 0, 0);
+        const background_layer = map.createStaticLayer('background', [tilesetA, tilesetB], 0 ,0);
+        const platform_layer = map.createStaticLayer('platforms', [tilesetA, tilesetB], 0, 0);
+        const decorative_layer = map.createStaticLayer('decorative', [tilesetDec], 0, 0);
+        const foreground_layer = map.createStaticLayer('foreground', [tilesetA, tilesetB], 0, 0);
+        foreground_layer.setDepth(2);
+        platform_layer.setCollisionByExclusion(-1, true); //look at other collision methods
+
         //player
         this.setUpPlayer();
 
         //set up NPCs
         this.setUpNPCs();
 
-        //object animations
-        this.setUpObjectAnimations();
 
-
-        //set up tile map
-        const map = this.make.tilemap( { key: 'map_extruded' });
-        const tileset = map.addTilesetImage('souls_tileset_extruded');
-
-        //tile layers
-        //const background_layer = map.createStaticLayer('background', tileset, 0, 0);
-        const platform_layer = map.createStaticLayer('platforms', tileset, 0, 0);
-        const art_layer = map.createStaticLayer('art', tileset, 0, 0).setDepth(-1);
-        //const interactive_layer = createStaticLayer('interactive', tileset, 0, 0);
-
-        platform_layer.setCollisionByExclusion(-1, true); //look at other collision methods
-
-        //let interactive = map.createFromObjects("interactive", 68, { key: 'forest_bush' });
-        const interactive_layer = map.getObjectLayer("interactive")['objects'];
-
-        this.switches = this.physics.add.staticGroup();
-
-        //add sprites for objects in tiled map
-        //add overlap detection between player and object sprites
-        interactive_layer.forEach(object => {
-            //console.log(object.getCustomPropertyByName("switchOn"));
-            
-            let obj = this.switches.create(object.x, object.y - object.height, "switch");
-            obj.setOrigin(0);
-            obj.setScale(1);
-            
-            obj.id = object.switch_id;
-
-            //if player and switch overlap, open the door for this level and flip switch image across x axis
-            this.physics.add.overlap(this.player, obj, this.openDoor(object.name, this), function() {
-                obj.flipX = true;
-            });
-        });
-
- 
         //set up collisions
         this.physics.add.collider(this.player, this.platforms);
 
@@ -93,11 +87,12 @@ class Scene2 extends Phaser.Scene {
 
         //camera
         this.cam = this.cameras.main;
-        this.cam.setZoom(2);
-        this.cameras.main.setBounds(0, 0, 1920, 960);
+        this.cam.setBounds(0, 0, 1920, 960); //this is size of tiled map
+        this.cam.setViewport(0,0, game.config.width, game.config.height);
+        this.cam.startFollow(this.player);
         //this.cameraDolly = new Phaser.Geom.Point(this.player.x, this.player.y);
-        this.cam.startFollow(this.player, true);
-        this.cam.flash(1000);
+        //this.cam.startFollow(this.player, trueq);
+        this.cam.fadeIn(2000);
 
         //lighting
         //var light = this.lights.addLight(250, 350, 200);
@@ -202,7 +197,7 @@ class Scene2 extends Phaser.Scene {
                 //falling animation and reset player jump count
             } else if (this.player.body.velocity.y > 50) {
                 this.player.anims.play('HeroKnight_Fall');
-                //this.player.status.jump = 2;              
+                //this.player.status.jump = 2;      
             }
         }
     }
@@ -270,8 +265,8 @@ class Scene2 extends Phaser.Scene {
         this.player = new Knight({
             scene: this,
             key: 'player',
-            x: 10,
-            y: 10
+            x: 50,
+            y: 320
         });
     }
 
@@ -280,8 +275,8 @@ class Scene2 extends Phaser.Scene {
 
         this.skeletonGroup = this.add.group();
         this.physics.world.enable(this.skeletonGroup);
-        this.createNewSkeleton(200, 40);
-        this.createNewSkeleton(50, 120);
+        this.createNewSkeleton(200, 920);
+        this.createNewSkeleton(400, 920);
         //this.createNewSkeleton( 700, 350);
         //this.createNewSkeleton( 750, 350);
         /*for (let i = 0; i < 4; i++) {
@@ -311,7 +306,7 @@ class Scene2 extends Phaser.Scene {
             direction: 'left',
             sizeX: 20,
             sizeY: 60,
-            scale: .5
+            scale: 1
         });
 
         this.skeletonGroup.add(this.skeleton);
