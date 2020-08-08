@@ -18,6 +18,7 @@ class Knight extends Phaser.Physics.Arcade.Sprite {
             attacking: false,
             rolling: false,
             blocking: false,
+            block_success: false,
             jump: 4
         })
 
@@ -99,5 +100,18 @@ class Knight extends Phaser.Physics.Arcade.Sprite {
         this.status.direction = theDirection;
     }
 
-    
 }
+
+//graveyard
+
+   /*blockSuccess() {
+        console.log('block succcess??');
+        this.status.block_success = true;
+        this.anims.play('HeroKnight_Block_Success');
+        this.on('animationcomplete-HeroKnight_Block_Success', this.blockEffectOver);
+    } 
+    
+    blockEffectOver = () => {
+    this.setBlocking(false);
+    this.status.block_success = false;
+    }*/

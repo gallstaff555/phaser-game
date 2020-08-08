@@ -1,0 +1,125 @@
+{
+	"textures": [
+		{
+			"image": "block_flash.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 54,
+				"h": 115
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "BlockFlash_4.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 64
+					},
+					"spriteSourceSize": {
+						"x": 8,
+						"y": 11,
+						"w": 36,
+						"h": 39
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 36,
+						"h": 39
+					}
+				},
+				{
+					"filename": "BlockFlash_3.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 64
+					},
+					"spriteSourceSize": {
+						"x": 9,
+						"y": 12,
+						"w": 33,
+						"h": 37
+					},
+					"frame": {
+						"x": 1,
+						"y": 42,
+						"w": 33,
+						"h": 37
+					}
+				},
+				{
+					"filename": "BlockFlash_2.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 64
+					},
+					"spriteSourceSize": {
+						"x": 11,
+						"y": 14,
+						"w": 28,
+						"h": 33
+					},
+					"frame": {
+						"x": 1,
+						"y": 81,
+						"w": 28,
+						"h": 33
+					}
+				},
+				{
+					"filename": "BlockFlash_1.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 64
+					},
+					"spriteSourceSize": {
+						"x": 14,
+						"y": 19,
+						"w": 22,
+						"h": 25
+					},
+					"frame": {
+						"x": 31,
+						"y": 81,
+						"w": 22,
+						"h": 25
+					}
+				},
+				{
+					"filename": "BlockFlash_0.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 50,
+						"h": 64
+					},
+					"spriteSourceSize": {
+						"x": 22,
+						"y": 29,
+						"w": 6,
+						"h": 6
+					},
+					"frame": {
+						"x": 31,
+						"y": 108,
+						"w": 6,
+						"h": 6
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:0bff49a94bf14531a12e39883fc3487a:3a9d06fd7e47688c92ce80b5df793f8e:fb0475be35e02cdd1375f5013f65e7f3$"
+	}
+}

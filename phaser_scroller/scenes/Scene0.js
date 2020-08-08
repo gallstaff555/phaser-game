@@ -26,6 +26,7 @@ class Scene0 extends Phaser.Scene {
         
         //object sprites
         this.load.atlas('gate', 'assets/sprites/gate.png', 'assets/sprites/gate.json');
+        this.load.atlas('block_flash', 'assets/effects/BlockFlash/block_flash.png', 'assets/effects/BlockFlash/block_flash.json');
     }
 
     create() {
@@ -40,6 +41,7 @@ class Scene0 extends Phaser.Scene {
     //Add player and skeleton animations
     addAnimations() {
 
+        //effect animations
         this.anims.create({
             key: 'Gate_Open',
             frames: this.anims.generateFrameNames('gate', {
@@ -52,6 +54,21 @@ class Scene0 extends Phaser.Scene {
             frameRate: 3,
             repeat: 0
         });
+
+        this.anims.create({
+            key: 'Block_Flash',
+            frames: this.anims.generateFrameNames('block_flash', {
+                start: 0,
+                end: 4,
+                zeroPad: 1,
+                prefix: 'BlockFlash_',
+                suffix: '.png'
+            }),
+            frameRate: 12,
+            repeat: 0
+        });
+
+
 
         //Player IDLE
         this.anims.create({
@@ -120,8 +137,22 @@ class Scene0 extends Phaser.Scene {
                 prefix: 'HeroKnight_Block Idle_',
                 suffix: '.png'
             }),
-            frameRate: 12,
+            frameRate: 7,
             repeat: 0
+        });
+
+        //create BLOCK SUCCESS animation
+        this.anims.create({
+            key: 'HeroKnight_Block_Success',
+            frames: this.anims.generateFrameNames('player', {
+                start: 0,
+                end: 4,
+                zeroPad: 1,
+                prefix: 'HeroKnight_Block_',
+                suffix: '.png'
+            }),
+            frameRate: 7,
+            repeat: 20
         });
     
         //create JUMP animation
@@ -224,6 +255,20 @@ class Scene0 extends Phaser.Scene {
             }),
             frameRate: 6,
             repeat: 0
+        });
+
+        //create SKELETON HURT animation
+        this.anims.create({
+            key: 'Skeleton_Hurt',
+            frames: this.anims.generateFrameNames('skeleton', {
+                start: 0,
+                end: 1,
+                zeroPad: 1,
+                prefix: 'Skeleton_Hurt_',
+                suffix: '.png'
+            }),
+            frameRate: 3,
+            repeat: 6
         });
     }
 }

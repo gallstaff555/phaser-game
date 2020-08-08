@@ -16,6 +16,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
             attacking: false,
             rolling: false,
             alive: true,
+            stunned: false,
             direction: config.direction
         })
 

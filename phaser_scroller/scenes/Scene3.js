@@ -1,4 +1,4 @@
-
+//A standalone scene in a ruined castle
 class Scene3 extends Phaser.Scene {
     constructor() {
         super("level_three");
@@ -10,7 +10,9 @@ class Scene3 extends Phaser.Scene {
         //run this command for new tilesheets
         //tile-extruder --tileWidth 8 --tileHeight 8 --input .\souls_tileset.png --output .\souls_tileset_extruded.pngq
 
-        this.load.image('sky_day', 'assets/tiled_map/Szadi/background_day1.png');
+        this.load.image('sky_day', 'assets/tiled_map/Szadi/background_night1.png');
+        this.load.image('sky_day_2', 'assets/tiled_map/Szadi/background_night2.png');
+        this.load.image('sky_day_3', 'assets/tiled_map/Szadi/background_night3.png');
 
         this.load.image('mainlevbuild_A', 'assets/tiled_map/Szadi/mainlevbuild_A.png');
         this.load.image('mainlevbuild_B', 'assets/tiled_map/Szadi/mainlevbuild_B.png');
@@ -19,28 +21,28 @@ class Scene3 extends Phaser.Scene {
         
         this.load.tilemapTiledJSON('RuinedCity_02', 'assets/tiled_map/Szadi/RuinedCity_02.json');
 
-
+        this.level_width = 1920;
+        this.level_height = 960;
     }
 
     create() {
-
         //set up keyboard
         this.setUpKeyboard();
 
         //fixed world objects
         this.platforms = this.physics.add.staticGroup();
 
-        //background - parallax
-        //this.setUpBackground();
 
-        
-        //object animations
-        this.setUpObjectAnimations();
-
-
+        //set up sky and parallax
         this.sky = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'sky_day');
         this.sky.setOrigin(0, 0);
         this.sky.setScrollFactor(0);
+        this.sky2 = this.sky = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'sky_day_2');
+        this.sky2.setOrigin(0, 0);
+        this.sky2.setScrollFactor(0);
+        this.sky3 = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'sky_day_3');
+        this.sky3.setOrigin(0,0);
+        this.sky3.setScrollFactor(0);
 
         //set up tile map
         const map = this.make.tilemap( { key: 'RuinedCity_02' });
@@ -75,27 +77,18 @@ class Scene3 extends Phaser.Scene {
         for (let i = 0; i < this.skeletonGroup.getLength(); i++) {
             this.physics.add.collider(this.platforms, this.skeletonGroup.getChildren()[i]);
             this.physics.add.collider(platform_layer, this.skeletonGroup.getChildren()[i]);
-            this.physics.add.collider(this.gate, this.skeletonGroup.getChildren()[i]);
-
         }
         this.physics.add.collider(this.player, platform_layer);
         this.gateCollider = this.physics.add.collider(this.player, this.gate);
 
 
-        //gate collider
-        //this.gateCollider = this.physics.add.collider(this.player, this.gate);
-
         //camera
         this.cam = this.cameras.main;
-        this.cam.setBounds(0, 0, 1920, 960); //this is size of tiled map
+        this.cam.setBounds(0, 0, this.level_width, this.level_height); //this is size of tiled map
         this.cam.setViewport(0,0, game.config.width, game.config.height);
         this.cam.startFollow(this.player);
-        //this.cameraDolly = new Phaser.Geom.Point(this.player.x, this.player.y);
-        //this.cam.startFollow(this.player, trueq);
         this.cam.fadeIn(2000);
 
-        //lighting
-        //var light = this.lights.addLight(250, 350, 200);
     }
 
     update() {
@@ -109,36 +102,18 @@ class Scene3 extends Phaser.Scene {
 
     }
 
-    openDoor(input, scene) {
-        return function() {
-            if (input == 'switch1') {
-                if (!scene.gate.open) {
-                    scene.gate.openGate();
-                    scene.gate.body.enable = false;
-                }
-            }
-        }
-    
-    }
-
-    test(scene) {
-        //console.log('open door!');
-        scene.gate.openGate();
-    }
-
     //Player character affected by keyboard input
     playerInput() {
         let playerVelocity_Y = this.player.body.velocity.y;
         let playerPosition_X = this.player.body.x;
 
-        if (playerPosition_X >= game.config.width - 50) {
+        if (playerPosition_X >= this.level_width) {
             console.log("end of level"); 
-            //this.scene.start("level_one");  //when reaching end of screen, start the level over
+            this.scene.start("level_three");  //when reaching end of screen, start the level over
         }
 
         //if (this.player.body.touching.down) {
-            this.player.status.jump = 4;            
-        //}
+            this.player.status.jump = 2;            
 
         //attack
         if (Phaser.Input.Keyboard.JustDown(this.q_key) && !this.player.isAttacking()) {
@@ -153,7 +128,6 @@ class Scene3 extends Phaser.Scene {
             }
 
             this.player.roll();
-
             //block 
         } else if (Phaser.Input.Keyboard.JustDown(this.e_key)) {
             if (this.player.body.touching.down) {
@@ -209,14 +183,17 @@ class Scene3 extends Phaser.Scene {
         if (!skeleton.isAlive()) {
             skeleton.setVelocityX(0); //stop dead or dying skeleton from moving
             //approach player if skeleton isn't attacking or isn't dead
+        } else if (skeleton.status.stunned) {
+            //skeleton stays stunned
         } else if (!skeleton.isAttacking()) {
 
             let playerPosition_X = this.player.body.x;
             let skeletonPosition_X = skeleton.body.x;
-            let distToPlayer = Math.abs(playerPosition_X - skeletonPosition_X);
+            let distToPlayerX = Math.abs(playerPosition_X - skeletonPosition_X);
+            let distToPlayerY = Math.abs(this.player.body.y - skeleton.body.y);
 
             //skeleton in sight of player
-            if (distToPlayer < 100 && distToPlayer > 20) {
+            if (distToPlayerX < 300 && distToPlayerX > 70) {
                 skeleton.anims.play('Skeleton_Walk', true);
                 //player is to the left of skeleton
                 if (playerPosition_X <= skeletonPosition_X) {
@@ -230,12 +207,13 @@ class Scene3 extends Phaser.Scene {
                 }
             //skeleton in attack range of player
             //ATTACK PLAYER
-            } else if (distToPlayer <= 50) {
+            //console.log(this.skeleton.status.stunned);
+            console.log("stunned: " + skeleton.status.stunned);
+            } else if (distToPlayerX <= 80 && distToPlayerY < 50 && !skeleton.status.stunned) {
                 this.skeletonFacePlayer(skeleton);
                 skeleton.setVelocityX(0);
                 skeleton.skeletonAttack();
-                this.enemyAttackEffect(skeleton);
-                //this.time.addEvent({ delay: 200, callback: this.destroyEnemyAtkBox, callbackScope: this, loop: false });
+                this.delayAttack(skeleton, 600);
             //skeleton out of range of player
             } else {
                 skeleton.setVelocityX(0);
@@ -243,6 +221,15 @@ class Scene3 extends Phaser.Scene {
                 this.skeletonFacePlayer(skeleton);
             }
         }
+    }
+
+    //enemy attack
+    //skeleton is the enemy attacking
+    //delay is the number of ms before attack box appears after attack animation begins.
+    delayAttack(skeleton, delay) {
+        setTimeout(() => {
+            this.enemyAttackEffect(skeleton);
+        }, delay);
     }
 
     skeletonFacePlayer(skeleton) {
@@ -259,14 +246,15 @@ class Scene3 extends Phaser.Scene {
         }
     }
 
-
     //instantiate the player character
     setUpPlayer() {
         this.player = new Knight({
             scene: this,
             key: 'player',
-            x: 50,
-            y: 320
+            //x: 50,
+            //y: 320
+            x: 600,
+            y: 920
         });
     }
 
@@ -276,25 +264,11 @@ class Scene3 extends Phaser.Scene {
         this.skeletonGroup = this.add.group();
         this.physics.world.enable(this.skeletonGroup);
         this.createNewSkeleton(200, 920);
-        this.createNewSkeleton(400, 920);
-        //this.createNewSkeleton( 700, 350);
-        //this.createNewSkeleton( 750, 350);
-        /*for (let i = 0; i < 4; i++) {
-            this.createNewSkeleton( (i * 400 + 600), 350);
-        } */
-    }
-
-    setUpObjectAnimations() {
-        createGateObject();
-    }
-
-    setUpObjectAnimations() {
-        this.gate = new Gate({
-            scene: this,
-            key: 'gate',
-            x: 136,
-            y: 96
-        });
+       // this.createNewSkeleton(400, 920);
+        this.createNewSkeleton(1200, 520);
+        this.createNewSkeleton(1400, 520);
+        this.createNewSkeleton(1450, 520);
+        this.createNewSkeleton(1300, 520);
     }
 
     createNewSkeleton(xcoord, ycoord) {
@@ -349,6 +323,23 @@ class Scene3 extends Phaser.Scene {
         this.bg_2.tilePositionX = this.player.body.x * .06; //foreground
     }
 
+    playerBlockEffect() {
+        var x_mod = 0;
+        if (this.player.getStatus().direction == 'left') {
+            x_mod = -15;
+        }
+
+        this.block_effect = new Block_Flash({
+            scene: this,
+            key: 'block_flash',
+            x: this.player.x - 15 + x_mod, // (15 * x_mod),
+            y: this.player.y - 35
+        });
+
+        this.block_effect.visible = true;
+        this.block_effect.blockSuccess();
+    }
+
     //A playerATtackEffect is used to determine if player attack hits enemy 
     playerAttackEffect() {
 
@@ -361,7 +352,7 @@ class Scene3 extends Phaser.Scene {
         this.atk_effect = new SwordAttackBox({
             scene: this,
             key: 'atk_effect',
-            x: (this.player.x + 10 * x_mod),
+            x: (this.player.x + 20 * x_mod),
             y: this.player.y,
             persistFor: 300
         });
@@ -369,14 +360,6 @@ class Scene3 extends Phaser.Scene {
         //Register hits for each skeleton on the screen
         for (let i = 0; i < this.skeletonGroup.getLength(); i++) {
             let skeleton = this.skeletonGroup.getChildren()[i];
-
-            /*
-            this.physics.add.overlap(this.atk_effect, skeleton, callback, function() {
-                if (skeleton.isAlive()) {
-                    callback();
-                }
-            }); */
-
             this.physics.add.overlap(this.atk_effect, skeleton, function () {
                 if (skeleton.isAlive()) {
                     skeleton.skeletonDying();
@@ -384,11 +367,6 @@ class Scene3 extends Phaser.Scene {
                 }
             });
         }
-    }
-
-    skeletonDeathTest() {
-        console.log("skeleotn death test");
-        this.emitter.emit("emitter success!");
     }
 
 
@@ -405,21 +383,28 @@ class Scene3 extends Phaser.Scene {
         this.enemy_atk_effect = new SwordAttackBox({
             scene: this,
             key: 'atk_effect',
-            x: (enemy.x + 10 * x_mod),
+            x: (enemy.x + 20 * x_mod),
             y: enemy.y,
-            persistFor: 300
+            persistFor: 200
         });
 
         //if attack landed, do something to the player
-        this.physics.add.overlap(this.enemy_atk_effect, this.player, function () {
-            console.log('player hit!');
-        })
+        this.physics.add.overlap(this.enemy_atk_effect, this.player, this.playerHitByAttack(this, enemy));
+    }
+
+    playerHitByAttack(x, enemy) {
+        
+        if (!this.player.status.blocking) {
+            //player hit
+        } else {
+            enemy.skeletonStunned();
+            this.playerBlockEffect();
+            this.player.status.blocking = false;
+        }
     }
 
     setUpKeyboard() {
-        //set up keyboard
         this.cursors = this.input.keyboard.createCursorKeys();
-        //this.input.keyboard.addKeys({ 'E': Phaser.Input.Keyboard.KeyCodes.E });
         this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.down_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
         this.q_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
@@ -429,3 +414,40 @@ class Scene3 extends Phaser.Scene {
     }
 
 }
+
+/*  GRAVEYARD
+
+    this.physics.add.collider(this.gate, this.skeletonGroup.getChildren()[i]);
+
+    setUpObjectAnimations() {
+        createGateObject();
+    }
+
+    
+    openDoor(input, scene) {
+        return function() {
+            if (input == 'switch1') {
+                if (!scene.gate.open) {
+                    scene.gate.openGate();
+                    scene.gate.body.enable = false;
+                }
+            }
+        }
+    
+    }
+
+
+    setUpObjectAnimations() {
+        this.gate = new Gate({
+            scene: this,
+            key: 'gate',
+            x: 136,
+            y: 96
+        });
+    }
+
+        test(scene) {
+        //console.log('open door!');
+        scene.gate.openGate();
+    }
+*/

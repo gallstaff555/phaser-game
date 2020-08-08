@@ -8,6 +8,8 @@ class Skeleton extends Enemy {
 
         this.setScale(config.scale);
         this.body.setSize(config.sizeX, config.sizeY);
+
+        this.time = config.time;
     }
 
     //ATTACK ANIMATIONS AND STATUS
@@ -32,7 +34,6 @@ class Skeleton extends Enemy {
         this.anims.play('Skeleton_Idle', true);
         this.setAttacking(false);
         //setTimeout( () => this.setAttacking(false), 1000 );  //add 1 second delay in between attacks
-        //this.setAttacking(false);
     }
 
     skeletonHit() {
@@ -51,16 +52,27 @@ class Skeleton extends Enemy {
         this.on('animationcomplete-Skeleton_Death', this.skeletonDead);
     }
 
+    //skeleton hurt or blocked
+    skeletonStunned() {
+        this.status.stunned = true;
+        this.anims.play('Skeleton_Hurt', true);
+        this.on('animationcomplete-Skeleton_Hurt', this.skeletonHurtOver);
+    }
+
     //return true is skeleton is alive
     isAlive() {
         return this.status.alive;
     }
 
+    skeletonHurtOver = () => {
+        this.status.stunned = false;
+        this.status.attacking = false;
+    }
+
     //disable skeleton physics without removing them from the scene
     skeletonDead = () => {
         this.body.setEnable(false);
-        // can't call time outside of a scene:
-        //this.time.addEvent({ delay: 4000, callback: this.reviveSkeleton, callbackScope: this, loop: false });
+
 
         //this.destroy();  //don't destroy unless you want skeleton to disappear
     }
