@@ -138,7 +138,7 @@ class Scene0 extends Phaser.Scene {
                 suffix: '.png'
             }),
             frameRate: 7,
-            repeat: 0
+            repeat: -1
         });
 
         //create BLOCK SUCCESS animation
@@ -253,7 +253,7 @@ class Scene0 extends Phaser.Scene {
                 prefix: 'Skeleton_Death_',
                 suffix: '.png'
             }),
-            frameRate: 6,
+            frameRate: 5,
             repeat: 0
         });
 

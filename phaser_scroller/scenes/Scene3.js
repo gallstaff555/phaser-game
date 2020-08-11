@@ -112,14 +112,19 @@ class Scene3 extends Phaser.Scene {
             this.scene.start("level_three");  //when reaching end of screen, start the level over
         }
 
-        //if (this.player.body.touching.down) {
-            this.player.status.jump = 2;            
+        if (this.player.isBlocking() && this.player.status.jump == 2) {
+            this.player.setVelocityX(0);
+        }
 
+        //reset double jump if player is on ground
+        if (this.player.body.blocked.down) {
+            this.player.status.jump = 2;   //2 jumps means player can double jump         
+        }
         //attack
-        if (Phaser.Input.Keyboard.JustDown(this.q_key) && !this.player.isAttacking()) {
+        if (Phaser.Input.Keyboard.JustDown(this.atk_btn) && !this.player.isAttacking()) {
             this.player.attack();
             this.playerAttackEffect();
-            //roll
+        //roll
         } else if (Phaser.Input.Keyboard.JustDown(this.down_key) && !this.player.isRolling()) {
             if (this.player.status.direction == 'right') {
                 this.player.setVelocityX(this.player.attributes.speed + 100);
@@ -128,12 +133,14 @@ class Scene3 extends Phaser.Scene {
             }
 
             this.player.roll();
-            //block 
-        } else if (Phaser.Input.Keyboard.JustDown(this.e_key)) {
-            if (this.player.body.touching.down) {
-                this.player.setVelocityX(0);
-            }
+        //block -- note there is one check above and one check below for whether player is blocking
+        } else if (this.block_key.isDown) {
             this.player.block();
+        } 
+
+        //check if block key was released
+        if (!this.block_key.isDown) {
+            this.player.setBlocking(false);
         }
 
         //NOT ATTACKING, NOT ROLLING, NOT BLOCKING
@@ -168,10 +175,9 @@ class Scene3 extends Phaser.Scene {
             //travelling up through air
             if (this.player.body.velocity.y < -1) {
                 this.player.anims.play('HeroKnight_Jump', true);
-                //falling animation and reset player jump count
+                //falling animation
             } else if (this.player.body.velocity.y > 50) {
-                this.player.anims.play('HeroKnight_Fall');
-                //this.player.status.jump = 2;      
+                this.player.anims.play('HeroKnight_Fall'); 
             }
         }
     }
@@ -405,10 +411,10 @@ class Scene3 extends Phaser.Scene {
 
     setUpKeyboard() {
         this.cursors = this.input.keyboard.createCursorKeys();
-        this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        this.jump_btn = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.down_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
-        this.q_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
-        this.e_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
+        this.atk_btn = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
+        this.block_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
         this.w_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         this.f_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
     }

@@ -1,3 +1,4 @@
+//an effect that displays on player sprite after successfully blocking enemy attack
 class Block_Flash extends Phaser.GameObjects.Sprite {
     constructor(config) {
         super(config.scene, config.x, config.y, config.key);
@@ -5,11 +6,7 @@ class Block_Flash extends Phaser.GameObjects.Sprite {
         config.scene.add.existing(this); 
         this.setOrigin(0);
         this.visible = false;
-        
-        //destroy the box after the given duration elapses
-        /*this.duration = config.persistFor;
-        setTimeout( () => this.destroy(), this.duration);
-        console.log('flash made'); */
+
     }
 
     testBlock() {

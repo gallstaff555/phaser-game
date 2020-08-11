@@ -11,6 +11,7 @@ class Knight extends Phaser.Physics.Arcade.Sprite {
         this.setScale(1);
         this.body.setSize(20, 50);
         this.setGravityY(300);
+        this.setActive(true);
         //this.setCollideWorldBounds(true);
 
         this.status = ({
@@ -19,7 +20,7 @@ class Knight extends Phaser.Physics.Arcade.Sprite {
             rolling: false,
             blocking: false,
             block_success: false,
-            jump: 4
+            jump: 2
         })
 
         this.attributes = ({
@@ -79,7 +80,7 @@ class Knight extends Phaser.Physics.Arcade.Sprite {
     //BLOCK ANIMATIONS AND STATUS
     block() {
         this.status.blocking = true;
-        this.anims.play('HeroKnight_Block_Idle');
+        this.anims.play('HeroKnight_Block_Idle', true);
         this.on('animationcomplete-HeroKnight_Block_Idle', this.toggleBlockingOff);
     }
 
