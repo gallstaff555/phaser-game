@@ -1,7 +1,7 @@
 //A standalone scene in a ruined castle
-class Scene3 extends Phaser.Scene {
+class Scene4 extends Phaser.Scene {
     constructor() {
-        super("level_three");
+        super("level_four");
     }
 
     preload() {
@@ -10,22 +10,24 @@ class Scene3 extends Phaser.Scene {
         //run this command for new tilesheets
         //tile-extruder --tileWidth 16 --tileHeight 16 --input .\souls_tileset.png --output .\souls_tileset_extruded.png
 
-        this.load.image('sky_day', 'assets/tiled_map/Szadi/background_night1.png');
-        this.load.image('sky_day_2', 'assets/tiled_map/Szadi/background_night2.png');
-        this.load.image('sky_day_3', 'assets/tiled_map/Szadi/background_night3.png');
+        this.load.image('bg_1', 'assets/tiled_map/snowy_mountains/background1.png');
+        this.load.image('bg_2', 'assets/tiled_map/snowy_mountains/background2a.png');
+        this.load.image('bg_3', 'assets/tiled_map/snowy_mountains/background3.png');
 
-        this.load.image('mainlevbuild_A', 'assets/tiled_map/Szadi/mainlevbuild_A.png');
-        this.load.image('mainlevbuild_B', 'assets/tiled_map/Szadi/mainlevbuild_B.png');
-        this.load.image('decorative', 'assets/tiled_map/Szadi/decorative.png');
-        //this.load.image('souls_tileset_extruded', 'assets/tiled_map/souls_tileset_extruded.png');
+        this.load.image('mainlevbuild1', 'assets/tiled_map/snowy_mountains/mainlevbuild1.png');
+        this.load.image('mainlevbuild2', 'assets/tiled_map/snowy_mountains/mainlevbuild2.png');
         
-        this.load.tilemapTiledJSON('RuinedCity_02', 'assets/tiled_map/Szadi/RuinedCity_02.json');
+        this.load.tilemapTiledJSON('Snowy_Mtns_01', 'assets/tiled_map/Snowy_Mtns_01.json');
+
+        //elevator platform
+        this.load.image('elevator', 'assets/sprites/elevator.png');
 
         this.level_width = 1920;
         this.level_height = 960;
     }
 
     create() {
+
         //set up keyboard
         this.setUpKeyboard();
 
@@ -34,30 +36,32 @@ class Scene3 extends Phaser.Scene {
 
 
         //set up sky and parallax
-        this.sky = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'sky_day');
+        this.sky = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'bg_1');
         this.sky.setOrigin(0, 0);
         this.sky.setScrollFactor(0);
-        this.sky2 = this.sky = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'sky_day_2');
+        this.sky2 = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'bg_2');
         this.sky2.setOrigin(0, 0);
         this.sky2.setScrollFactor(0);
-        this.sky3 = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'sky_day_3');
+        this.sky3 = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'bg_3');
         this.sky3.setOrigin(0,0);
         this.sky3.setScrollFactor(0);
 
         //set up tile map
-        const map = this.make.tilemap( { key: 'RuinedCity_02' });
-        //const tileset = map.addTilesetImage('souls_tileset_extruded');
-        const tilesetA = map.addTilesetImage('mainlevbuild_A');
-        const tilesetB = map.addTilesetImage('mainlevbuild_B');
-        const tilesetDec = map.addTilesetImage('decorative');
+        const map = this.make.tilemap( { key: 'Snowy_Mtns_01' });
+        const tilesetA = map.addTilesetImage('mainlevbuild1');
+        const tilesetB = map.addTilesetImage('mainlevbuild2');
 
         //layers
+        //const platform_layer = map.createStaticLayer('platforms', tileset, 0, 0);
         const background_layer = map.createStaticLayer('background', [tilesetA, tilesetB], 0 ,0);
         const platform_layer = map.createStaticLayer('platforms', [tilesetA, tilesetB], 0, 0);
-        const decorative_layer = map.createStaticLayer('decorative', [tilesetDec], 0, 0);
         const foreground_layer = map.createStaticLayer('foreground', [tilesetA, tilesetB], 0, 0);
-        foreground_layer.setDepth(2);
+        const max_foreground_layer = map.createStaticLayer('max_foreground', [tilesetA, tilesetB], 0, 0);
+        //foreground_layer.setDepth(2);
         platform_layer.setCollisionByExclusion(-1, true); //look at other collision methods
+
+        //set up elevator and elevator tween
+        this.setUpElevator();
 
         //player
         this.setUpPlayer();
@@ -68,6 +72,7 @@ class Scene3 extends Phaser.Scene {
 
         //set up collisions
         this.physics.add.collider(this.player, this.platforms);
+        this.physics.add.collider(this.player, this.elevator);
 
         /*TODO 
         Add loops to register collisions between all skeletons
@@ -99,6 +104,8 @@ class Scene3 extends Phaser.Scene {
             this.skeletonBehavior(this.skeletonGroup.getChildren()[i]);
         }
 
+        this.playerOnPlatform(this.player, this.elevator);
+
     }
 
     //Player character affected by keyboard input
@@ -111,13 +118,13 @@ class Scene3 extends Phaser.Scene {
             this.scene.start("level_three");  //when reaching end of screen, start the level over
         }
 
-        if (this.player.isBlocking() && this.player.status.jump == 2) {
+        if (this.player.isBlocking() && this.player.status.jump == this.player.attributes.jumps) {
             this.player.setVelocityX(0);
         }
 
         //reset double jump if player is on ground
         if (this.player.body.blocked.down) {
-            this.player.status.jump = 2;   //2 jumps means player can double jump         
+            this.player.status.jump = this.player.attributes.jumps;   //2 jumps means player can double jump         
         }
         //attack
         if (Phaser.Input.Keyboard.JustDown(this.atk_btn) && !this.player.isAttacking()) {
@@ -258,8 +265,8 @@ class Scene3 extends Phaser.Scene {
             key: 'player',
             //x: 50,
             //y: 320
-            x: 600,
-            y: 920
+            x: 500,
+            y: 700
         });
     }
 
@@ -268,12 +275,12 @@ class Scene3 extends Phaser.Scene {
 
         this.skeletonGroup = this.add.group();
         this.physics.world.enable(this.skeletonGroup);
-        this.createNewSkeleton(200, 920);
+        /*this.createNewSkeleton(200, 920);
        // this.createNewSkeleton(400, 920);
         this.createNewSkeleton(1200, 520);
         this.createNewSkeleton(1400, 520);
         this.createNewSkeleton(1450, 520);
-        this.createNewSkeleton(1300, 520);
+        this.createNewSkeleton(1300, 520); */
     }
 
     createNewSkeleton(xcoord, ycoord) {
@@ -291,35 +298,34 @@ class Scene3 extends Phaser.Scene {
         this.skeletonGroup.add(this.skeleton);
     }
 
-    //set up background tile sprites and objects other than actors
-    setUpBackground() {
-        this.sky = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'sky');
-        this.sky.setOrigin(0, 0);
-        this.sky.setScrollFactor(0);
-        this.bg_1 = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'background');
-        this.bg_1.setOrigin(0, 0);
-        this.bg_1.setScrollFactor(1);
-        this.bg_2 = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'midground');
-        this.bg_2.setOrigin(0, 0);
-        this.bg_2.setScrollFactor(1);
+    setUpElevator() {
+        this.elevator = new Elevator({       
+            scene: this,
+            key: 'elevator',
+            x: 576,
+            y: 864
+        });
 
-        //ground
-        this.ground = this.add.tileSprite(0, game.config.height - 100, game.config.width * 2, 100, 'forest_ground');
-        this.ground.setOrigin(0, 0);
-        this.platforms.add(this.ground);
+        //elevator tween
+        var tween = this.tweens.add({
+            targets: this.elevator,
+            y: 480,
+            ease: 'Sine.easeInOut',
+            duration: 8000,
+            delay: 3000,
+            yoyo: true,
+            repeat: -1
+        });
 
-        //tree
-        this.tree1 = this.add.image(300, game.config.height - 650, 'tree01'); //game.config.height - 650
-        this.tree1.setOrigin(0, 0);
-        this.tree1.setScale(1.5);
+        this.playerLocked = false;
+    }
 
-        //bushes
-        this.bush1 = this.add.image(600, game.config.height - 125, 'forest_bush');
-        this.bush1.setOrigin(0, 0);
-        this.bush1.setDepth(1.5);
-        this.bush2 = this.add.image(300, game.config.height - 125, 'forest_bush');
-        this.bush2.setOrigin(0, 0);
-        this.bush2.setDepth(1);
+    playerOnPlatform(player, platform) {
+        if (platform.body.moves && platform.body.touching.up && player.body.touching.down) {
+            player.setGravityY(10000);
+        } else {
+            player.setGravityY(300);
+        }
     }
 
     //set far background and mid-background to slowly move as player moves
@@ -421,38 +427,4 @@ class Scene3 extends Phaser.Scene {
 }
 
 /*  GRAVEYARD
-
-    this.physics.add.collider(this.gate, this.skeletonGroup.getChildren()[i]);
-
-    setUpObjectAnimations() {
-        createGateObject();
-    }
-
-    
-    openDoor(input, scene) {
-        return function() {
-            if (input == 'switch1') {
-                if (!scene.gate.open) {
-                    scene.gate.openGate();
-                    scene.gate.body.enable = false;
-                }
-            }
-        }
-    
-    }
-
-
-    setUpObjectAnimations() {
-        this.gate = new Gate({
-            scene: this,
-            key: 'gate',
-            x: 136,
-            y: 96
-        });
-    }
-
-        test(scene) {
-        //console.log('open door!');
-        scene.gate.openGate();
-    }
 */
