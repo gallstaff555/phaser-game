@@ -10,9 +10,9 @@ class Scene4 extends Phaser.Scene {
         //run this command for new tilesheets
         //tile-extruder --tileWidth 16 --tileHeight 16 --input .\souls_tileset.png --output .\souls_tileset_extruded.png
 
-        this.load.image('bg_1', 'assets/tiled_map/snowy_mountains/background1.png');
-        this.load.image('bg_2', 'assets/tiled_map/snowy_mountains/background2a.png');
-        this.load.image('bg_3', 'assets/tiled_map/snowy_mountains/background3.png');
+        this.load.image('bg_1', 'assets/tiled_map/Szadi/background_night1.png');
+        this.load.image('bg_2', 'assets/tiled_map/Szadi/background_night2.png');
+        this.load.image('bg_3', 'assets/tiled_map/Szadi/background_night3.png');
 
         this.load.image('mainlevbuild1', 'assets/tiled_map/snowy_mountains/mainlevbuild1.png');
         this.load.image('mainlevbuild2', 'assets/tiled_map/snowy_mountains/mainlevbuild2.png');
@@ -74,6 +74,14 @@ class Scene4 extends Phaser.Scene {
         this.physics.add.collider(this.player, this.platforms);
         this.physics.add.collider(this.player, this.elevator);
 
+        //this.physics.add.overlap(this.atk_effect, skeleton, function () {
+        this.input.keyboard.on('keydown-F', function() {
+            if (this.elevator.body.touching.up && this.player.body.touching.down) {
+                this.elevator.status.started = true;
+                this.elevatorTween.play();
+            }
+        }, this);  
+
         /*TODO 
         Add loops to register collisions between all skeletons
         */
@@ -104,8 +112,8 @@ class Scene4 extends Phaser.Scene {
             this.skeletonBehavior(this.skeletonGroup.getChildren()[i]);
         }
 
-        this.playerOnPlatform(this.player, this.elevator);
 
+        this.playerOnPlatform(this.player, this.elevator);
     }
 
     //Player character affected by keyboard input
@@ -307,20 +315,46 @@ class Scene4 extends Phaser.Scene {
         });
 
         //elevator tween
-        var tween = this.tweens.add({
+        var elevatorTween = this.tweens.add({
             targets: this.elevator,
             y: 480,
             ease: 'Sine.easeInOut',
             duration: 8000,
-            delay: 3000,
+            delay: 100,
             yoyo: true,
+            hold: 2000,
+            repeatDelay: 2000,
+            paused: true,
             repeat: -1
         });
 
-        this.playerLocked = false;
+        this.elevatorTween = elevatorTween;
     }
 
+    //if player is on platform:
+    //display button to press
+    //set player's gravity high so they don't fall slower than the lift
     playerOnPlatform(player, platform) {
+        if (!platform.status.touched && platform.body.touching.up && player.body.touching.down) {
+            platform.status.touched = true;
+            var myText = this.add.text(platform.x - 15, platform.y + 20, 'Press F for lift').setAlpha(0);
+
+            var textFadeIn = this.tweens.add({
+                targets: myText,
+                alpha: 1,
+                duration: 3000,
+                yoyo: true,
+                repeat: 0
+            });
+            /*
+            var textFadeOut = this.tweens.add({
+                targets: myText,
+                alpha: 0,
+                duration: 3000,
+                delay: 4000,
+                repeat: 0
+            }); */
+        }
         if (platform.body.moves && platform.body.touching.up && player.body.touching.down) {
             player.setGravityY(10000);
         } else {

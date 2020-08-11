@@ -9,7 +9,12 @@ class Elevator extends Phaser.Physics.Arcade.Sprite {
         this.body.setAllowGravity(false);
         this.body.setImmovable(true);
 
-        this.down = true;
-        this.up = false;
+        this.status = ({
+            down: true,
+            up: false,
+            touched: false,
+            started: false
+        })
+
     }
 }
