@@ -19,15 +19,14 @@ class Knight extends Phaser.Physics.Arcade.Sprite {
             attacking: false,
             rolling: false,
             blocking: false,
-            block_success: false,
-            jump: 2
+            block_success: false
         })
 
         this.attributes = ({
             health: 100,
             speed: 100,
             scale: 1,
-            jumps: 22
+            jumps: 2
         })
     }
 

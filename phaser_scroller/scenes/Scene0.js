@@ -23,6 +23,7 @@ class Scene0 extends Phaser.Scene {
         //sprites
         this.load.atlas('player', 'assets/sprites/heroKnightSprites.png', 'assets/sprites/heroKnightSprites.json');
         this.load.atlas('skeleton', 'assets/sprites/skeletonSprites.png', 'assets/sprites/skeletonSprites.json');
+        this.load.atlas('stormMage', 'assets/sprites/stormMageSprites.png', 'assets/sprites/stormMageSprites.json');
         
         //object sprites
         this.load.atlas('gate', 'assets/sprites/gate.png', 'assets/sprites/gate.json');
@@ -34,7 +35,6 @@ class Scene0 extends Phaser.Scene {
         this.addAnimations();
 
         //start first level
-        //this.scene.start("level_one");
         this.scene.start("level_four");
     }
 
@@ -269,6 +269,20 @@ class Scene0 extends Phaser.Scene {
             }),
             frameRate: 3,
             repeat: 6
+        });
+
+        //create STORM MAGE IDLE animation
+        this.anims.create({
+            key: 'StormMage_Idle',
+            frames: this.anims.generateFrameNames('stormMage', {
+                start: 0,
+                end: 13,
+                zeroPad: 2,
+                prefix: 'StormMage_Idle_',
+                suffix: '.png'
+            }),
+            frameRate: 5,
+            repeat: -1
         });
     }
 }
