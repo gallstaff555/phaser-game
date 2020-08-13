@@ -2,2216 +2,2217 @@
 	"textures": [
 		{
 			"image": "heroKnightSprites.png",
+			"normalMap": "../../phaser_scroller/assets/sprites/heroKnightSprites_n.png",
 			"format": "RGBA8888",
 			"size": {
-				"w": 255,
-				"h": 1020
+				"w": 510,
+				"h": 1197
 			},
 			"scale": 1,
 			"frames": [
 				{
 					"filename": "HeroKnight_Attack1_0.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 20,
-						"y": 12,
-						"w": 43,
-						"h": 42
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
 						"x": 1,
 						"y": 1,
-						"w": 43,
-						"h": 42
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Attack1_1.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 34,
-						"y": 7,
-						"w": 34,
-						"h": 47
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 46,
+						"x": 103,
 						"y": 1,
-						"w": 34,
-						"h": 47
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Attack1_2.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 21,
-						"y": 2,
-						"w": 77,
-						"h": 52
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 82,
+						"x": 205,
 						"y": 1,
-						"w": 77,
-						"h": 52
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Attack1_3.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 21,
-						"y": 13,
-						"w": 51,
-						"h": 41
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 161,
+						"x": 307,
 						"y": 1,
-						"w": 51,
-						"h": 41
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Attack1_4.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 24,
-						"y": 13,
-						"w": 40,
-						"h": 41
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 214,
+						"x": 409,
 						"y": 1,
-						"w": 40,
-						"h": 41
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Attack1_5.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 34,
-						"y": 13,
-						"w": 30,
-						"h": 41
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
 						"x": 1,
-						"y": 55,
-						"w": 30,
-						"h": 41
+						"y": 58,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Attack2_0.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 34,
-						"y": 13,
-						"w": 29,
-						"h": 41
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 33,
-						"y": 55,
-						"w": 29,
-						"h": 41
+						"x": 103,
+						"y": 58,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Attack2_1.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 10,
-						"y": 11,
-						"w": 88,
-						"h": 43
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 64,
-						"y": 55,
-						"w": 88,
-						"h": 43
+						"x": 205,
+						"y": 58,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Attack2_2.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 10,
-						"y": 12,
-						"w": 72,
-						"h": 42
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 154,
-						"y": 55,
-						"w": 72,
-						"h": 42
+						"x": 307,
+						"y": 58,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Attack2_3.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 9,
-						"y": 12,
-						"w": 53,
-						"h": 42
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 1,
-						"y": 100,
-						"w": 53,
-						"h": 42
+						"x": 409,
+						"y": 58,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Attack2_4.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 9,
-						"y": 18,
-						"w": 53,
-						"h": 36
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 56,
-						"y": 100,
-						"w": 53,
-						"h": 36
+						"x": 1,
+						"y": 115,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Attack2_5.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 13,
-						"y": 18,
-						"w": 49,
-						"h": 36
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 111,
-						"y": 100,
-						"w": 49,
-						"h": 36
+						"x": 103,
+						"y": 115,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Attack3_0.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 18,
-						"y": 14,
-						"w": 45,
-						"h": 40
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 162,
-						"y": 100,
-						"w": 45,
-						"h": 40
+						"x": 205,
+						"y": 115,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Attack3_1.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 34,
-						"y": 7,
-						"w": 31,
-						"h": 47
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 209,
-						"y": 100,
-						"w": 31,
-						"h": 47
+						"x": 307,
+						"y": 115,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Attack3_2.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 33,
-						"y": 2,
-						"w": 67,
-						"h": 52
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 1,
-						"y": 149,
-						"w": 67,
-						"h": 52
+						"x": 409,
+						"y": 115,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Attack3_3.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 32,
-						"y": 6,
-						"w": 68,
-						"h": 48
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 70,
-						"y": 149,
-						"w": 68,
-						"h": 48
+						"x": 1,
+						"y": 172,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Attack3_4.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 32,
-						"y": 18,
-						"w": 68,
-						"h": 36
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 140,
-						"y": 149,
-						"w": 68,
-						"h": 36
+						"x": 103,
+						"y": 172,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Attack3_5.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 32,
-						"y": 18,
-						"w": 58,
-						"h": 36
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 1,
-						"y": 203,
-						"w": 58,
-						"h": 36
+						"x": 205,
+						"y": 172,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Attack3_6.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 39,
-						"y": 17,
-						"w": 38,
-						"h": 37
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 61,
-						"y": 203,
-						"w": 38,
-						"h": 37
+						"x": 307,
+						"y": 172,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Attack3_7.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 19,
-						"y": 13,
-						"w": 43,
-						"h": 41
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 101,
-						"y": 203,
-						"w": 43,
-						"h": 41
+						"x": 409,
+						"y": 172,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Block Idle_0.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 19,
-						"y": 14,
-						"w": 44,
-						"h": 40
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 146,
-						"y": 203,
-						"w": 44,
-						"h": 40
+						"x": 1,
+						"y": 229,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Block Idle_1.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 19,
-						"y": 14,
-						"w": 44,
-						"h": 40
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 192,
-						"y": 203,
-						"w": 44,
-						"h": 40
+						"x": 103,
+						"y": 229,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Block Idle_2.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 19,
-						"y": 13,
-						"w": 44,
-						"h": 41
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 1,
-						"y": 246,
-						"w": 44,
-						"h": 41
+						"x": 205,
+						"y": 229,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Block Idle_3.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 19,
-						"y": 13,
-						"w": 44,
-						"h": 41
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 47,
-						"y": 246,
-						"w": 44,
-						"h": 41
+						"x": 307,
+						"y": 229,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Block Idle_4.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 19,
-						"y": 13,
-						"w": 43,
-						"h": 41
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 93,
-						"y": 246,
-						"w": 43,
-						"h": 41
+						"x": 409,
+						"y": 229,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Block Idle_5.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 19,
-						"y": 13,
-						"w": 43,
-						"h": 41
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 138,
-						"y": 246,
-						"w": 43,
-						"h": 41
+						"x": 1,
+						"y": 286,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Block Idle_6.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 19,
-						"y": 14,
-						"w": 43,
-						"h": 40
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 183,
-						"y": 246,
-						"w": 43,
-						"h": 40
+						"x": 103,
+						"y": 286,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Block Idle_7.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 19,
-						"y": 14,
-						"w": 43,
-						"h": 40
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 1,
-						"y": 289,
-						"w": 43,
-						"h": 40
+						"x": 205,
+						"y": 286,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Block_0.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 19,
-						"y": 16,
-						"w": 43,
-						"h": 38
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 46,
-						"y": 289,
-						"w": 43,
-						"h": 38
+						"x": 307,
+						"y": 286,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Block_1.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 17,
-						"y": 11,
-						"w": 51,
-						"h": 43
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 91,
-						"y": 289,
-						"w": 51,
-						"h": 43
+						"x": 409,
+						"y": 286,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Block_2.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 16,
-						"y": 6,
-						"w": 55,
-						"h": 48
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 144,
-						"y": 289,
-						"w": 55,
-						"h": 48
+						"x": 1,
+						"y": 343,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Block_3.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 17,
-						"y": 4,
-						"w": 57,
-						"h": 50
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 1,
-						"y": 339,
-						"w": 57,
-						"h": 50
+						"x": 103,
+						"y": 343,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Block_4.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 19,
-						"y": 3,
-						"w": 57,
-						"h": 51
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 60,
-						"y": 339,
-						"w": 57,
-						"h": 51
+						"x": 205,
+						"y": 343,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_BlockNoEffect_0.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 19,
-						"y": 16,
-						"w": 43,
-						"h": 38
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 119,
-						"y": 339,
-						"w": 43,
-						"h": 38
+						"x": 307,
+						"y": 343,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_BlockNoEffect_1.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 17,
-						"y": 13,
-						"w": 45,
-						"h": 41
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 164,
-						"y": 339,
-						"w": 45,
-						"h": 41
+						"x": 409,
+						"y": 343,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_BlockNoEffect_2.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 16,
-						"y": 14,
-						"w": 46,
-						"h": 40
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
 						"x": 1,
-						"y": 392,
-						"w": 46,
-						"h": 40
+						"y": 400,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_BlockNoEffect_3.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 17,
-						"y": 14,
-						"w": 45,
-						"h": 40
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 49,
-						"y": 392,
-						"w": 45,
-						"h": 40
+						"x": 103,
+						"y": 400,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_BlockNoEffect_4.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 19,
-						"y": 14,
-						"w": 43,
-						"h": 40
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 96,
-						"y": 392,
-						"w": 43,
-						"h": 40
+						"x": 205,
+						"y": 400,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Death_0.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 18,
-						"y": 14,
-						"w": 45,
-						"h": 40
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 141,
-						"y": 392,
-						"w": 45,
-						"h": 40
+						"x": 307,
+						"y": 400,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Death_1.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 16,
-						"y": 13,
-						"w": 49,
-						"h": 41
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 188,
-						"y": 392,
-						"w": 49,
-						"h": 41
+						"x": 409,
+						"y": 400,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Death_2.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 18,
-						"y": 13,
-						"w": 48,
-						"h": 41
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
 						"x": 1,
-						"y": 435,
-						"w": 48,
-						"h": 41
+						"y": 457,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Death_3.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 14,
-						"y": 13,
-						"w": 55,
-						"h": 41
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 51,
-						"y": 435,
-						"w": 55,
-						"h": 41
+						"x": 103,
+						"y": 457,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Death_4.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 13,
-						"y": 18,
-						"w": 57,
-						"h": 36
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 108,
-						"y": 435,
-						"w": 57,
-						"h": 36
+						"x": 205,
+						"y": 457,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Death_5.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 11,
-						"y": 21,
-						"w": 57,
-						"h": 33
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 167,
-						"y": 435,
-						"w": 57,
-						"h": 33
+						"x": 307,
+						"y": 457,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Death_6.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 11,
-						"y": 24,
-						"w": 58,
-						"h": 30
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 1,
-						"y": 478,
-						"w": 58,
-						"h": 30
+						"x": 409,
+						"y": 457,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Death_7.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 11,
-						"y": 39,
-						"w": 72,
-						"h": 15
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 61,
-						"y": 478,
-						"w": 72,
-						"h": 15
+						"x": 1,
+						"y": 514,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Death_8.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 11,
-						"y": 42,
-						"w": 72,
-						"h": 12
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 135,
-						"y": 478,
-						"w": 72,
-						"h": 12
+						"x": 103,
+						"y": 514,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Death_9.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 11,
-						"y": 46,
-						"w": 72,
-						"h": 8
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 1,
-						"y": 510,
-						"w": 72,
-						"h": 8
+						"x": 205,
+						"y": 514,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_DeathNoBlood_0.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 18,
-						"y": 14,
-						"w": 45,
-						"h": 40
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 75,
-						"y": 510,
-						"w": 45,
-						"h": 40
+						"x": 307,
+						"y": 514,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_DeathNoBlood_1.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 16,
-						"y": 15,
-						"w": 47,
-						"h": 39
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 122,
-						"y": 510,
-						"w": 47,
-						"h": 39
+						"x": 409,
+						"y": 514,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_DeathNoBlood_2.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 18,
-						"y": 15,
-						"w": 45,
-						"h": 39
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 171,
-						"y": 510,
-						"w": 45,
-						"h": 39
+						"x": 1,
+						"y": 571,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_DeathNoBlood_3.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 14,
-						"y": 13,
-						"w": 48,
-						"h": 41
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 1,
-						"y": 552,
-						"w": 48,
-						"h": 41
+						"x": 103,
+						"y": 571,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_DeathNoBlood_4.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 13,
-						"y": 22,
-						"w": 53,
-						"h": 32
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 51,
-						"y": 552,
-						"w": 53,
-						"h": 32
+						"x": 205,
+						"y": 571,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_DeathNoBlood_5.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 11,
-						"y": 23,
-						"w": 54,
-						"h": 31
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 106,
-						"y": 552,
-						"w": 54,
-						"h": 31
+						"x": 307,
+						"y": 571,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_DeathNoBlood_6.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 11,
-						"y": 26,
-						"w": 55,
-						"h": 28
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 162,
-						"y": 552,
-						"w": 55,
-						"h": 28
+						"x": 409,
+						"y": 571,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_DeathNoBlood_7.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 11,
-						"y": 39,
-						"w": 72,
-						"h": 15
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
 						"x": 1,
-						"y": 595,
-						"w": 72,
-						"h": 15
+						"y": 628,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_DeathNoBlood_8.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 11,
-						"y": 42,
-						"w": 72,
-						"h": 12
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 75,
-						"y": 595,
-						"w": 72,
-						"h": 12
+						"x": 103,
+						"y": 628,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_DeathNoBlood_9.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 11,
-						"y": 46,
-						"w": 72,
-						"h": 8
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 149,
-						"y": 595,
-						"w": 72,
-						"h": 8
+						"x": 205,
+						"y": 628,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Fall_0.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 16,
-						"y": 11,
-						"w": 47,
-						"h": 41
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 1,
-						"y": 612,
-						"w": 47,
-						"h": 41
+						"x": 307,
+						"y": 628,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Fall_1.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 16,
-						"y": 11,
-						"w": 47,
-						"h": 41
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 50,
-						"y": 612,
-						"w": 47,
-						"h": 41
+						"x": 409,
+						"y": 628,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Fall_2.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 16,
-						"y": 11,
-						"w": 47,
-						"h": 41
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 99,
-						"y": 612,
-						"w": 47,
-						"h": 41
+						"x": 1,
+						"y": 685,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Fall_3.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 16,
-						"y": 11,
-						"w": 47,
-						"h": 41
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 148,
-						"y": 612,
-						"w": 47,
-						"h": 41
+						"x": 103,
+						"y": 685,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Grab Ledge_0.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 17,
-						"y": 7,
-						"w": 47,
-						"h": 36
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 197,
-						"y": 612,
-						"w": 47,
-						"h": 36
+						"x": 205,
+						"y": 685,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Grab Ledge_1.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 19,
-						"y": 8,
-						"w": 45,
-						"h": 37
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 1,
-						"y": 655,
-						"w": 45,
-						"h": 37
+						"x": 307,
+						"y": 685,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Grab Ledge_2.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 21,
-						"y": 8,
-						"w": 43,
-						"h": 46
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 48,
-						"y": 655,
-						"w": 43,
-						"h": 46
+						"x": 409,
+						"y": 685,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Grab Ledge_3.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 30,
-						"y": 8,
-						"w": 34,
-						"h": 47
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 93,
-						"y": 655,
-						"w": 34,
-						"h": 47
+						"x": 1,
+						"y": 742,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Grab Ledge_4.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 32,
-						"y": 8,
-						"w": 32,
-						"h": 47
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 129,
-						"y": 655,
-						"w": 32,
-						"h": 47
+						"x": 103,
+						"y": 742,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Hurt_0.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 18,
-						"y": 14,
-						"w": 45,
-						"h": 40
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 163,
-						"y": 655,
-						"w": 45,
-						"h": 40
+						"x": 205,
+						"y": 742,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Hurt_1.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 15,
-						"y": 15,
-						"w": 47,
-						"h": 39
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 1,
-						"y": 704,
-						"w": 47,
-						"h": 39
+						"x": 307,
+						"y": 742,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Hurt_2.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 16,
-						"y": 15,
-						"w": 46,
-						"h": 39
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 50,
-						"y": 704,
-						"w": 46,
-						"h": 39
+						"x": 409,
+						"y": 742,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Idle_0.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 17,
-						"y": 12,
-						"w": 46,
-						"h": 42
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 98,
-						"y": 704,
-						"w": 46,
-						"h": 42
+						"x": 1,
+						"y": 799,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Idle_1.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 16,
-						"y": 12,
-						"w": 46,
-						"h": 42
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 146,
-						"y": 704,
-						"w": 46,
-						"h": 42
+						"x": 103,
+						"y": 799,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Idle_2.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 15,
-						"y": 13,
-						"w": 47,
-						"h": 41
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 194,
-						"y": 704,
-						"w": 47,
-						"h": 41
+						"x": 205,
+						"y": 799,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Idle_3.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 15,
-						"y": 13,
-						"w": 47,
-						"h": 41
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 1,
-						"y": 748,
-						"w": 47,
-						"h": 41
+						"x": 307,
+						"y": 799,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Idle_4.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 15,
-						"y": 12,
-						"w": 47,
-						"h": 42
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 50,
-						"y": 748,
-						"w": 47,
-						"h": 42
+						"x": 409,
+						"y": 799,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Idle_5.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 16,
-						"y": 12,
-						"w": 46,
-						"h": 42
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 99,
-						"y": 748,
-						"w": 46,
-						"h": 42
+						"x": 1,
+						"y": 856,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Idle_6.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 17,
-						"y": 13,
-						"w": 46,
-						"h": 41
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 147,
-						"y": 748,
-						"w": 46,
-						"h": 41
+						"x": 103,
+						"y": 856,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Idle_7.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 17,
-						"y": 13,
-						"w": 46,
-						"h": 41
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 195,
-						"y": 748,
-						"w": 46,
-						"h": 41
+						"x": 205,
+						"y": 856,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Jump_0.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 17,
-						"y": 14,
-						"w": 44,
-						"h": 40
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 1,
-						"y": 792,
-						"w": 44,
-						"h": 40
+						"x": 307,
+						"y": 856,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Jump_1.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 17,
-						"y": 12,
-						"w": 45,
-						"h": 39
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 47,
-						"y": 792,
-						"w": 45,
-						"h": 39
+						"x": 409,
+						"y": 856,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Jump_2.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 17,
-						"y": 12,
-						"w": 45,
-						"h": 37
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 94,
-						"y": 792,
-						"w": 45,
-						"h": 37
+						"x": 1,
+						"y": 913,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Roll_0.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 35,
-						"y": 19,
-						"w": 33,
-						"h": 35
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 141,
-						"y": 792,
-						"w": 33,
-						"h": 35
+						"x": 103,
+						"y": 913,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Roll_1.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 35,
-						"y": 29,
-						"w": 47,
-						"h": 25
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 176,
-						"y": 792,
-						"w": 47,
-						"h": 25
+						"x": 205,
+						"y": 913,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Roll_2.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 43,
-						"y": 30,
-						"w": 34,
-						"h": 24
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 1,
-						"y": 834,
-						"w": 34,
-						"h": 24
+						"x": 307,
+						"y": 913,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Roll_3.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 39,
-						"y": 31,
-						"w": 26,
-						"h": 23
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 37,
-						"y": 834,
-						"w": 26,
-						"h": 23
+						"x": 409,
+						"y": 913,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Roll_4.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 39,
-						"y": 29,
-						"w": 26,
-						"h": 25
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 65,
-						"y": 834,
-						"w": 26,
-						"h": 25
+						"x": 1,
+						"y": 970,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Roll_5.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 39,
-						"y": 29,
-						"w": 26,
-						"h": 25
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 93,
-						"y": 834,
-						"w": 26,
-						"h": 25
+						"x": 103,
+						"y": 970,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Roll_6.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 39,
-						"y": 26,
-						"w": 24,
-						"h": 28
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 121,
-						"y": 834,
-						"w": 24,
-						"h": 28
+						"x": 205,
+						"y": 970,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Roll_7.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 37,
-						"y": 26,
-						"w": 27,
-						"h": 28
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 147,
-						"y": 834,
-						"w": 27,
-						"h": 28
+						"x": 307,
+						"y": 970,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Roll_8.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 22,
-						"y": 14,
-						"w": 41,
-						"h": 40
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 176,
-						"y": 834,
-						"w": 41,
-						"h": 40
+						"x": 409,
+						"y": 970,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Run_0.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 17,
-						"y": 13,
-						"w": 44,
-						"h": 41
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
 						"x": 1,
-						"y": 876,
-						"w": 44,
-						"h": 41
+						"y": 1027,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Run_1.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 16,
-						"y": 12,
-						"w": 46,
-						"h": 42
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 47,
-						"y": 876,
-						"w": 46,
-						"h": 42
+						"x": 103,
+						"y": 1027,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Run_2.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 16,
-						"y": 12,
-						"w": 47,
-						"h": 42
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 95,
-						"y": 876,
-						"w": 47,
-						"h": 42
+						"x": 205,
+						"y": 1027,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Run_3.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 15,
-						"y": 11,
-						"w": 49,
-						"h": 43
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 144,
-						"y": 876,
-						"w": 49,
-						"h": 43
+						"x": 307,
+						"y": 1027,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Run_4.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 15,
-						"y": 12,
-						"w": 47,
-						"h": 42
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 195,
-						"y": 876,
-						"w": 47,
-						"h": 42
+						"x": 409,
+						"y": 1027,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Run_5.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 16,
-						"y": 13,
-						"w": 46,
-						"h": 41
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
 						"x": 1,
-						"y": 921,
-						"w": 46,
-						"h": 41
+						"y": 1084,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Run_6.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 16,
-						"y": 12,
-						"w": 47,
-						"h": 42
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 49,
-						"y": 921,
-						"w": 47,
-						"h": 42
+						"x": 103,
+						"y": 1084,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Run_7.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 16,
-						"y": 12,
-						"w": 47,
-						"h": 42
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 98,
-						"y": 921,
-						"w": 47,
-						"h": 42
+						"x": 205,
+						"y": 1084,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Run_8.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 16,
-						"y": 11,
-						"w": 49,
-						"h": 43
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 147,
-						"y": 921,
-						"w": 49,
-						"h": 43
+						"x": 307,
+						"y": 1084,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Run_9.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 16,
-						"y": 12,
-						"w": 45,
-						"h": 42
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 198,
-						"y": 921,
-						"w": 45,
-						"h": 42
+						"x": 409,
+						"y": 1084,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Slide_0.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 30,
-						"y": 4,
-						"w": 33,
-						"h": 51
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
 						"x": 1,
-						"y": 966,
-						"w": 33,
-						"h": 51
+						"y": 1141,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Slide_1.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 30,
-						"y": 4,
-						"w": 33,
-						"h": 51
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 36,
-						"y": 966,
-						"w": 33,
-						"h": 51
+						"x": 103,
+						"y": 1141,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Slide_2.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 30,
-						"y": 3,
-						"w": 33,
-						"h": 52
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 71,
-						"y": 966,
-						"w": 33,
-						"h": 52
+						"x": 205,
+						"y": 1141,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Slide_3.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 30,
-						"y": 2,
-						"w": 33,
-						"h": 53
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 106,
-						"y": 966,
-						"w": 33,
-						"h": 53
+						"x": 307,
+						"y": 1141,
+						"w": 100,
+						"h": 55
 					}
 				},
 				{
 					"filename": "HeroKnight_Slide_4.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
 						"w": 100,
 						"h": 55
 					},
 					"spriteSourceSize": {
-						"x": 30,
-						"y": 2,
-						"w": 33,
-						"h": 53
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 55
 					},
 					"frame": {
-						"x": 141,
-						"y": 966,
-						"w": 33,
-						"h": 53
+						"x": 409,
+						"y": 1141,
+						"w": 100,
+						"h": 55
 					}
 				}
 			]
@@ -2220,6 +2221,6 @@
 	"meta": {
 		"app": "https://www.codeandweb.com/texturepacker",
 		"version": "3.0",
-		"smartupdate": "$TexturePacker:SmartUpdate:bb90636b0a4228743ca5be50d77b6cfc:9269bf788f1073bfaf08e154e50ab31b:af16470b8e67837b0f6e4dc863078dce$"
+		"smartupdate": "$TexturePacker:SmartUpdate:b86932f6a1507fa71ea1301e0c0a9c00:75062606421fbe5f30857239d7563922:785d893709f69c282bb47a8fd35991fc$"
 	}
 }
