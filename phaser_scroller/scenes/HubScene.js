@@ -4,6 +4,16 @@ class HubScene extends Phaser.Scene {
         super("hub_level");
     }
 
+    //data passed from previous scene
+    init(data) {
+        this.level = data.level;
+        this.underDevelopment = false;
+        this.talkingToStormMage = false;
+
+        this.textIcon = this.add.text(505, 380, 'F');
+        this.textIcon.setDepth(4);
+    }
+
     preload() {
         
         //tiled map
@@ -17,6 +27,9 @@ class HubScene extends Phaser.Scene {
         this.load.image('snowy1', 'assets/tiled_map/snowy_mountains/snowy1.png');
         this.load.image('castleA', 'assets/tiled_map/castle/castleA.png');
         this.load.image('castleB', 'assets/tiled_map/castle/castleB.png');
+
+        //flare
+        this.load.image('flare', 'assets/effects/flare.png');
 
         
         this.load.tilemapTiledJSON('HubMap', 'assets/tiled_map/Hub/HubMap.json');
@@ -67,7 +80,6 @@ class HubScene extends Phaser.Scene {
         background_layer.setDepth(1);
 
 
-
         //set platform layer as a collision layer
         platform_layer.setCollisionByExclusion(-1, true);
 
@@ -83,7 +95,8 @@ class HubScene extends Phaser.Scene {
         this.physics.add.collider(this.player, this.platforms);
         this.physics.add.collider(this.stormMage, platform_layer);
         this.physics.add.collider(this.player, platform_layer);
-        this.gateCollider = this.physics.add.collider(this.player, this.gate);
+        this.physics.add.overlap(this.player, this.stormMage);
+        //this.physics.add.collider(this.player, this.stormMage);
 
 
         //camera
@@ -93,7 +106,29 @@ class HubScene extends Phaser.Scene {
         this.cam.startFollow(this.player);
         this.cam.fadeIn(2000);
 
-        this.underDevelopment = false;
+        
+        var particles = this.add.particles('flare');
+        particles.setDepth(4);
+
+        var leftEmitter = particles.createEmitter({
+            x: 10,
+            y: { min: 330, max: 400 },
+            lifespan: 2000,
+            speedX: { min: 20, max: 50 },
+            scale: { start: 0.2, end: 0 },
+            quantity: 1,
+            blendMode: 'ADD'
+        });
+        
+        var rightEmitter = particles.createEmitter({
+            x: this.level_width - 10,
+            y: { min: 330, max: 400 },
+            lifespan: 2000,
+            speedX: { min: -20, max: -50 },
+            scale: { start: 0.2, end: 0 },
+            quantity: 1,
+            blendMode: 'ADD'
+        });
 
     }
 
@@ -102,6 +137,18 @@ class HubScene extends Phaser.Scene {
         this.playerInput();
         this.stormMageBehavior();
         this.checkUnderDevelopment(); 
+
+        if (!this.stormMage.body.touching.none) {
+            this.talkingToStormMage = true;
+            this.textIcon.setAlpha(1);
+        } else {
+            this.talkingToStormMage = false;
+            this.textIcon.setAlpha(0);
+        }
+
+        if (this.talkingToStormMage && Phaser.Input.Keyboard.JustDown(this.f_key)) {
+            this.scene.launch('SelectNewScene');
+        }
     }
 
     //Player character affected by keyboard input
@@ -185,7 +232,7 @@ class HubScene extends Phaser.Scene {
     }
 
     stormMageBehavior() {
-        if (this.player.body.x <= this.stormMage.body.x) {
+        if (this.player.body.x <= this.stormMage.body.x + (this.stormMage.body.width / 2)) {
             this.stormMage.flipX = true;
         } else {
             this.stormMage.flipX = false;
@@ -207,7 +254,7 @@ class HubScene extends Phaser.Scene {
             scene: this,
             key: 'player',
             x: 300,
-            y: 300
+            y: 380
         });
     }
 
@@ -218,18 +265,28 @@ class HubScene extends Phaser.Scene {
             x: xcoord,
             y: ycoord,
             direction: 'left',
-            sizeX: 20,
+            sizeX: 80,
             sizeY: 60,
             scale: 1
         });
 
         this.NPCGroup.add(this.stormMage);
+
+        var stormMageText = this.add.text(435, 325, 'Speak with me...').setAlpha(0);
+        stormMageText.setDepth(4);
+        var stormMageTween = this.tweens.add({
+            targets: stormMageText,
+            alpha: 1,
+            duration: 5000,
+            yoyo: true,
+            repeat: 0
+        }); 
     }
 
     //instantiate the NPCs 
     setUpNPCs() {
         this.NPCGroup = this.add.group();
-        this.createNewStormMage(510, 340);
+        this.createNewStormMage(510, 380);
         //this.skeletonGroup = this.add.group();
         //this.physics.world.enable(this.skeletonGroup);
         //this.createNewSkeleton(200, 920);
@@ -269,7 +326,7 @@ class HubScene extends Phaser.Scene {
             persistFor: 300
         });
 
-        //Register hits for each skeleton on the screen
+        /*//Register hits for each skeleton on the screen
         for (let i = 0; i < this.skeletonGroup.getLength(); i++) {
             let skeleton = this.skeletonGroup.getChildren()[i];
             this.physics.add.overlap(this.atk_effect, skeleton, function () {
@@ -278,7 +335,7 @@ class HubScene extends Phaser.Scene {
                     //skeleton.skeletonHit();     
                 }
             });
-        }
+        } */
     }
 
     playerHitByAttack(x, enemy) {
@@ -302,12 +359,13 @@ class HubScene extends Phaser.Scene {
     }
 
     checkUnderDevelopment() {
-        if (!this.underDevelopment && this.player.x < 50 || this.player.x > 800) {
+        if (!this.underDevelopment && (this.player.x < 50 || this.player.x > 800)) {
+            console.log('test');
             if (!this.underDevelopment) {
                 this.notifyUnderDevelopment();
                 setTimeout(() => {
                     this.underDevelopment = false;
-                }, 6000);
+                }, 5000);
             }
         }  
     }
@@ -321,7 +379,6 @@ class HubScene extends Phaser.Scene {
             var myText = this.add.text(800, 280, 'Under\nDevelopment').setAlpha(0);
         }
         myText.setDepth(3);
-        console.log('test');
         var textFadeIn = this.tweens.add({
             targets: myText,
             alpha: 1,

@@ -5,28 +5,16 @@ class Scene0 extends Phaser.Scene {
 
     preload () {
         //background
-        this.load.image('sky', 'assets/backgrounds/sky.png');
-        this.load.image('background', 'assets/backgrounds/forest_background.png');
-        this.load.image('midground', 'assets/backgrounds/forest_midground.png');
-        this.load.image('tree01', 'assets/world/tree01.png');
-        this.load.image('forest_ground', 'assets/backgrounds/forest_ground.png');
-        this.load.image('forest_bush', 'assets/world/bush01.png');
-        this.load.image('switch', 'assets/world/switch.png');
-
 
         //effects
         this.load.image('atk_effect', 'assets/effects/atk_effect.png');
 
-        //ground
-        this.ground = this.load.image('ground', 'assets/world/ground.png');
-    
         //sprites
         this.load.atlas('player', 'assets/sprites/heroKnightSprites.png', 'assets/sprites/heroKnightSprites.json');
         this.load.atlas('skeleton', 'assets/sprites/skeletonSprites.png', 'assets/sprites/skeletonSprites.json');
         this.load.atlas('stormMage', 'assets/sprites/stormMageSprites.png', 'assets/sprites/stormMageSprites.json');
         
         //object sprites
-        this.load.atlas('gate', 'assets/sprites/gate.png', 'assets/sprites/gate.json');
         this.load.atlas('block_flash', 'assets/effects/BlockFlash/block_flash.png', 'assets/effects/BlockFlash/block_flash.json');
     }
 
@@ -35,26 +23,13 @@ class Scene0 extends Phaser.Scene {
         this.addAnimations();
 
         //start first level
-        this.scene.start("level_four");
+        this.scene.start("hub_level", {level: 'asdf'});
     }
 
     //Add player and skeleton animations
     addAnimations() {
 
-        //effect animations
-        this.anims.create({
-            key: 'Gate_Open',
-            frames: this.anims.generateFrameNames('gate', {
-                start: 1,
-                end: 7,
-                zeroPad: 1,
-                prefix: 'gate_',
-                suffix: '.png'
-            }),
-            frameRate: 3,
-            repeat: 0
-        });
-
+        //Effect on player's shield when they successfully block
         this.anims.create({
             key: 'Block_Flash',
             frames: this.anims.generateFrameNames('block_flash', {
@@ -67,8 +42,6 @@ class Scene0 extends Phaser.Scene {
             frameRate: 12,
             repeat: 0
         });
-
-
 
         //Player IDLE
         this.anims.create({

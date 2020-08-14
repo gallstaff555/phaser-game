@@ -1,7 +1,7 @@
 //A standalone scene in a ruined castle
-class Scene4 extends Phaser.Scene {
+class ElevatorDemoScene extends Phaser.Scene {
     constructor() {
-        super("level_four");
+        super("elevator_demo");
     }
 
     preload() {
@@ -104,6 +104,12 @@ class Scene4 extends Phaser.Scene {
     }
 
     update() {
+
+        //go back to hub at end of level
+        if (this.player.body.x > this.level_width - 100) {
+            this.scene.switch("hub_level");
+        }
+
         //update player movement
         this.playerInput();
 
