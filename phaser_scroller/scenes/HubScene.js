@@ -10,7 +10,8 @@ class HubScene extends Phaser.Scene {
         this.underDevelopment = false;
         this.talkingToStormMage = false;
 
-        this.textIcon = this.add.text(505, 380, 'F');
+        this.textIcon = this.add.text(150, 150, 'Press F');
+        this.textIcon.setAlpha(0);
         this.textIcon.setDepth(4);
     }
 
@@ -32,10 +33,10 @@ class HubScene extends Phaser.Scene {
         this.load.image('flare', 'assets/effects/flare.png');
 
         
-        this.load.tilemapTiledJSON('HubMap', 'assets/tiled_map/Hub/HubMap.json');
+        this.load.tilemapTiledJSON('HubMap', 'assets/tiled_map/Hub/HubMap2.json');
 
         //elevator platform
-        this.load.image('elevator', 'assets/sprites/elevator.png');
+        this.load.image('elevator', 'assets/sprites/smallElevator.png');
 
         this.level_width = 960;
         this.level_height = 480;
@@ -82,6 +83,8 @@ class HubScene extends Phaser.Scene {
 
         //set platform layer as a collision layer
         platform_layer.setCollisionByExclusion(-1, true);
+        
+        this.setUpElevator();
 
         //player
         this.setUpPlayer();
@@ -89,46 +92,29 @@ class HubScene extends Phaser.Scene {
 
         //set up NPCs
         this.setUpNPCs();
-        this.stormMage.setDepth(1);
+        this.stormMage.setDepth(3);
 
         //set up collisions
         this.physics.add.collider(this.player, this.platforms);
         this.physics.add.collider(this.stormMage, platform_layer);
         this.physics.add.collider(this.player, platform_layer);
         this.physics.add.overlap(this.player, this.stormMage);
-        //this.physics.add.collider(this.player, this.stormMage);
+        //this.physics.add.collider(this.player, this.elevator1);
+        for (let i = 0; i < this.elevatorGroup.getLength(); i++) {
+            this.physics.add.collider(this.player, this.elevatorGroup.getChildren()[i]);
+        }
 
+        //particle effects
+        this.setUpParticleEffects();
 
         //camera
         this.cam = this.cameras.main;
         this.cam.setBounds(0, 0, this.level_width, this.level_height); //this is size of tiled map
         this.cam.setViewport(0,0, game.config.width, game.config.height);
         this.cam.startFollow(this.player);
-        this.cam.fadeIn(2000);
+        this.cam.fadeIn(3000);
 
         
-        var particles = this.add.particles('flare');
-        particles.setDepth(4);
-
-        var leftEmitter = particles.createEmitter({
-            x: 10,
-            y: { min: 330, max: 400 },
-            lifespan: 2000,
-            speedX: { min: 20, max: 50 },
-            scale: { start: 0.2, end: 0 },
-            quantity: 1,
-            blendMode: 'ADD'
-        });
-        
-        var rightEmitter = particles.createEmitter({
-            x: this.level_width - 10,
-            y: { min: 330, max: 400 },
-            lifespan: 2000,
-            speedX: { min: -20, max: -50 },
-            scale: { start: 0.2, end: 0 },
-            quantity: 1,
-            blendMode: 'ADD'
-        });
 
     }
 
@@ -136,8 +122,10 @@ class HubScene extends Phaser.Scene {
         //update player movement
         this.playerInput();
         this.stormMageBehavior();
-        this.checkUnderDevelopment(); 
+        this.checkUnderDevelopment();
+        
 
+        //talking to Storm Mage
         if (!this.stormMage.body.touching.none) {
             this.talkingToStormMage = true;
             this.textIcon.setAlpha(1);
@@ -145,9 +133,16 @@ class HubScene extends Phaser.Scene {
             this.talkingToStormMage = false;
             this.textIcon.setAlpha(0);
         }
-
         if (this.talkingToStormMage && Phaser.Input.Keyboard.JustDown(this.f_key)) {
-            this.scene.launch('SelectNewScene');
+            this.stormMage.attack();
+            //this.scene.launch('SelectNewScene');
+        }
+
+        this.onElevator = false;
+        for (let i = 0; i < this.elevatorGroup.getLength(); i++) {
+            if (this.elevatorGroup.getChildren()[i].body.touching.up) {
+                this.onElevator = true;
+            }
         }
     }
 
@@ -166,7 +161,7 @@ class HubScene extends Phaser.Scene {
         }
 
         //reset double jump if player is on ground
-        if (this.player.body.blocked.down) {
+        if (this.player.body.blocked.down || this.onElevator) {
             this.player.status.jump = this.player.attributes.jumps;   //2 jumps means player can double jump         
         }
         //attack
@@ -212,19 +207,21 @@ class HubScene extends Phaser.Scene {
                 this.player.anims.play('HeroKnight_Idle', true);
             }
 
-            //jump
-            if (this.cursors.up.isDown && (playerVelocity_Y >= -100 && playerVelocity_Y <= 100)) {
+            //jump //this.cursors.up.isDown
+            if (Phaser.Input.Keyboard.JustDown(this.jump_btn) && (playerVelocity_Y >= -200 && playerVelocity_Y <= 200)) {
                 if (this.player.status.jump > 0) {
                     this.player.status.jump--;
                     this.player.setVelocityY(-this.player.attributes.speed * 2); //this is the jump
-                    this.player.anims.play('HeroKnight_Jump', true);
+                    if (!this.player.body.blocked.down) {
+                        this.player.anims.play('HeroKnight_Jump', true);
+                    } 
                 }
             }
 
             //travelling up through air
-            if (this.player.body.velocity.y < -1) {
+            if (this.player.body.velocity.y < -1 && !this.player.body.touching.down) {
                 this.player.anims.play('HeroKnight_Jump', true);
-                //falling animation
+            //falling animation
             } else if (this.player.body.velocity.y > 50) {
                 this.player.anims.play('HeroKnight_Fall'); 
             }
@@ -237,23 +234,19 @@ class HubScene extends Phaser.Scene {
         } else {
             this.stormMage.flipX = false;
         }
-        this.stormMage.anims.play("StormMage_Idle", true);
-        /*if (this.player.x <= this.stormMage) {
-            this.stormMage.flipX = true;
+        if (this.stormMage.isAttacking()) {
+            //play attack animation
         } else {
-            this.stormMage.flipX = false;
-        }*/
+            this.stormMage.anims.play("StormMage_Idle", true);
+        }
     }
-
-    
-
 
     //instantiate the player character
     setUpPlayer() {
         this.player = new Knight({
             scene: this,
             key: 'player',
-            x: 300,
+            x: 200,
             y: 380
         });
     }
@@ -265,19 +258,19 @@ class HubScene extends Phaser.Scene {
             x: xcoord,
             y: ycoord,
             direction: 'left',
-            sizeX: 80,
-            sizeY: 60,
+            sizeX: 64,
+            sizeY: 64,
             scale: 1
         });
 
         this.NPCGroup.add(this.stormMage);
 
-        var stormMageText = this.add.text(435, 325, 'Speak with me...').setAlpha(0);
+        var stormMageText = this.add.text(175, 50, 'Speak with me...').setAlpha(0);
         stormMageText.setDepth(4);
         var stormMageTween = this.tweens.add({
             targets: stormMageText,
             alpha: 1,
-            duration: 5000,
+            duration: 8000,
             yoyo: true,
             repeat: 0
         }); 
@@ -286,7 +279,7 @@ class HubScene extends Phaser.Scene {
     //instantiate the NPCs 
     setUpNPCs() {
         this.NPCGroup = this.add.group();
-        this.createNewStormMage(510, 380);
+        this.createNewStormMage(120, 30);
         //this.skeletonGroup = this.add.group();
         //this.physics.world.enable(this.skeletonGroup);
         //this.createNewSkeleton(200, 920);
@@ -348,9 +341,79 @@ class HubScene extends Phaser.Scene {
         }
     }
 
+    setUpElevator() {
+        var elevator1 = new Elevator({       
+            scene: this,
+            key: 'elevator',
+            x: 300,
+            y: 350,
+            vel: -50
+        });
+
+        var elevator2 = new Elevator({       
+            scene: this,
+            key: 'elevator',
+            x: 450,
+            y: 100,
+            vel: 70
+        });
+
+        var elevator3 = new Elevator({       
+            scene: this,
+            key: 'elevator',
+            x: 750,
+            y: 100,
+            vel: 30
+        });
+
+        var elevator4 = new Elevator({       
+            scene: this,
+            key: 'elevator',
+            x: 280,
+            y: 100,
+            vel: 20
+        });
+
+
+        elevator1.setFriction(1,1);
+        elevator1.setVelocityY(elevator1.velocity);
+        elevator2.setFriction(1,1);
+        elevator2.setVelocityX(elevator2.velocity);
+        elevator3.setFriction(1,1);
+        elevator3.setVelocityY(elevator3.velocity);
+        elevator4.setVelocityX(elevator4.velocity);
+
+        this.time.addEvent({
+            delay: 3000,
+            loop: true,
+            callback: function () {
+                elevator1.body.velocity.y *= -1;
+                elevator2.body.velocity.x *= -1;
+            }
+        })
+
+        this.time.addEvent({
+            delay: 4000,
+            loop: true,
+            callback: function () {
+                elevator3.body.velocity.y *= -1;
+                elevator4.body.velocity.x *= -1;
+            }
+        })
+
+        this.elevatorGroup = this.add.group();
+        this.elevatorGroup.add(elevator1);
+        this.elevatorGroup.add(elevator2);
+        this.elevatorGroup.add(elevator3);
+        this.elevatorGroup.add(elevator4);
+        this.physics.world.enable(this.elevatorGroup);
+
+        this.elevator1 = elevator1;
+    }
+
     setUpKeyboard() {
         this.cursors = this.input.keyboard.createCursorKeys();
-        this.jump_btn = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        this.jump_btn = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         this.down_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
         this.atk_btn = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
         this.block_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
@@ -359,8 +422,7 @@ class HubScene extends Phaser.Scene {
     }
 
     checkUnderDevelopment() {
-        if (!this.underDevelopment && (this.player.x < 50 || this.player.x > 800)) {
-            console.log('test');
+        if (!this.underDevelopment && (this.player.x < 50 || this.player.x > 870)) {
             if (!this.underDevelopment) {
                 this.notifyUnderDevelopment();
                 setTimeout(() => {
@@ -385,6 +447,31 @@ class HubScene extends Phaser.Scene {
             duration: 2000,
             yoyo: true,
             repeat: 0
+        });
+    }
+    
+    setUpParticleEffects() {
+        var particles = this.add.particles('flare');
+        particles.setDepth(4);
+
+        var leftEmitter = particles.createEmitter({
+            x: 10,
+            y: { min: 330, max: 400 },
+            lifespan: 2000,
+            speedX: { min: 20, max: 50 },
+            scale: { start: 0.2, end: 0 },
+            quantity: 1,
+            blendMode: 'ADD'
+        });
+        
+        var rightEmitter = particles.createEmitter({
+            x: this.level_width - 10,
+            y: { min: 330, max: 400 },
+            lifespan: 2000,
+            speedX: { min: -20, max: -50 },
+            scale: { start: 0.2, end: 0 },
+            quantity: 1,
+            blendMode: 'ADD'
         });
     }
 }

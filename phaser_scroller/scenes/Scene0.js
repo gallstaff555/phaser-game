@@ -257,5 +257,19 @@ class Scene0 extends Phaser.Scene {
             frameRate: 5,
             repeat: -1
         });
+
+        //create STORM MAGE ATTACK animation
+        this.anims.create({
+            key: 'StormMage_Attack',
+            frames: this.anims.generateFrameNames('stormMage', {
+                start: 0,
+                end: 17,
+                zeroPad: 2,
+                prefix: 'StormMage_Attack_',
+                suffix: '.png'
+            }),
+            frameRate: 5,
+            repeat: 0
+        });
     }
 }

@@ -12,6 +12,7 @@ class Knight extends Phaser.Physics.Arcade.Sprite {
         this.body.setSize(20, 50);
         this.setGravityY(300);
         this.setActive(true);
+        this.body.setBounce(0, 0);
         //this.setCollideWorldBounds(true);
 
         this.status = ({
@@ -19,7 +20,8 @@ class Knight extends Phaser.Physics.Arcade.Sprite {
             attacking: false,
             rolling: false,
             blocking: false,
-            block_success: false
+            block_success: false,
+            jump: 2
         })
 
         this.attributes = ({
