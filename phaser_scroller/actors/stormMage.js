@@ -7,6 +7,7 @@ class StormMage extends Enemy {
         this.setScale(config.scale);
         this.body.setSize(config.sizeX, config.sizeY);
 
+        this.setScale(1);
         this.setOrigin(0);
         this.body.setBounce(0, 0);
         //this.body.setImmovable(true);
@@ -35,7 +36,6 @@ class StormMage extends Enemy {
 
     toggleAttackingOff = () => {
         this.setAttacking(false);
-        //this.body.y += 36;
     }
     
 }
