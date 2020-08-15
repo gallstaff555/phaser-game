@@ -1,7 +1,9 @@
 //A hub level for selecting new levels
-class HubScene extends Phaser.Scene {
+class SanctuaryScene1 extends Phaser.Scene {
     constructor() {
-        super("hub_level");
+        super("sanctuary_level_one");
+
+        var overlapTriggered = false;
     }
 
     //data passed from previous scene
@@ -10,7 +12,7 @@ class HubScene extends Phaser.Scene {
         this.underDevelopment = false;
         this.talkingToStormMage = false;
 
-        this.textIcon = this.add.text(150, 150, 'Press F');
+        this.textIcon = this.add.text(480, 305, 'Press F');
         this.textIcon.setAlpha(0);
         this.textIcon.setDepth(4);
     }
@@ -25,22 +27,21 @@ class HubScene extends Phaser.Scene {
         this.load.image('bg_2', 'assets/tiled_map/snowy_mountains/background2a.png');
         this.load.image('bg_3', 'assets/tiled_map/snowy_mountains/background3.png');
 
-        this.load.image('snowy1', 'assets/tiled_map/snowy_mountains/snowy1.png');
-        this.load.image('castleA', 'assets/tiled_map/castle/castleA.png');
-        this.load.image('castleB', 'assets/tiled_map/castle/castleB.png');
+        //tilesets
+        this.load.image('sanctuary', 'assets/tiled_map/Sanctuary/sanctuary.png');
 
         //flare
-        this.load.image('flare', 'assets/effects/flare.png');
+        this.load.image('blue_flare', 'assets/effects/flare.png');
 
 
-        this.load.tilemapTiledJSON('HubMap', 'assets/tiled_map/Hub/HubMap2.json');
+        this.load.tilemapTiledJSON('SanctuaryMap', 'assets/tiled_map/Sanctuary/sanctuary_map.json');
 
        
         //elevator platform
         this.load.image('elevator', 'assets/sprites/smallElevator.png');
 
         this.level_width = 960;
-        this.level_height = 480; 
+        this.level_height = 640; 
     }
 
     create() {
@@ -63,22 +64,19 @@ class HubScene extends Phaser.Scene {
         this.sky3.setScrollFactor(0);
 
         //set up tile map
-        const map = this.make.tilemap({ key: 'HubMap' });
-        const tilesetA = map.addTilesetImage('castleA');
-        const tilesetB = map.addTilesetImage('castleB');
-        const tileset1 = map.addTilesetImage('snowy1');
+        const map = this.make.tilemap({ key: 'SanctuaryMap' });
+        const sanctuary = map.addTilesetImage('sanctuary');
+
 
         //layers
         //const platform_layer = map.createStaticLayer('platforms', tileset, 0, 0);
-        const foreground_layer = map.createStaticLayer('foreground', [tileset1, tilesetA], 0, 0);
-        const platform_layer = map.createStaticLayer('platforms', [tilesetA, tilesetB], 0, 0);
-        const ruins_layer = map.createStaticLayer('ruins', [tilesetA, tilesetB], 0, 0);
-        const tower_layer = map.createStaticLayer('tower', [tilesetA, tilesetB], 0, 0);
-        const background_layer = map.createStaticLayer('background', [tilesetA, tilesetB], 0, 0);
+        const foreground_layer = map.createStaticLayer('foreground', sanctuary, 0, 0);
+        const platform_layer = map.createStaticLayer('platforms', sanctuary, 0, 0);
+        const midground_layer = map.createStaticLayer('midground', sanctuary, 0, 0);
+        const background_layer = map.createStaticLayer('background', sanctuary, 0, 0);
         foreground_layer.setDepth(6);
         platform_layer.setDepth(5);
-        ruins_layer.setDepth(3);
-        tower_layer.setDepth(2);
+        midground_layer.setDepth(2);
         background_layer.setDepth(1);
 
 
@@ -88,7 +86,14 @@ class HubScene extends Phaser.Scene {
         this.setUpElevators();
 
         //player
-        this.setUpPlayer();
+        //this.setUpPlayer();
+        this.player = new Knight({
+            scene: this,
+            key: 'player',
+            x: 80,
+            y: 305
+        });
+    
         this.player.setDepth(4);
 
         //set up NPCs
@@ -100,14 +105,26 @@ class HubScene extends Phaser.Scene {
         this.physics.add.collider(this.stormMage, platform_layer);
         this.physics.add.collider(this.player, platform_layer);
         this.physics.add.overlap(this.player, this.stormMage);
-        //this.physics.add.collider(this.player, this.elevator1);
+        this.switch_1_overlap = this.physics.add.overlap(this.player, this.elevatorSwitch1);
+        this.switch_2_overlap = this.physics.add.overlap(this.player, this.elevatorSwitch2);
+
+        //turn on elevator3 after player touches switch1
+ 
+        /*this.physics.add.collider(this.player, this.elevatorSwitch1, this.activateElevatorWithSwitch(this.elevator3), ()=> {
+            return this.colliderActivatedVar;
+        }, this); */
+        //this.physics.add.overlap(this.elevatorSwitch1, this.player, this.activateElevatorWithSwitch(this.elevator3), null, this);
+        //this.physics.add.overlap(this.elevatorSwitch1, this.player, this.activateElevatorWithSwitch(this.elevator3));
+
+
         for (let i = 0; i < this.elevatorGroup.getLength(); i++) {
             this.physics.add.collider(this.player, this.elevatorGroup.getChildren()[i]);
         }
+        this.elevatorGroup.setDepth(4);
 
         //particle effects
         this.setUpDoorParticleEffect();
-        //this.setUpMagePortalEmitter();
+        //this.setUpMagePortalEmitter(); //currently this is activated by talking to the mage
 
         //camera
         this.cam = this.cameras.main;
@@ -116,17 +133,27 @@ class HubScene extends Phaser.Scene {
         this.cam.startFollow(this.player);
         this.cam.fadeIn(3000);
     }
-
+    
     update() {
         //update player movement
         this.playerInput();
         this.stormMageBehavior();
         this.checkUnderDevelopment();
 
+        //event emitter for activating platform
+        if (!this.elevatorSwitch1.body.touching.none) {
+            this.elevatorSwitch1.emit("overlapstart1");
+            this.physics.world.removeCollider(this.switch_1_overlap);
+            this.elevatorSwitch1.setVisible(false);
+        }
 
-        //talking to Storm Mage
+        if (!this.elevatorSwitch2.body.touching.none) {
+            this.elevatorSwitch2.emit("overlapstart2");
+            this.physics.world.removeCollider(this.switch_2_overlap);
+            this.elevatorSwitch2.setVisible(false);
+        }
 
-
+        //determine if player is on elevator (used for calculating if player can jump or not)
         this.onElevator = false;
         for (let i = 0; i < this.elevatorGroup.getLength(); i++) {
             if (this.elevatorGroup.getChildren()[i].body.touching.up) {
@@ -218,7 +245,6 @@ class HubScene extends Phaser.Scene {
     }
 
     stormMageBehavior() {
-
         //face player
         if (this.player.body.x <= this.stormMage.body.x + (this.stormMage.body.width / 2)) {
             this.stormMage.flipX = true;
@@ -255,8 +281,7 @@ class HubScene extends Phaser.Scene {
 
     setUpMagePortalEmitter() {
 
-
-        var portal = this.add.particles('flare');
+        var portal = this.add.particles('blue_flare');
         portal.createEmitter({
             key: 'portal',
             blendMode: 'SCREEN',
@@ -267,12 +292,10 @@ class HubScene extends Phaser.Scene {
             quantity: 1,
             emitZone: {
                 type: 'edge',
-                source: new Phaser.Geom.Ellipse(240, 80, 40, 60),
+                source: new Phaser.Geom.Ellipse(140, 80, 40, 60),
                 quantity: 16
             }
         });
-
-        console.log(Phaser.blendMode);
         portal.setDepth(4);
     }
 
@@ -281,8 +304,8 @@ class HubScene extends Phaser.Scene {
         this.player = new Knight({
             scene: this,
             key: 'player',
-            x: 180,
-            y: 80
+            x: 80,
+            y: 305
         });
     }
 
@@ -300,12 +323,12 @@ class HubScene extends Phaser.Scene {
 
         this.NPCGroup.add(this.stormMage);
 
-        var stormMageText = this.add.text(175, 50, 'Speak with me...').setAlpha(0);
+        var stormMageText = this.add.text(450, 270, 'Speak with me...').setAlpha(0);
         stormMageText.setDepth(4);
         var stormMageTween = this.tweens.add({
             targets: stormMageText,
             alpha: 1,
-            duration: 8000,
+            duration: 4000,
             yoyo: true,
             repeat: 0
         });
@@ -314,7 +337,7 @@ class HubScene extends Phaser.Scene {
     //instantiate the NPCs 
     setUpNPCs() {
         this.NPCGroup = this.add.group();
-        this.createNewStormMage(120, 30);
+        this.createNewStormMage(480, 305);
     }
 
     playerBlockEffect() {
@@ -361,66 +384,118 @@ class HubScene extends Phaser.Scene {
         }
     }
 
+
     setUpElevators() {
+
         var elevator1 = new Elevator({
             scene: this,
             key: 'elevator',
-            x: 300,
-            y: 350,
-            vel: -50
-        });
+            x: 550,
+            y: 400,
+            veloityY: 70,
+            potentialSpeed: 45,
+            vel: 45 
+        }); 
+
 
         var elevator2 = new Elevator({
             scene: this,
             key: 'elevator',
             x: 450,
-            y: 100,
-            vel: 70
+            y: 175,
+            potentialSpeed: 60,
+            vel: 0        
         });
 
+        //activated by first switch
         var elevator3 = new Elevator({
             scene: this,
             key: 'elevator',
-            x: 750,
-            y: 100,
-            vel: 30
+            x: 780,
+            y: 150,
+            potentialSpeed: 40,
+            vel: 0         
         });
 
         var elevator4 = new Elevator({
             scene: this,
             key: 'elevator',
-            x: 280,
-            y: 100,
-            vel: 20
+            x: 375,
+            y: 150,
+            potentialSpeed: -45,
+            vel: 0        
+        });
+
+        //this.elevatorSwitch1 = this.add.image(230, 550, 'flare');
+        var elevatorSwitch1 = new ElevatorSwitch({
+            scene: this,
+            key: 'blue_flare',
+            x: 220,
+            y: 540
+        });
+
+        var elevatorSwitch2 = new ElevatorSwitch({
+            scene: this,
+            key: 'blue_flare',
+            x: this.level_width - 45,
+            y: 265
+        });
+
+        //emitter activates elevator3 and turns on its timed event 
+        elevatorSwitch1.on("overlapstart1", () => {
+            console.log("platform activated!");
+            elevator3.setVelocityY(elevator3.potentialSpeed);
+            var elevator_3_time = this.time.addEvent({
+                delay: 7000,
+                loop: true,
+                callback: function () {
+                    elevator3.body.velocity.y *= -1;
+                }
+            });
+        });
+
+        elevatorSwitch2.on("overlapstart2", () => {
+            console.log("platform activated");
+            elevator2.setVelocityX(elevator2.potentialSpeed);
+            elevator4.setVelocityX(elevator4.potentialSpeed);
+            
+            var elevator_2_time = this.time.addEvent({
+                delay: 3800,
+                loop: true,
+                callback: function () {
+                    elevator2.body.velocity.x *= -1;
+                }
+            });
+
+            var elevator_4_time = this.time.addEvent({
+                delay: 4000,
+                loop: true,
+                callback: function () {
+                    elevator4.body.velocity.x *= -1;
+                }
+            });
         });
 
 
         elevator1.setFriction(1, 1);
         elevator1.setVelocityY(elevator1.velocity);
-        elevator2.setFriction(1, 1);
+        /*elevator2.setFriction(1, 1);
         elevator2.setVelocityX(elevator2.velocity);
         elevator3.setFriction(1, 1);
         elevator3.setVelocityY(elevator3.velocity);
-        elevator4.setVelocityX(elevator4.velocity);
+        elevator4.setVelocityX(elevator4.velocity); */
 
-        this.time.addEvent({
-            delay: 3000,
+        var elevator_1_time = this.time.addEvent({
+            delay: 3800,
             loop: true,
             callback: function () {
                 elevator1.body.velocity.y *= -1;
-                elevator2.body.velocity.x *= -1;
             }
         })
 
-        this.time.addEvent({
-            delay: 4000,
-            loop: true,
-            callback: function () {
-                elevator3.body.velocity.y *= -1;
-                elevator4.body.velocity.x *= -1;
-            }
-        })
+        
 
+        //adding elevators to group allows them to be collision platforms
         this.elevatorGroup = this.add.group();
         this.elevatorGroup.add(elevator1);
         this.elevatorGroup.add(elevator2);
@@ -428,8 +503,11 @@ class HubScene extends Phaser.Scene {
         this.elevatorGroup.add(elevator4);
         this.physics.world.enable(this.elevatorGroup);
 
-        this.elevator1 = elevator1;
+        //elevatorswitches are used globablly
+        this.elevatorSwitch1 = elevatorSwitch1;
+        this.elevatorSwitch2 = elevatorSwitch2;
     }
+
 
     setUpKeyboard() {
         this.cursors = this.input.keyboard.createCursorKeys();
@@ -471,10 +549,10 @@ class HubScene extends Phaser.Scene {
     }
 
     setUpDoorParticleEffect() {
-        var particles = this.add.particles('flare');
+        var particles = this.add.particles('blue_flare');
         particles.setDepth(4);
 
-        var leftEmitter = particles.createEmitter({
+        /*var leftEmitter = particles.createEmitter({
             x: 10,
             y: { min: 330, max: 400 },
             lifespan: 2000,
@@ -482,11 +560,11 @@ class HubScene extends Phaser.Scene {
             scale: { start: 0.2, end: 0 },
             quantity: 1,
             blendMode: 'ADD'
-        });
+        }); */
 
         var rightEmitter = particles.createEmitter({
-            x: this.level_width - 10,
-            y: { min: 330, max: 400 },
+            x: this.level_width,
+            y: { min: 370, max: 450 },
             lifespan: 2000,
             speedX: { min: -20, max: -50 },
             scale: { start: 0.2, end: 0 },
@@ -499,23 +577,19 @@ class HubScene extends Phaser.Scene {
 /*
 GRAVEYARD
 
-        /*
-                var ellipse = new Phaser.Geom.Rectangle(400, 320, 40, 60);
+    /*
+    activateElevatorWithSwitch(elevator) {
+        if (!this.overlapTriggered) {
+            //this.overlapTriggered = true;
+            console.log("overlap started");
+            elevator.setVelocityY(elevator.potentialSpeed);
+        }
 
-        var portal = this.add.particles('flare');
-        portal.createEmitter({
-            key: 'portal',
-            x: 420,
-            y: 340,
-            blendMode: 'ADD',
-            speed: { min: 100, max: 200},
-            scale: { start: 0.5, end: 0 },
-            visible: true,
-            quantity: 10,
-            bounds: ellipse
-            /*emitZone: {
-                type: 'edge',
-                source: new Phaser.Geom.Ellipse(400, 240, 40, 60),
-                quantity: 50
-            }
-    */
+        
+    switchActivateElevator(elevator) {
+        console.log('trying to activate elevator');
+        console.log(elevator);
+        elevator.activateElevator();
+        this.switchOneColliderActivated = false;
+    } 
+    } */

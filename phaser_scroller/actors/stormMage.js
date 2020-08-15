@@ -22,8 +22,8 @@ class StormMage extends Enemy {
 
     attack() { //#00FFF0 is attack lightning color
         this.setAttacking(true);
-        this.anims.play("StormMage_Attack", true);
-        this.on('animationcomplete-StormMage_Attack', this.toggleAttackingOff);
+        this.anims.play("StormMage_Spell2", true);
+        this.on('animationcomplete-StormMage_Spell2', this.toggleAttackingOff);
     }
 
     setAttacking(attackStatus) {

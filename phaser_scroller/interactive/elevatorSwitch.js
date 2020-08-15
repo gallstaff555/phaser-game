@@ -1,5 +1,4 @@
-//a moving platform that can hold the player character
-class Elevator extends Phaser.Physics.Arcade.Sprite {
+class ElevatorSwitch extends Phaser.Physics.Arcade.Sprite {
     constructor(config) {
         super(config.scene, config.x, config.y, config.key);
          
@@ -8,7 +7,6 @@ class Elevator extends Phaser.Physics.Arcade.Sprite {
         this.setOrigin(0);
         this.body.setAllowGravity(false);
         this.body.setImmovable(true);
-        this.velocity = config.vel;
-        this.potentialSpeed = config.potentialSpeed;
     }
+
 }

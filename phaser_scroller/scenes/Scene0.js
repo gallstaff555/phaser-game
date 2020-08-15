@@ -23,7 +23,7 @@ class Scene0 extends Phaser.Scene {
         this.addAnimations();
 
         //start first level
-        this.scene.start("hub_level", {level: 'asdf'});
+        this.scene.start("sanctuary_level_one", {level: 'asdf'});
     }
 
     //Add player and skeleton animations
@@ -258,9 +258,9 @@ class Scene0 extends Phaser.Scene {
             repeat: -1
         });
 
-        //create STORM MAGE ATTACK animation
+        //create STORM MAGE SPELL animation
         this.anims.create({
-            key: 'StormMage_Attack',
+            key: 'StormMage_Spell',
             frames: this.anims.generateFrameNames('stormMage', {
                 start: 0,
                 end: 17,
@@ -271,5 +271,21 @@ class Scene0 extends Phaser.Scene {
             frameRate: 5,
             repeat: 0
         });
+
+        //create STORM MAGE SPELL animation
+        this.anims.create({
+            key: 'StormMage_Spell2',
+            frames: this.anims.generateFrameNames('stormMage', {
+                start: 0,
+                end: 6,
+                zeroPad: 2,
+                prefix: 'StormMage_Attack_',
+                suffix: '.png'
+            }),
+            frameRate: 5,
+            yoyo: true,
+            repeat: 0
+        });
+
     }
 }
