@@ -1,7 +1,7 @@
 var config = {
     width: 800,
     height: 480,
-    scene: [Scene0, HubScene, RuinsDemoScene, SelectNewScene, SanctuaryScene1],
+    scene: [Scene0, SanctuaryScene1, HubScene, RuinsDemoScene, SelectNewScene, HUD],
     physics: {
         default: 'arcade',
         arcade: {

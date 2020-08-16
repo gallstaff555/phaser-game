@@ -1,4 +1,5 @@
-//A hub level for selecting new levels
+//A starting level
+
 class SanctuaryScene1 extends Phaser.Scene {
     constructor() {
         super("sanctuary_level_one");
@@ -122,9 +123,23 @@ class SanctuaryScene1 extends Phaser.Scene {
         this.cam.setViewport(0, 0, game.config.width, game.config.height);
         this.cam.startFollow(this.player);
         this.cam.fadeIn(3000);
+
+        //HUD
+        /*this.HUD = new HUD({
+            
+        }); */
+        this.scene.launch('HUD');
+        this.HUD = this.scene.get('HUD');
+        this.HUD.displayNumber(6);
+        //HUD.displayPlayerHealth(this.player.attributes.health);
+
     }
     
     update() {
+
+        //this.HUD.displayPlayerHealth(this.player.attributes.health);
+        this.HUD.displayPlayerHealthBar(this.player.attributes.health);
+
         //update player movement
         this.playerInput();
         this.stormMageBehavior();
@@ -216,6 +231,10 @@ class SanctuaryScene1 extends Phaser.Scene {
             if (Phaser.Input.Keyboard.JustDown(this.jump_btn) && (playerVelocity_Y >= -200 && playerVelocity_Y <= 200)) {
                 if (this.player.status.jump > 0) {
                     this.player.status.jump--;
+
+                    //delete this
+                    this.player.attributes.health++;
+
                     this.player.setVelocityY(-this.player.attributes.speed * 2); //this is the jump
                     if (!this.player.body.blocked.down) {
                         this.player.anims.play('HeroKnight_Jump', true);
