@@ -2,14 +2,11 @@
 class SanctuaryScene1 extends Phaser.Scene {
     constructor() {
         super("sanctuary_level_one");
-
-        var overlapTriggered = false;
     }
 
     //data passed from previous scene
     init(data) {
         this.level = data.level;
-        this.underDevelopment = false;
         this.talkingToStormMage = false;
 
         this.textIcon = this.add.text(480, 305, 'Press F');
@@ -31,7 +28,8 @@ class SanctuaryScene1 extends Phaser.Scene {
         this.load.image('sanctuary', 'assets/tiled_map/Sanctuary/sanctuary.png');
 
         //flare
-        this.load.image('blue_flare', 'assets/effects/flare.png');
+        this.load.image('blue_flare', 'assets/effects/blue_flare.png');
+        this.load.image('yellow_flare', 'assets/effects/yellow_flare.png');
 
 
         this.load.tilemapTiledJSON('SanctuaryMap', 'assets/tiled_map/Sanctuary/sanctuary_map.json');
@@ -108,23 +106,15 @@ class SanctuaryScene1 extends Phaser.Scene {
         this.switch_1_overlap = this.physics.add.overlap(this.player, this.elevatorSwitch1);
         this.switch_2_overlap = this.physics.add.overlap(this.player, this.elevatorSwitch2);
 
-        //turn on elevator3 after player touches switch1
- 
-        /*this.physics.add.collider(this.player, this.elevatorSwitch1, this.activateElevatorWithSwitch(this.elevator3), ()=> {
-            return this.colliderActivatedVar;
-        }, this); */
-        //this.physics.add.overlap(this.elevatorSwitch1, this.player, this.activateElevatorWithSwitch(this.elevator3), null, this);
-        //this.physics.add.overlap(this.elevatorSwitch1, this.player, this.activateElevatorWithSwitch(this.elevator3));
 
-
+        //collider for player and all moving platforms
         for (let i = 0; i < this.elevatorGroup.getLength(); i++) {
             this.physics.add.collider(this.player, this.elevatorGroup.getChildren()[i]);
         }
         this.elevatorGroup.setDepth(4);
 
         //particle effects
-        this.setUpDoorParticleEffect();
-        //this.setUpMagePortalEmitter(); //currently this is activated by talking to the mage
+        this.setUpClosedDoorParticleEffect();
 
         //camera
         this.cam = this.cameras.main;
@@ -138,7 +128,6 @@ class SanctuaryScene1 extends Phaser.Scene {
         //update player movement
         this.playerInput();
         this.stormMageBehavior();
-        this.checkUnderDevelopment();
 
         //event emitter for activating platform
         if (!this.elevatorSwitch1.body.touching.none) {
@@ -292,7 +281,7 @@ class SanctuaryScene1 extends Phaser.Scene {
             quantity: 1,
             emitZone: {
                 type: 'edge',
-                source: new Phaser.Geom.Ellipse(140, 80, 40, 60),
+                source: new Phaser.Geom.Ellipse(250, 160, 40, 60),
                 quantity: 16
             }
         });
@@ -397,12 +386,13 @@ class SanctuaryScene1 extends Phaser.Scene {
             vel: 45 
         }); 
 
+        elevator1.setVelocityY(elevator1.velocity);
 
         var elevator2 = new Elevator({
             scene: this,
             key: 'elevator',
             x: 450,
-            y: 175,
+            y: 165,
             potentialSpeed: 60,
             vel: 0        
         });
@@ -421,12 +411,11 @@ class SanctuaryScene1 extends Phaser.Scene {
             scene: this,
             key: 'elevator',
             x: 375,
-            y: 150,
+            y: 130,
             potentialSpeed: -45,
             vel: 0        
         });
 
-        //this.elevatorSwitch1 = this.add.image(230, 550, 'flare');
         var elevatorSwitch1 = new ElevatorSwitch({
             scene: this,
             key: 'blue_flare',
@@ -468,22 +457,13 @@ class SanctuaryScene1 extends Phaser.Scene {
             });
 
             var elevator_4_time = this.time.addEvent({
-                delay: 4000,
+                delay: 2200,
                 loop: true,
                 callback: function () {
                     elevator4.body.velocity.x *= -1;
                 }
             });
         });
-
-
-        elevator1.setFriction(1, 1);
-        elevator1.setVelocityY(elevator1.velocity);
-        /*elevator2.setFriction(1, 1);
-        elevator2.setVelocityX(elevator2.velocity);
-        elevator3.setFriction(1, 1);
-        elevator3.setVelocityY(elevator3.velocity);
-        elevator4.setVelocityX(elevator4.velocity); */
 
         var elevator_1_time = this.time.addEvent({
             delay: 3800,
@@ -493,8 +473,7 @@ class SanctuaryScene1 extends Phaser.Scene {
             }
         })
 
-        
-
+    
         //adding elevators to group allows them to be collision platforms
         this.elevatorGroup = this.add.group();
         this.elevatorGroup.add(elevator1);
@@ -530,39 +509,29 @@ class SanctuaryScene1 extends Phaser.Scene {
         }
     }
 
-
-    notifyUnderDevelopment() {
-        this.underDevelopment = true;
-        if (this.player.x < 50) {
-            var myText = this.add.text(50, 280, 'Under\nDevelopment').setAlpha(0);
-        } else {
-            var myText = this.add.text(800, 280, 'Under\nDevelopment').setAlpha(0);
-        }
-        myText.setDepth(3);
-        var textFadeIn = this.tweens.add({
-            targets: myText,
-            alpha: 1,
-            duration: 2000,
-            yoyo: true,
-            repeat: 0
-        });
-    }
-
-    setUpDoorParticleEffect() {
-        var particles = this.add.particles('blue_flare');
+    setUpClosedDoorParticleEffect() {
+        var particles = this.add.particles('yellow_flare');
         particles.setDepth(4);
 
-        /*var leftEmitter = particles.createEmitter({
-            x: 10,
-            y: { min: 330, max: 400 },
-            lifespan: 2000,
-            speedX: { min: 20, max: 50 },
-            scale: { start: 0.2, end: 0 },
+        var exitEmitter = particles.createEmitter({
+            key: 'door_closed',
+            x: { min: this.level_width - 20, max: this.level_width },
+            y: 340,
+            scale: 0.2,
+            lifespan: 2900,
+            speedY: { min: 20, max: 40 },
             quantity: 1,
             blendMode: 'ADD'
-        }); */
+        });
 
-        var rightEmitter = particles.createEmitter({
+    }
+
+    setUpOpenDoorParticleEffect() {
+        var particles = this.add.particles('blue_flare');
+        particles.setDepth(4);
+        
+        var openDoorEmitter = particles.createEmitter({
+            key: 'door_open',
             x: this.level_width,
             y: { min: 370, max: 450 },
             lifespan: 2000,
@@ -592,4 +561,21 @@ GRAVEYARD
         elevator.activateElevator();
         this.switchOneColliderActivated = false;
     } 
+
+    notifyUnderDevelopment() {
+        this.underDevelopment = true;
+        if (this.player.x < 50) {
+            var myText = this.add.text(50, 280, 'Under\nDevelopment').setAlpha(0);
+        } else {
+            var myText = this.add.text(800, 280, 'Under\nDevelopment').setAlpha(0);
+        }
+        myText.setDepth(3);
+        var textFadeIn = this.tweens.add({
+            targets: myText,
+            alpha: 1,
+            duration: 2000,
+            yoyo: true,
+            repeat: 0
+        });
+    }
     } */
