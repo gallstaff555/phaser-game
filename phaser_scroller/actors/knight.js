@@ -9,7 +9,7 @@ class Knight extends Phaser.Physics.Arcade.Sprite {
 
         //set size and physics rules
         this.setScale(1);
-        this.body.setSize(20, 50);
+        this.body.setSize(20, 40, true).setOffset(38, 15); //allows hitbox to be smaller than player sprite
         this.setGravityY(300);
         this.setActive(true);
         this.body.setBounce(0, 0);
