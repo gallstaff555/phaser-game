@@ -1,3 +1,4 @@
+//This scene displays information about the player and world on the screen
 class HUD extends Phaser.Scene {
     constructor() {
         super('HUD');

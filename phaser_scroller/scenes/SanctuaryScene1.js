@@ -13,6 +13,9 @@ class SanctuaryScene1 extends Phaser.Scene {
         this.textIcon = this.add.text(480, 305, 'Press F');
         this.textIcon.setAlpha(0);
         this.textIcon.setDepth(4);
+
+        this.level_width = 960;
+        this.level_height = 640; 
     }
 
     preload() {
@@ -39,8 +42,6 @@ class SanctuaryScene1 extends Phaser.Scene {
         //elevator platform
         this.load.image('elevator', 'assets/sprites/smallElevator.png');
 
-        this.level_width = 960;
-        this.level_height = 640; 
     }
 
     create() {
@@ -124,10 +125,7 @@ class SanctuaryScene1 extends Phaser.Scene {
         this.cam.startFollow(this.player);
         this.cam.fadeIn(3000);
 
-        //HUD
-        /*this.HUD = new HUD({
             
-        }); */
         this.scene.launch('HUD');
         this.HUD = this.scene.get('HUD');
         this.HUD.displayNumber(6);
@@ -233,7 +231,7 @@ class SanctuaryScene1 extends Phaser.Scene {
                     this.player.status.jump--;
 
                     //delete this
-                    this.player.attributes.health++;
+                    this.player.attributes.health--;
 
                     this.player.setVelocityY(-this.player.attributes.speed * 2); //this is the jump
                     if (!this.player.body.blocked.down) {
@@ -281,6 +279,16 @@ class SanctuaryScene1 extends Phaser.Scene {
             this.stormMage.attack();
             setTimeout( () => {
                 this.setUpMagePortalEmitter();
+
+                var stormMageText2 = this.add.text(450, 285, 'Collect the orbs to proceed...').setAlpha(0);
+                stormMageText2.setDepth(4);
+                var stormMageTween2 = this.tweens.add({
+                    targets: stormMageText2,
+                    alpha: 1,
+                    duration: 4000,
+                    yoyo: true,
+                    repeat: 0
+        });
             }, 800);
 
             //this.scene.launch('SelectNewScene');
