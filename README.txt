@@ -1,3 +1,1 @@
-An online 2d platformer game (sometimes) hosted on my raspberry pi.
-
-Instructions on how to access game on the way.
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/QpoQzWdPcIE&feature=youtu.be/0.jpg)](https://www.youtube.com/watch?v=QpoQzWdPcIE&feature=youtu.be)
